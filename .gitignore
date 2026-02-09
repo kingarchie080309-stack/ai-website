@@ -1,0 +1,33 @@
+# System files
+.DS_Store
+.CFUserTextEncoding
+.Trash/
+
+# IDE and editors
+.vscode/
+.idea/
+.antigravity/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Environment variables
+.env
+
+# Data files
+*.json
+*.backup
+*.txt
+!requirements.txt
+
+# Logs
+*.log
