@@ -338,7 +338,7 @@ class DiscordNotifier:
         if is_best_bet:
             fields.append({"name": "🏆 Market Rank", "value": "Favorite (Rank 1)", "inline": True})
 
-        footer_text = "Horse Tipper | 🔥 BEST BET (397% ROI)" if is_best_bet else "Horse Tipper | 📊 EDGE BET (108% ROI)"
+        footer_text = "Horse Tipper | 🔥 BEST BET" if is_best_bet else "Horse Tipper | 📊 EDGE BET"
 
         embed = {
             "title": title,
