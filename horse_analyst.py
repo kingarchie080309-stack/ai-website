@@ -6,6 +6,7 @@ Deterministic, production-safe horse racing analysis with RSI ratings
 from dataclasses import dataclass
 from typing import List, Optional, Dict, Callable, Any
 from datetime import datetime, timezone, timedelta
+AEDT = timezone(timedelta(hours=11))  # Australian Eastern Daylight Time (UTC+11)
 import statistics
 import requests
 from requests.auth import HTTPBasicAuth
@@ -18,13 +19,6 @@ import json
 import threading
 from functools import wraps
 import re
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, WebDriverException
 
 
 def retry_on_network_error(max_retries: int = 3, backoff_base: float = 2.0):
@@ -61,217 +55,6 @@ def retry_on_network_error(max_retries: int = 3, backoff_base: float = 2.0):
     return decorator
 
 
-class SportsbetScraper:
-    """
-    Scrapes horse racing odds from Sportsbet and verifies race markets
-    """
-
-    def __init__(self):
-        """Initialize Sportsbet scraper"""
-        self.base_url = "https://www.sportsbet.com.au"
-        self.session = requests.Session()
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'en-AU,en;q=0.9',
-        })
-        self._driver = None  # Lazy-loaded Selenium driver
-        self._verification_cache = {}  # Cache for verification results
-        self._cache_ttl = 300  # 5 minutes in seconds
-
-    def _get_driver(self):
-        """Lazy-load Selenium driver (reuse pattern from automated_system.py)"""
-        if self._driver is None:
-            try:
-                chrome_options = Options()
-                chrome_options.add_argument('--headless')
-                chrome_options.add_argument('--no-sandbox')
-                chrome_options.add_argument('--disable-dev-shm-usage')
-                chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
-                chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-
-                self._driver = webdriver.Chrome(options=chrome_options)
-                print("  ✓ Selenium driver initialized")
-            except Exception as e:
-                print(f"  ⚠️ Failed to initialize Selenium driver: {e}")
-                raise
-
-        return self._driver
-
-    def __del__(self):
-        """Cleanup driver on destruction"""
-        if self._driver:
-            try:
-                self._driver.quit()
-            except:
-                pass
-
-    def _normalize_track_name(self, track_name: str) -> str:
-        """
-        Normalize track name for matching (reuse pattern from horse_analyst.py lines 699-702)
-        Removes sponsor prefixes like 'bet365', '@', etc.
-        """
-        track_lower = track_name.lower()
-        # Remove common prefixes
-        track_lower = track_lower.replace('bet365', '').replace('@', ' ').strip()
-        # Extract core track name (last word usually)
-        track_words = track_lower.split()
-        core_track = track_words[-1] if track_words else track_lower
-        return core_track
-
-    def _get_cache_key(self, track_name: str, race_number: int) -> str:
-        """Generate cache key for verification result"""
-        normalized_track = self._normalize_track_name(track_name)
-        date_str = datetime.now(timezone.utc).strftime('%Y%m%d')
-        return f"{normalized_track}_R{race_number}_{date_str}"
-
-    def _get_cached_verification(self, cache_key: str) -> Optional[Dict[str, Any]]:
-        """Get cached verification result if still valid"""
-        if cache_key in self._verification_cache:
-            cached_result, cached_time = self._verification_cache[cache_key]
-            age = (datetime.now(timezone.utc) - cached_time).total_seconds()
-
-            if age < self._cache_ttl:
-                return cached_result
-            else:
-                # Expired, remove from cache
-                del self._verification_cache[cache_key]
-
-        return None
-
-    def _cache_verification(self, cache_key: str, result: Dict[str, Any]):
-        """Cache verification result"""
-        self._verification_cache[cache_key] = (result, datetime.now(timezone.utc))
-
-    def verify_race_market(self, track_name: str, race_number: int, timeout: int = 10) -> Dict[str, Any]:
-        """
-        Verify if race market exists and is available for betting on Sportsbet
-
-        Args:
-            track_name: Track name (e.g., "Randwick", "bet365 Flemington")
-            race_number: Race number
-            timeout: Maximum time to wait for page load (default: 10s)
-
-        Returns:
-            {
-                "status": "verified" | "not_found" | "error",
-                "market_open": bool,
-                "message": str,
-                "checked_at": str  # ISO timestamp
-            }
-        """
-        # Check cache first
-        cache_key = self._get_cache_key(track_name, race_number)
-        cached = self._get_cached_verification(cache_key)
-
-        if cached:
-            print(f"  ℹ️  Using cached verification for {track_name} R{race_number}")
-            return cached
-
-        # Normalize track name for matching
-        normalized_track = self._normalize_track_name(track_name)
-
-        result = {
-            "status": "error",
-            "market_open": False,
-            "message": "Verification not attempted",
-            "checked_at": datetime.now(timezone.utc).isoformat()
-        }
-
-        try:
-            print(f"🔍 Verifying {track_name} R{race_number} on Sportsbet...")
-
-            # Get driver
-            driver = self._get_driver()
-
-            # Navigate to racing page
-            racing_url = f"{self.base_url}/racing/horse-racing"
-            driver.set_page_load_timeout(timeout)
-            driver.get(racing_url)
-
-            # Wait for page to load (look for common racing elements)
-            try:
-                WebDriverWait(driver, 5).until(
-                    EC.presence_of_element_located((By.TAG_NAME, "body"))
-                )
-            except TimeoutException:
-                result["message"] = "Page load timeout"
-                self._cache_verification(cache_key, result)
-                return result
-
-            # Get page source and search for race
-            page_source = driver.page_source.lower()
-
-            # Look for track name in various formats
-            track_variations = [
-                normalized_track,
-                track_name.lower(),
-                f"r{race_number}",
-                f"race {race_number}",
-                f"r {race_number}"
-            ]
-
-            # Check if track appears on page
-            track_found = any(variation in page_source for variation in track_variations)
-
-            if track_found:
-                # Track found - now check if race number is present
-                race_patterns = [
-                    f"{normalized_track}.*r{race_number}",
-                    f"{normalized_track}.*race {race_number}",
-                    f"r{race_number}.*{normalized_track}"
-                ]
-
-                race_found = any(re.search(pattern, page_source) for pattern in race_patterns)
-
-                if race_found:
-                    # Race found - check if market appears open (presence of odds/prices)
-                    # Look for common betting indicators
-                    market_indicators = ['$', 'odds', 'bet now', 'place bet', 'win', 'each way']
-                    market_appears_open = any(indicator in page_source for indicator in market_indicators)
-
-                    # Check for negative indicators
-                    negative_indicators = ['suspended', 'closed', 'betting closed', 'results']
-                    market_suspended = any(indicator in page_source for indicator in negative_indicators)
-
-                    if market_appears_open and not market_suspended:
-                        result["status"] = "verified"
-                        result["market_open"] = True
-                        result["message"] = "Market open on Sportsbet"
-                    else:
-                        result["status"] = "not_found"
-                        result["market_open"] = False
-                        result["message"] = "Market may be closed/suspended"
-                else:
-                    result["status"] = "not_found"
-                    result["market_open"] = False
-                    result["message"] = f"Race R{race_number} not found for {track_name}"
-            else:
-                result["status"] = "not_found"
-                result["market_open"] = False
-                result["message"] = f"Track {track_name} not found on Sportsbet"
-
-            # Cache the result
-            self._cache_verification(cache_key, result)
-
-            print(f"  {result['status'].upper()}: {result['message']}")
-            return result
-
-        except TimeoutException:
-            result["message"] = "Verification timeout"
-            result["status"] = "error"
-            self._cache_verification(cache_key, result)
-            return result
-        except WebDriverException as e:
-            result["message"] = f"Browser error: {str(e)[:50]}"
-            result["status"] = "error"
-            self._cache_verification(cache_key, result)
-            return result
-        except Exception as e:
-            result["message"] = f"Verification failed: {str(e)[:50]}"
-            result["status"] = "error"
-            self._cache_verification(cache_key, result)
-            return result
 
 
 class BetTracker:
@@ -283,7 +66,7 @@ class BetTracker:
             if os.path.exists("/data"):
                 storage_path = "/data/bets.json"
             else:
-                storage_path = os.path.expanduser("~/.horse_tipper_bets.json")
+                storage_path = os.path.expanduser("~/horse_tipper_bets.json")
         self.storage_path = storage_path
         print(f"📁 Bet storage: {self.storage_path}")
         self.bets = self._load_bets()
@@ -326,7 +109,7 @@ class BetTracker:
 
     def record_bet(self, track: str, race_num: int, horse_name: str, horse_num: int,
                    price: float, units: float, rsi: int, is_tracked: bool,
-                   race_time: datetime, sportsbet_verification: Dict = None) -> str:
+                   race_time: datetime, market_rank: int = 999) -> str:
         """Record a new bet and return its ID"""
         bet_id = f"{track}_R{race_num}_{race_time.strftime('%Y%m%d_%H%M')}"
 
@@ -340,17 +123,12 @@ class BetTracker:
             "units": units,
             "rsi": rsi,
             "is_tracked": is_tracked,
+            "market_rank": market_rank,
             "race_time": race_time.isoformat(),
             "recorded_at": datetime.now(timezone.utc).isoformat(),
             "result": None,  # "win", "loss", or None (pending)
             "finishing_position": None,
             "settled_at": None,
-            "sportsbet_verification": sportsbet_verification or {
-                "status": "not_checked",
-                "message": "Verification not performed",
-                "market_open": False,
-                "checked_at": datetime.now(timezone.utc).isoformat()
-            },
         }
 
         # Check for duplicate
@@ -452,10 +230,13 @@ class BetTracker:
 
         return False
 
-    def calculate_stats(self, bets: List[Dict], tracked_only: bool = False) -> Dict:
+    def calculate_stats(self, bets: List[Dict], tracked_only: bool = False, market_rank_filter: int = None) -> Dict:
         """Calculate statistics for a list of bets"""
         if tracked_only:
             bets = [b for b in bets if b.get("is_tracked")]
+
+        if market_rank_filter is not None:
+            bets = [b for b in bets if b.get("market_rank") == market_rank_filter]
 
         if not bets:
             return {
@@ -532,50 +313,38 @@ class DiscordNotifier:
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
     def send_tip(self, race_time: str, track: str, race_num: int, distance: int,
                  surface: str, horse_num: int, horse_name: str, price: float,
-                 units: float, rsi: int, is_tracked: bool = False,
-                 sportsbet_status: Dict = None):
+                 units: float, rsi: int, is_tracked: bool = False, market_rank: int = 999):
         """Send a formatted tip to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
             return False
 
-        # Determine color based on verification status
-        if sportsbet_status:
-            if sportsbet_status["status"] == "verified":
-                color = 0x00FF00  # Green - verified
-            elif sportsbet_status["status"] == "not_found":
-                color = 0xFFA500  # Orange - warning
-            else:  # error
-                color = 0xFFA500  # Orange - warning
-        else:
-            color = 0x00FF00  # Green - default
+        # BEST BET = market rank 1 (favorite), EDGE BET = rank 2-3
+        is_best_bet = market_rank == 1
+        color = 0xFF4500 if is_best_bet else 0x00FF00  # Orange-red for BEST BET, Green for EDGE BET
 
-        # Determine verification display text
-        if sportsbet_status:
-            if sportsbet_status["status"] == "verified":
-                verification_display = "✅ Market Open"
-            elif sportsbet_status["status"] == "not_found":
-                verification_display = "⚠️ UNVERIFIED"
-            else:  # error
-                verification_display = "⚠️ CHECK MANUALLY"
-        else:
-            verification_display = "⚠️ Not Checked"
+        title = f"🔥 BEST BET | {track} R{race_num}" if is_best_bet else f"📊 EDGE BET | {track} R{race_num}"
 
-        title = f"🏇 {track} R{race_num}"
+        fields = [
+            {"name": "⏰ Race Time", "value": race_time, "inline": True},
+            {"name": "📏 Distance", "value": f"{distance}m", "inline": True},
+            {"name": "🌿 Surface", "value": surface, "inline": True},
+            {"name": "🐴 Selection", "value": f"**{horse_num}. {horse_name}**", "inline": False},
+            {"name": "💰 Odds", "value": f"${price:.2f}", "inline": True},
+            {"name": "📊 Units", "value": f"{units}u", "inline": True},
+            {"name": "📈 RSI", "value": f"{rsi}%", "inline": True},
+        ]
+
+        # Add market rank for BEST BETs
+        if is_best_bet:
+            fields.append({"name": "🏆 Market Rank", "value": "Favorite (Rank 1)", "inline": True})
+
+        footer_text = "Horse Tipper | 🔥 BEST BET (397% ROI)" if is_best_bet else "Horse Tipper | 📊 EDGE BET (108% ROI)"
 
         embed = {
             "title": title,
             "color": color,
-            "fields": [
-                {"name": "⏰ Race Time", "value": race_time, "inline": True},
-                {"name": "📏 Distance", "value": f"{distance}m", "inline": True},
-                {"name": "🌿 Surface", "value": surface, "inline": True},
-                {"name": "🐴 Selection", "value": f"**{horse_num}. {horse_name}**", "inline": False},
-                {"name": "💰 Odds", "value": f"${price:.2f}", "inline": True},
-                {"name": "📊 Units", "value": f"{units}u", "inline": True},
-                {"name": "📈 RSI", "value": f"{rsi}%", "inline": True},
-                {"name": "🎯 Sportsbet", "value": verification_display, "inline": True},
-            ],
-            "footer": {"text": "Horse Tipper"}
+            "fields": fields,
+            "footer": {"text": footer_text}
         }
 
         payload = {"embeds": [embed]}
@@ -594,7 +363,7 @@ class DiscordNotifier:
         return response.status_code == 200
 
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
-    def send_results_embed(self, period: str, casual_stats: Dict, edge_stats: Dict = None):
+    def send_results_embed(self, period: str, overall_stats: Dict, best_bet_stats: Dict = None, edge_bet_stats: Dict = None):
         """Send a formatted results embed to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
             return False
@@ -611,7 +380,7 @@ class DiscordNotifier:
         title = period_names.get(period, f"📊 {period.title()} Results")
 
         # Determine color based on total profit
-        total_profit = casual_stats["profit"] + (edge_stats["profit"] if edge_stats else 0)
+        total_profit = overall_stats["profit"]
         if total_profit > 0:
             color = 0x00FF00  # Green for profit
         elif total_profit < 0:
@@ -619,27 +388,49 @@ class DiscordNotifier:
         else:
             color = 0x3498DB  # Blue for break-even
 
-        # Build fields - EDGE bets only (CASUAL bets disabled)
-        if edge_stats is None:
-            edge_stats = {"total_bets": 0, "wins": 0, "losses": 0, "win_rate": 0, "roi": 0, "profit": 0, "total_staked": 0, "total_return": 0, "avg_odds": 0}
+        # Build fields with separate sections
+        fields = []
 
-        fields = [
-            {"name": "📈 Bets", "value": str(edge_stats["total_bets"]), "inline": True},
-            {"name": "✅ Wins", "value": str(edge_stats["wins"]), "inline": True},
-            {"name": "❌ Losses", "value": str(edge_stats["losses"]), "inline": True},
-            {"name": "🎯 Win Rate", "value": f"{edge_stats['win_rate']}%", "inline": True},
-            {"name": "💰 ROI", "value": f"{edge_stats['roi']:.2f}%", "inline": True},
-            {"name": "📈 P/L", "value": f"{edge_stats['profit']:+.2f}u", "inline": True},
-            {"name": "💵 Outlay", "value": f"{edge_stats['total_staked']:.2f}u", "inline": True},
-            {"name": "💸 Return", "value": f"{edge_stats['total_return']:.2f}u", "inline": True},
-            {"name": "📊 Avg Odds", "value": f"${edge_stats['avg_odds']:.2f}", "inline": True},
-        ]
+        # BEST BETS section
+        if best_bet_stats and best_bet_stats["total_bets"] > 0:
+            fields.append({"name": "🔥 BEST BETS (Rank 1 Favorites)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            fields.extend([
+                {"name": "Bets", "value": str(best_bet_stats["total_bets"]), "inline": True},
+                {"name": "Wins", "value": f"{best_bet_stats['wins']} ({best_bet_stats['win_rate']}%)", "inline": True},
+                {"name": "P/L", "value": f"{best_bet_stats['profit']:+.2f}u", "inline": True},
+                {"name": "ROI", "value": f"{best_bet_stats['roi']:+.1f}%", "inline": True},
+                {"name": "Avg Odds", "value": f"${best_bet_stats['avg_odds']:.2f}", "inline": True},
+                {"name": "\u200b", "value": "\u200b", "inline": True},
+            ])
+
+        # EDGE BETS section
+        if edge_bet_stats and edge_bet_stats["total_bets"] > 0:
+            fields.append({"name": "📊 EDGE BETS (Rank 2-3)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            fields.extend([
+                {"name": "Bets", "value": str(edge_bet_stats["total_bets"]), "inline": True},
+                {"name": "Wins", "value": f"{edge_bet_stats['wins']} ({edge_bet_stats['win_rate']}%)", "inline": True},
+                {"name": "P/L", "value": f"{edge_bet_stats['profit']:+.2f}u", "inline": True},
+                {"name": "ROI", "value": f"{edge_bet_stats['roi']:+.1f}%", "inline": True},
+                {"name": "Avg Odds", "value": f"${edge_bet_stats['avg_odds']:.2f}", "inline": True},
+                {"name": "\u200b", "value": "\u200b", "inline": True},
+            ])
+
+        # OVERALL section
+        fields.append({"name": "📊 OVERALL", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+        fields.extend([
+            {"name": "Total Bets", "value": str(overall_stats["total_bets"]), "inline": True},
+            {"name": "Wins", "value": f"{overall_stats['wins']} ({overall_stats['win_rate']}%)", "inline": True},
+            {"name": "P/L", "value": f"{overall_stats['profit']:+.2f}u", "inline": True},
+            {"name": "ROI", "value": f"{overall_stats['roi']:+.1f}%", "inline": True},
+            {"name": "Staked", "value": f"{overall_stats['total_staked']:.2f}u", "inline": True},
+            {"name": "Return", "value": f"{overall_stats['total_return']:.2f}u", "inline": True},
+        ])
 
         embed = {
             "title": title,
             "color": color,
             "fields": fields,
-            "footer": {"text": f"Horse Tipper • Generated {datetime.now().strftime('%Y-%m-%d %H:%M')}"}
+            "footer": {"text": f"Horse Tipper | 🔥 BEST BET • 📊 EDGE BET • Generated {datetime.now(AEDT).strftime('%H:%M')}"}
         }
 
         payload = {"embeds": [embed]}
@@ -760,12 +551,51 @@ class DiscordCommandHandler:
 
             time.sleep(3)  # Check every 3 seconds
 
+    def _merge_stats(self, stats1: Dict, stats2: Dict) -> Dict:
+        """Merge two stats dictionaries"""
+        if stats1["total_bets"] == 0:
+            return stats2
+        if stats2["total_bets"] == 0:
+            return stats1
+
+        total_staked = stats1["total_staked"] + stats2["total_staked"]
+        total_return = stats1["total_return"] + stats2["total_return"]
+        profit = total_return - total_staked
+        roi = (profit / total_staked * 100) if total_staked > 0 else 0.0
+
+        total_bets = stats1["total_bets"] + stats2["total_bets"]
+        wins = stats1["wins"] + stats2["wins"]
+        losses = stats1["losses"] + stats2["losses"]
+        settled = wins + losses
+        win_rate = (wins / settled * 100) if settled > 0 else 0.0
+
+        return {
+            "total_bets": total_bets,
+            "settled": settled,
+            "pending": stats1["pending"] + stats2["pending"],
+            "wins": wins,
+            "losses": losses,
+            "win_rate": round(win_rate, 1),
+            "total_staked": round(total_staked, 2),
+            "total_return": round(total_return, 2),
+            "profit": round(profit, 2),
+            "roi": round(roi, 1),
+            "avg_odds": round((stats1["avg_odds"] * stats1["total_bets"] + stats2["avg_odds"] * stats2["total_bets"]) / total_bets, 2)
+        }
+
     def _send_results(self, period: str):
         """Send results for the specified period"""
         bets = self.bet_tracker.get_bets_in_period(period=period)
 
-        stats = self.bet_tracker.calculate_stats(bets)
-        self.discord.send_results_embed(period, stats, stats)
+        # Calculate separate stats for BEST BETs and EDGE BETs
+        best_bet_stats = self.bet_tracker.calculate_stats(bets, market_rank_filter=1)
+        rank2_stats = self.bet_tracker.calculate_stats(bets, market_rank_filter=2)
+        rank3_stats = self.bet_tracker.calculate_stats(bets, market_rank_filter=3)
+        edge_bet_stats = self._merge_stats(rank2_stats, rank3_stats)
+
+        overall_stats = self.bet_tracker.calculate_stats(bets)
+
+        self.discord.send_results_embed(period, overall_stats, best_bet_stats, edge_bet_stats)
 
         print(f"📊 Sent {period} results to Discord")
 
@@ -801,7 +631,7 @@ class DiscordCommandHandler:
             bet_type = " [EDGE]" if bet.get("is_tracked") else ""
             try:
                 race_time = datetime.fromisoformat(bet.get("race_time", "").replace('Z', '+00:00'))
-                time_str = race_time.astimezone().strftime('%H:%M')
+                time_str = race_time.astimezone(AEDT).strftime('%H:%M')
             except:
                 time_str = "??:??"
             lines.append(f"⏰ {time_str} | {bet['track']} R{bet['race_num']} - {bet['horse_name']} @ ${bet['price']:.2f}{bet_type}")
@@ -966,7 +796,7 @@ class RacingAPIClient:
             for race in meet.get('races', []):
                 # Handle race_number as string or int
                 api_race_num = int(race.get('race_number', 0))
-                if api_race_num != int(race_number):
+                if api_race_num == int(race_number):
                     # Check if race has finished
                     if race.get('race_status') != 'Results':
                         return None  # Race not finished yet
@@ -1021,6 +851,12 @@ class RacingAPIClient:
                 for embedded_race in embedded_races:
                     try:
                         race_number = int(embedded_race.get('race_number', 0))
+
+                        # Skip trials and jump outs (practice races, not official betting races)
+                        if embedded_race.get('is_trial') or embedded_race.get('is_jump_out'):
+                            print(f"  R{race_number}: SKIPPED (trial/jump out)")
+                            continue
+
                         race_status = embedded_race.get('race_status', '')
 
                         # Only process races with confirmed fields and real odds
@@ -1151,6 +987,10 @@ class RacingAPIClient:
 
         for race_data in racecards_data.get('racecards', []):
             try:
+                # Skip trials and jump outs (practice races, not official betting races)
+                if race_data.get('is_trial') or race_data.get('is_jump_out'):
+                    continue
+
                 course = race_data.get('course', 'Unknown')
 
                 # Assign race number based on time order per course
@@ -1356,25 +1196,24 @@ class HorseRacingAnalyst:
     """
 
     # RSI THRESHOLDS BY ODDS RANGE (EDGE bet criteria)
-    # NO FILTERS MODE: RSI thresholds and market rank limits disabled
-    # Kelly criterion (positive edge required) is the only filter
-    # Backtest: 1039 bets, 27% strike, +2610u, 126% ROI
+    # Short-mid odds: no RSI floor (Kelly handles filtering)
+    # Longshots ($7+): require higher RSI + top market rank to qualify
     RSI_THRESHOLDS = {
         (1.80, 2.51): 0,
         (2.51, 4.01): 0,
         (4.01, 7.01): 0,
-        (7.01, 12.01): 0,
-        (12.01, 999.99): 0
+        (7.01, 12.01): 45,
+        (12.01, 15.01): 55
     }
 
-    # MARKET RANK LIMITS - disabled (999 = no limit)
-    # Top RSI pick per race + Kelly > 0 is the only gate
+    # MARKET RANK LIMITS - tightened for longshots
+    # Longshots must be near the top of the market to qualify
     MARKET_RANK_LIMITS = {
-        (1.80, 2.51): 999,
-        (2.51, 4.01): 999,
-        (4.01, 7.01): 999,
-        (7.01, 12.01): 999,
-        (12.01, 999.99): 999
+        (1.80, 2.51): 3,
+        (2.51, 4.01): 3,
+        (4.01, 7.01): 3,
+        (7.01, 12.01): 3,
+        (12.01, 15.01): 3
     }
 
     def __init__(self):
@@ -1405,10 +1244,23 @@ class HorseRacingAnalyst:
     def _is_tracked(self, runner: Runner, race: Race, rsi: int, win_pct: float) -> bool:
         """
         Check if selection qualifies as a bet
-        NO FILTERS MODE: Only odds range gate, Kelly criterion handles the rest
+        Applies RSI thresholds, market rank limits, and odds cap for longshots
         """
-        # Must have valid odds ($1.80 minimum, no max cap)
+        # Must have valid odds ($1.80 minimum, $15 max)
         if runner.price < 1.80:
+            return False
+        if runner.price > 15.0:
+            return False
+
+        # Check RSI threshold for this odds range
+        min_rsi = self._get_minimum_rsi(runner.price)
+        if rsi < min_rsi:
+            return False
+
+        # Check market rank limit for this odds range
+        market_rank = self._calculate_market_rank(runner, race)
+        max_rank = self._get_market_rank_limit(runner.price)
+        if market_rank > max_rank:
             return False
 
         return True
@@ -1539,9 +1391,21 @@ class HorseRacingAnalyst:
         # 1% of bankroll = 1 unit, so multiply by 100
         units = half_kelly * 100
 
-        # Apply safety bounds
+        # Apply safety bounds with odds-based scaling
+        # Aggressive on strong favorites, conservative on longshots
+        if odds < 4.0:
+            max_units = 4.0
+        elif odds < 7.0:
+            max_units = 2.5
+        elif odds < 10.0:
+            max_units = 1.5
+        elif odds < 15.0:
+            max_units = 1.0
+        else:
+            max_units = 0.5
+
         units = max(units, 0.5)  # Minimum 0.5 units if positive edge
-        units = min(units, 5.0)  # Maximum 5 units for risk management
+        units = min(units, max_units)  # Cap based on odds range
 
         return round(units, 2)
 
@@ -1972,35 +1836,6 @@ def auto_settle_bets(api_client: 'RacingAPIClient', bet_tracker: 'BetTracker',
     return settled_count
 
 
-def verify_sportsbet_market(track_name: str, race_number: int) -> Dict[str, Any]:
-    """
-    Wrapper to verify race market on Sportsbet with error handling
-    Never raises exceptions - always returns result dict
-
-    Args:
-        track_name: Track name (e.g., "Randwick", "bet365 Flemington")
-        race_number: Race number
-
-    Returns:
-        Dict with verification status, market_open flag, and message
-    """
-    try:
-        scraper = SportsbetScraper()
-        return scraper.verify_race_market(track_name, race_number)
-    except TimeoutError:
-        return {
-            "status": "error",
-            "market_open": False,
-            "message": "Verification timeout",
-            "checked_at": datetime.now(timezone.utc).isoformat()
-        }
-    except Exception as e:
-        return {
-            "status": "error",
-            "market_open": False,
-            "message": f"Verification failed: {str(e)[:50]}",
-            "checked_at": datetime.now(timezone.utc).isoformat()
-        }
 
 
 # ========================================
@@ -2105,7 +1940,7 @@ def main():
                     # Output if within 3 minutes
                     if 0 <= time_until_start <= 3:
                         # Get local time
-                        local_time = race.start_time.astimezone()
+                        local_time = race.start_time.astimezone(AEDT)
                         race_time_str = local_time.strftime('%H:%M')
 
                         # ========================================
@@ -2120,6 +1955,7 @@ def main():
                         win_pct = analyst._calculate_win_percentage(selection, race, rsi)
                         units = analyst._calculate_units(selection, win_pct, rsi)
                         is_tracked = analyst._is_tracked(selection, race, rsi, win_pct)
+                        market_rank = analyst._calculate_market_rank(selection, race)
 
                         # ONLY post EDGE betsh
                         if not is_tracked:
@@ -2131,10 +1967,7 @@ def main():
                             output_races.add(race_key)
                             continue
 
-                        # Verify race market on Sportsbet
-                        verification_result = verify_sportsbet_market(race.track_name, race.race_number)
-
-                        # Record the bet WITH verification status
+                        # Record the bet
                         bet_tracker.record_bet(
                             track=race.track_name,
                             race_num=race.race_number,
@@ -2145,10 +1978,10 @@ def main():
                             rsi=rsi,
                             is_tracked=is_tracked,
                             race_time=race.start_time,
-                            sportsbet_verification=verification_result
+                            market_rank=market_rank
                         )
 
-                        # Send to Discord WITH verification flag
+                        # Send to Discord
                         if discord:
                             discord.send_tip(
                                 race_time=race_time_str,
@@ -2162,14 +1995,14 @@ def main():
                                 units=units,
                                 rsi=rsi,
                                 is_tracked=is_tracked,
-                                sportsbet_status=verification_result
+                                market_rank=market_rank
                             )
 
-                        # Print to console WITH verification indicator
-                        verification_flag = "✅" if verification_result["status"] == "verified" else "⚠️"
-                        print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [EDGE] {verification_flag}")
+                        # Print to console
+                        bet_type = "🔥 BEST BET" if market_rank == 1 else "📊 EDGE BET"
+                        print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [{bet_type}]")
                         print(f"   {selection.saddlecloth}. {selection.name} @ ${selection.price:.2f}")
-                        print(f"   {units}u | RSI {rsi}% | Sportsbet: {verification_result['message']}")
+                        print(f"   {units}u | RSI {rsi}% | Market Rank: {market_rank}")
 
                         output_races.add(race_key)
 
@@ -2190,5 +2023,18 @@ def main():
         command_handler.stop()
 
 if __name__ == "__main__":
-    main()
+    print("=" * 60)
+    print("🏇 HORSE RACING AI - STARTING UP")
+    print("=" * 60)
+    print(f"Python version: {sys.version}")
+    print(f"Current time: {datetime.now(AEDT).strftime('%Y-%m-%d %H:%M:%S AEDT')}")
+    print()
+
+    try:
+        main()
+    except Exception as e:
+        print(f"💥 FATAL ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
     
