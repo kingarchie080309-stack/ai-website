@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
+# Disable Python output buffering so logs appear immediately
+ENV PYTHONUNBUFFERED=1
 # Set Chrome binary location for Selenium
 ENV CHROME_BIN=/usr/bin/google-chrome-stable
 
@@ -24,5 +26,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY horse_analyst.py .
 
-# Run the application
-CMD ["python", "horse_analyst.py"]
+# Run the application with unbuffered output
+CMD ["python", "-u", "horse_analyst.py"]
