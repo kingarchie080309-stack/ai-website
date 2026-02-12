@@ -1,11 +1,12 @@
 """
-HORSE RACING AI - RSI ANALYST SYSTEM
-Deterministic, production-safe horse racing analysis with RSI ratings
+HORSE RACING AI - SPEED RATING SYSTEM
+Production horse racing analysis with speed ratings and Full Kelly staking
+Filters: $2-$5, Rank 1-2, 70+ speed rating
 """
 
 from dataclasses import dataclass
 from typing import List, Optional, Dict, Callable, Any
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, date
 AEDT = timezone(timedelta(hours=11))  # Australian Eastern Daylight Time (UTC+11)
 import statistics
 import requests
@@ -331,7 +332,7 @@ class DiscordNotifier:
             {"name": "🐴 Selection", "value": f"**{horse_num}. {horse_name}**", "inline": False},
             {"name": "💰 Odds", "value": f"${price:.2f}", "inline": True},
             {"name": "📊 Units", "value": f"{units}u", "inline": True},
-            {"name": "📈 RSI", "value": f"{rsi}%", "inline": True},
+            {"name": "📈 Speed Rating", "value": f"{rsi}", "inline": True},
         ]
 
         # Add market rank for BEST BETs
@@ -658,8 +659,8 @@ class DiscordCommandHandler:
 `!stats` - Same as !weekly
 
 **Mode:**
-**EDGE BETS ONLY** 🎯 - High confidence selections meeting strict RSI + market rank criteria
-- RSI 65-78+ required (varies by odds)
+**EDGE BETS ONLY** 🎯 - High confidence selections meeting strict filters
+- Price: $2.00-$5.00 | Rank: 1-2 | Speed Rating: 70+
 - Must be top 1-5 in market (varies by odds)
 - Stakes: 1/2 Kelly Criterion (0.5u - 5.0u based on edge)"""
 
@@ -1216,47 +1217,19 @@ class RacingAPIClient:
 class HorseRacingAnalyst:
     """
     PRODUCTION HORSE RACING ANALYST
-    RSI-based selection system with win percentages
-    Deterministic and simplified
+    Speed Rating System with Full Kelly staking
+    Filters: $2-$5 price range, Rank 1-2 market position, 70+ speed rating
     """
 
-    # RSI THRESHOLDS BY ODDS RANGE (EDGE bet criteria)
-    # Short-mid odds: no RSI floor (Kelly handles filtering)
-    # Longshots ($7+): require higher RSI + top market rank to qualify
-    RSI_THRESHOLDS = {
-        (1.80, 2.51): 0,
-        (2.51, 4.01): 0,
-        (4.01, 7.01): 0,
-        (7.01, 12.01): 45,
-        (12.01, 15.01): 55
-    }
-
-    # MARKET RANK LIMITS - tightened for longshots
-    # Longshots must be near the top of the market to qualify
-    MARKET_RANK_LIMITS = {
-        (1.80, 2.51): 3,
-        (2.51, 4.01): 3,
-        (4.01, 7.01): 3,
-        (7.01, 12.01): 3,
-        (12.01, 15.01): 3
-    }
+    # NEW SPEED RATING SYSTEM CONFIG
+    MIN_PRICE = 2.00
+    MAX_PRICE = 5.00
+    MAX_RANK = 2
+    MIN_SPEED_RATING = 70
+    KELLY_FRACTION = 1.0  # Full Kelly
 
     def __init__(self):
         self.analysis_cache = {}
-
-    def _get_minimum_rsi(self, odds: float) -> int:
-        """Get minimum RSI required for given odds to be Tracked"""
-        for (min_odds, max_odds), min_rsi in self.RSI_THRESHOLDS.items():
-            if min_odds <= odds < max_odds:
-                return min_rsi
-        return 999  # Out of range
-
-    def _get_market_rank_limit(self, odds: float) -> int:
-        """Get maximum market rank allowed for given odds to be Tracked"""
-        for (min_odds, max_odds), max_rank in self.MARKET_RANK_LIMITS.items():
-            if min_odds <= odds < max_odds:
-                return max_rank
-        return 0  # Out of range
 
     def _calculate_market_rank(self, runner: Runner, race: Race) -> int:
         """Calculate horse's market rank (1 = favorite)"""
@@ -1266,33 +1239,28 @@ class HorseRacingAnalyst:
                 return rank
         return 999
 
-    def _is_tracked(self, runner: Runner, race: Race, rsi: int, win_pct: float) -> bool:
+    def _is_tracked(self, runner: Runner, race: Race, speed_rating: int, win_pct: float) -> bool:
         """
-        Check if selection qualifies as a bet
-        Applies RSI thresholds, market rank limits, and odds cap for longshots
+        Filter using new $2-$5, Rank 1-2 system with speed rating minimum
         """
-        # Must have valid odds ($1.80 minimum, $15 max)
-        if runner.price < 1.80:
-            return False
-        if runner.price > 15.0:
+        # Price range filter
+        if runner.price < self.MIN_PRICE or runner.price > self.MAX_PRICE:
             return False
 
-        # Check RSI threshold for this odds range
-        min_rsi = self._get_minimum_rsi(runner.price)
-        if rsi < min_rsi:
+        # Speed rating minimum
+        if speed_rating < self.MIN_SPEED_RATING:
             return False
 
-        # Check market rank limit for this odds range
+        # Market rank filter
         market_rank = self._calculate_market_rank(runner, race)
-        max_rank = self._get_market_rank_limit(runner.price)
-        if market_rank > max_rank:
+        if market_rank > self.MAX_RANK:
             return False
 
         return True
 
-    def _should_bet(self, rsi: int) -> bool:
-        """Check if RSI meets minimum threshold to place any bet"""
-        # Always bet on highest RSI horse in each race
+    def _should_bet(self, speed_rating: int) -> bool:
+        """Check if speed rating meets minimum threshold to place any bet"""
+        # Always bet on highest speed rating horse in each race
         return True
 
     def analyze_program(self, races: List[Race], minutes_before: int = 3) -> str:
@@ -1336,21 +1304,21 @@ class HorseRacingAnalyst:
         output_lines = []
 
         for race in valid_races:
-            # Get top selection based on RSI
+            # Get top selection based on speed rating
             selection = self._get_top_selection(race)
 
             if not selection:
                 continue  # Skip if no selection possible
 
-            # Calculate RSI and Win %
-            rsi = self._calculate_rsi(selection, race)
-            win_pct = self._calculate_win_percentage(selection, race, rsi)
+            # Calculate speed rating and Win %
+            speed_rating = self._calculate_speed_rating(selection, race)
+            win_pct = self._calculate_win_percentage(selection, race, speed_rating)
 
             # Calculate Units (Kelly Criterion based)
-            units = self._calculate_units(selection, win_pct, rsi)
+            units = self._calculate_units(selection, win_pct, speed_rating)
 
             # Check if this is a Tracked bet (meets backtested criteria)
-            is_tracked = self._is_tracked(selection, race, rsi, win_pct)
+            is_tracked = self._is_tracked(selection, race, speed_rating, win_pct)
 
             # Format output (4 lines per race)
             # Tracked bets are marked with **bold** formatting
@@ -1359,13 +1327,13 @@ class HorseRacingAnalyst:
                 line1 = f"**{race.track_name} - {race.race_number}**"
                 line2 = f"**{race.distance}m - {race.surface}**"
                 line3 = f"**{race.track_name} {race.race_number} | {selection.saddlecloth} {selection.name}**"
-                line4 = f"**${selection.price:.2f} {units}u {int(rsi)}%** EDGE"
+                line4 = f"**${selection.price:.2f} {units}u {int(speed_rating)}%** EDGE"
             else:
                 # Regular bet - no bold
                 line1 = f"{race.track_name} - {race.race_number}"
                 line2 = f"{race.distance}m - {race.surface}"
                 line3 = f"{race.track_name} {race.race_number} | {selection.saddlecloth} {selection.name}"
-                line4 = f"${selection.price:.2f} {units}u {int(rsi)}%"
+                line4 = f"${selection.price:.2f} {units}u {int(speed_rating)}%"
 
             # Add all lines for this race
             output_lines.append(line1)
@@ -1376,63 +1344,33 @@ class HorseRacingAnalyst:
 
         return "\n".join(output_lines)
 
-    def _calculate_units(self, runner: Runner, win_pct: float, rsi: int) -> float:
+    def _calculate_units(self, runner: Runner, win_pct: float, speed_rating: int) -> float:
         """
-        Calculate betting units using 1/2 Kelly Criterion
+        Calculate bet size using FULL Kelly Criterion
 
-        Kelly % = (bp - q) / b * 0.5
+        Kelly formula: f = (bp - q) / (b - 1)
         where:
-        - b = decimal_odds - 1
-        - p = win probability (win_pct / 100)
-        - q = 1 - p (loss probability)
-        - 0.5 = 1/2 Kelly multiplier
-
-        Assumes 100 unit bankroll (1% of bankroll = 1 unit)
+        - b = decimal odds
+        - p = win probability
+        - q = 1 - p
+        - FULL Kelly (1.0x multiplier)
         """
-        odds = runner.price
+        win_probability = win_pct / 100.0
+        price = runner.price
 
-        # Convert win percentage to probability
-        p = win_pct / 100.0
-        q = 1.0 - p
-
-        # Calculate Kelly fraction
-        b = odds - 1.0
-
-        # Avoid division by zero for odds of 1.0 or less (shouldn't happen in practice)
-        if b <= 0:
+        if win_probability <= 0 or price <= 1:
             return 0.0
 
-        # Kelly formula: (bp - q) / b
-        kelly_fraction = (b * p - q) / b
+        # Full Kelly
+        edge = (win_probability * price - 1) / (price - 1)
 
-        # Apply 1/2 Kelly multiplier
-        half_kelly = kelly_fraction * 0.5
-
-        # If Kelly is negative, there's no edge - don't bet
-        if half_kelly <= 0:
+        if edge <= 0:
             return 0.0
 
-        # Convert to units (assuming 100 unit bankroll)
-        # 1% of bankroll = 1 unit, so multiply by 100
-        units = half_kelly * 100
+        kelly_bet = self.KELLY_FRACTION * edge  # FULL Kelly (1.0)
 
-        # Apply safety bounds with odds-based scaling
-        # Aggressive on strong favorites, conservative on longshots
-        if odds < 4.0:
-            max_units = 4.0
-        elif odds < 7.0:
-            max_units = 2.5
-        elif odds < 10.0:
-            max_units = 1.5
-        elif odds < 15.0:
-            max_units = 1.0
-        else:
-            max_units = 0.5
-
-        units = max(units, 0.5)  # Minimum 0.5 units if positive edge
-        units = min(units, max_units)  # Cap based on odds range
-
-        return round(units, 2)
+        # Cap at 4.0 units max
+        return min(kelly_bet, 4.0)
 
     # ========================================
     # SELECTION METHODS
@@ -1440,23 +1378,23 @@ class HorseRacingAnalyst:
 
     def _get_top_selection(self, race: Race) -> Optional[Runner]:
         """
-        Get single best selection for a race based on RSI
+        Get single best selection for a race based on speed rating
         Returns runner or None
         """
         if not race.runners:
             return None
 
-        # Calculate RSI for all runners
+        # Calculate speed rating for all runners
         scored = []
         for runner in race.runners:
-            rsi = self._calculate_rsi(runner, race)
+            speed_rating = self._calculate_speed_rating(runner, race)
             scored.append({
                 'runner': runner,
-                'rsi': rsi
+                'speed_rating': speed_rating
             })
 
-        # Sort by RSI (deterministic tie-break: lowest saddlecloth)
-        scored.sort(key=lambda x: (-x['rsi'], x['runner'].saddlecloth))
+        # Sort by speed rating (deterministic tie-break: lowest saddlecloth)
+        scored.sort(key=lambda x: (-x['speed_rating'], x['runner'].saddlecloth))
 
         # Return top runner
         return scored[0]['runner']
@@ -1466,253 +1404,307 @@ class HorseRacingAnalyst:
     # SCORING & ASSESSMENT FUNCTIONS
     # ========================================
 
-    def _calculate_rsi(self, runner: Runner, race: Race) -> int:
+    def _calculate_speed_rating(self, runner: Runner, race: Race) -> int:
         """
-        Calculate RSI (Racing Strength Index) - 1 to 100
+        Calculate speed rating for a runner (0-100 scale)
 
-        Weights (optimized for ROI):
-        - Horse Form & Ability: 35%
-        - Market Intelligence: 15%
-        - Track/Distance/Going: 15%
-        - Class & Map: 15%
-        - Trainer: 12%
-        - Jockey: 8%
+        Uses:
+        - Recent form (positions)
+        - Class of race
+        - Distance performance
+        - Track performance
+        - Freshness
+        - Margins
+        - Track condition
         """
-        rsi = 0
+        rating = 70  # Base rating
 
-        # ========================================
-        # 1. HORSE FORM & ABILITY (35 points max)
-        # ========================================
-        form_score = 0
+        # 1. FORM RATING (last 5 starts) - Extract from form string
+        form_string = ''
+        if runner.last_starts:
+            # Build form string from last_starts
+            form_string = ''.join(str(pos) for pos in runner.last_starts[:5])
 
-        # Recent finishing positions vs class (13 points)
-        if runner.last_starts and len(runner.last_starts) > 0:
-            recent = runner.last_starts[:3]
+        form_boost = self._rate_form(form_string)
+        rating += form_boost
 
-            # Win bonus (5 points per win in last 3)
-            wins = sum(1 for pos in recent if pos == 1)
-            form_score += wins * 5
+        # 2. CLASS RATING (race grade)
+        race_class = race.grade or ''
+        class_boost = self._rate_class(race_class)
+        rating += class_boost
 
-            # Place bonus (2 points per place in last 3)
-            places = sum(1 for pos in recent if 2 <= pos <= 3)
-            form_score += places * 2
+        # 3. DISTANCE PERFORMANCE
+        distance_stats = None
+        if hasattr(runner, 'distance_stats'):
+            distance_stats = runner.distance_stats
+        distance_boost = self._rate_distance_performance(distance_stats)
+        rating += distance_boost
 
-            # Consistency (low variance = good)
-            if len(recent) >= 2:
-                try:
-                    avg_pos = statistics.mean(recent)
-                    if avg_pos <= 3:
-                        form_score += 1
-                except:
-                    pass
+        # 4. TRACK PERFORMANCE
+        track_stats = None
+        if hasattr(runner, 'track_stats'):
+            track_stats = runner.track_stats
+        track_boost = self._rate_track_performance(track_stats)
+        rating += track_boost
 
-        # Speed figures / time ratings (13 points)
-        speed_component = min(13, (runner.speed_rating / 100) * 13)
-        form_score += speed_component
+        # 5. FRESHNESS (days since last race)
+        last_raced_str = None
+        if hasattr(runner, 'last_raced'):
+            last_raced_str = runner.last_raced
+        freshness_boost = self._rate_freshness(last_raced_str)
+        rating += freshness_boost
 
-        # Margin beaten & closing splits (9 points) - use improvement trend
-        if runner.last_starts and len(runner.last_starts) >= 2:
-            if runner.last_starts[0] < runner.last_starts[1]:
-                form_score += 5  # Improving
-            elif runner.last_starts[0] == runner.last_starts[1]:
-                form_score += 2  # Consistent
-            # Recent win gets bonus
-            if runner.last_starts[0] == 1:
-                form_score += 4
+        # 6. WINNING MARGINS (how dominant)
+        margin_boost = self._rate_margins(form_string)
+        rating += margin_boost
 
-        form_score = min(35, form_score)
-        rsi += int(form_score)
+        # 7. TRACK CONDITION SUITABILITY
+        going = race.surface or 'Good'
+        condition_boost = self._rate_track_condition(runner, going)
+        rating += condition_boost
 
-        # ========================================
-        # 2. TRAINER (12 points max)
-        # ========================================
-        trainer_score = 0
+        # Cap rating at 0-100
+        return max(0, min(100, int(rating)))
 
-        # Trainer strike rate overall (5 points) - base score
-        trainer_score += 3  # Default baseline
+    def _rate_form(self, form_string: str) -> int:
+        """Rate recent form (-10 to +15)"""
+        if not form_string:
+            return 0
 
-        # Trainer at track/distance (4 points) - use class rating as proxy
-        if runner.class_rating >= 70:
-            trainer_score += 4
-        elif runner.class_rating >= 50:
-            trainer_score += 2
+        # Extract positions (digits only)
+        positions = [int(c) for c in form_string if c.isdigit()]
 
-        # Trainer + jockey combo (3 points) - bonus if both present
-        if runner.trainer and runner.jockey:
-            trainer_score += 3
+        if not positions:
+            return 0
 
-        trainer_score = min(12, trainer_score)
-        rsi += int(trainer_score)
+        # Calculate average position (last 5)
+        recent_positions = positions[:5]
+        avg_position = sum(recent_positions) / len(recent_positions)
 
-        # ========================================
-        # 3. JOCKEY (8 points max)
-        # ========================================
-        jockey_score = 0
-
-        # Jockey win/place rate (4 points)
-        if runner.jockey:
-            jockey_score += 3  # Has known jockey
-
-        # Jockey at track/distance (4 points) - use speed rating as proxy
-        if runner.speed_rating >= 70:
-            jockey_score += 4
-        elif runner.speed_rating >= 50:
-            jockey_score += 2
-
-        jockey_score = min(8, jockey_score)
-        rsi += int(jockey_score)
-
-        # ========================================
-        # 4. TRACK, DISTANCE & CONDITIONS (15 points max)
-        # ========================================
-        track_score = 0
-
-        # Track suitability (5 points)
-        track_score += 3  # Base track score
-
-        # Distance suitability (5 points) - use form as proxy
-        if runner.last_starts and len(runner.last_starts) > 0:
-            if runner.last_starts[0] <= 3:
-                track_score += 5  # Recent good run = distance suited
-            elif runner.last_starts[0] <= 5:
-                track_score += 3
-
-        # Going/surface (5 points)
-        if race.surface.lower() in ['good', 'turf', 'firm']:
-            track_score += 4  # Standard conditions
+        # Convert to boost
+        if avg_position <= 1.5:
+            return 15  # Consistent winner
+        elif avg_position <= 2.5:
+            return 10  # Strong form
+        elif avg_position <= 4.0:
+            return 5   # Good form
+        elif avg_position <= 6.0:
+            return 0   # Average
         else:
-            track_score += 2  # Wet/heavy/synthetic
+            return -10  # Poor form
 
-        track_score = min(15, track_score)
-        rsi += int(track_score)
+    def _rate_class(self, race_class: str) -> int:
+        """Rate race class (-5 to +10)"""
+        if not race_class:
+            return 0
 
-        # ========================================
-        # 5. CLASS & MAP FACTORS (15 points max)
-        # ========================================
-        class_map_score = 0
+        race_class_upper = race_class.upper()
 
-        # Class movement up/down (6 points)
-        if race.runners:
-            avg_class = statistics.mean([r.class_rating for r in race.runners])
-            if runner.class_rating > avg_class * 1.15:
-                class_map_score += 6  # Class drop / advantage
-            elif runner.class_rating > avg_class:
-                class_map_score += 3
+        # Group races
+        if 'G1' in race_class_upper or 'GROUP 1' in race_class_upper:
+            return 10
+        elif 'G2' in race_class_upper or 'GROUP 2' in race_class_upper:
+            return 8
+        elif 'G3' in race_class_upper or 'GROUP 3' in race_class_upper:
+            return 6
+        elif 'LISTED' in race_class_upper or 'LR' in race_class_upper:
+            return 5
 
-        # Barrier + expected map position (6 points)
-        if runner.barrier <= 4:
-            class_map_score += 6  # Inside barrier advantage
-        elif runner.barrier <= 8:
-            class_map_score += 4  # Mid barrier OK
-        elif runner.barrier <= 12:
-            class_map_score += 2  # Wide but manageable
-        else:
-            class_map_score += 0  # Very wide
-
-        # Field strength vs last start (3 points)
-        if race.runners and len(race.runners) <= 10:
-            class_map_score += 2  # Smaller field = less traffic
-        elif race.runners and len(race.runners) <= 14:
-            class_map_score += 1
-
-        class_map_score = min(15, class_map_score)
-        rsi += int(class_map_score)
-
-        # ========================================
-        # 6. MARKET INTELLIGENCE (15 points max)
-        # ========================================
-        market_score = 0
-
-        # Market rank (9 points) - market is highly predictive
-        if race.runners:
-            sorted_by_price = sorted(race.runners, key=lambda r: r.price)
-            market_rank = next((i for i, r in enumerate(sorted_by_price, 1) if r.name == runner.name), 99)
-
-            if market_rank == 1:
-                market_score += 9  # Favourite
-            elif market_rank == 2:
-                market_score += 7
-            elif market_rank == 3:
-                market_score += 5
-            elif market_rank <= 5:
-                market_score += 3
-
-        # Price confidence (6 points) - shorter prices = market confidence
-        if runner.price <= 2.5:
-            market_score += 6  # Very short price = high confidence
-        elif runner.price <= 4.0:
-            market_score += 5
-        elif runner.price <= 6.0:
-            market_score += 4
-        elif runner.price <= 10.0:
-            market_score += 2
-        elif runner.price <= 15.0:
-            market_score += 1
-
-        market_score = min(15, market_score)
-        rsi += int(market_score)
-
-        # Ensure RSI is between 1 and 100
-        return max(1, min(100, rsi))
-
-    def _calculate_win_percentage(self, runner: Runner, race: Race, rsi: int) -> float:
-        """
-        Calculate win probability percentage
-        Based on RSI, price, and field strength
-        """
-        # 1. Base probability from market price
-        if runner.price > 0:
-            implied_prob = (1 / runner.price) * 100
-        else:
-            implied_prob = 5.0
-
-        # 2. Calculate all RSI scores for the field
-        all_rsi = []
-        for r in race.runners:
-            r_rsi = self._calculate_rsi(r, race)
-            all_rsi.append(r_rsi)
-
-        # 3. RSI-based probability using softmax-like approach
-        if all_rsi:
-            # Runner's RSI relative to field
-            total_rsi = sum(all_rsi)
-            if total_rsi > 0:
-                rsi_prob = (rsi / total_rsi) * 100
+        # Benchmark/Class races
+        bm_match = re.search(r'BM\s*(\d+)', race_class_upper)
+        if bm_match:
+            bm_rating = int(bm_match.group(1))
+            if bm_rating >= 90:
+                return 5
+            elif bm_rating >= 80:
+                return 3
+            elif bm_rating >= 70:
+                return 1
+            elif bm_rating >= 60:
+                return 0
             else:
-                rsi_prob = 100 / len(race.runners)
+                return -2
+
+        # Class rating
+        class_match = re.search(r'CL\s*(\d+)', race_class_upper)
+        if class_match:
+            class_num = int(class_match.group(1))
+            return max(-5, min(5, (6 - class_num)))
+
+        # Maiden
+        if 'MDN' in race_class_upper or 'MAIDEN' in race_class_upper:
+            return -5
+
+        return 0
+
+    def _rate_distance_performance(self, distance_stats) -> int:
+        """Rate distance performance (-5 to +10)"""
+        if not distance_stats:
+            return 0
+
+        try:
+            total = int(distance_stats.get('total', 0)) if isinstance(distance_stats, dict) else 0
+            wins = int(distance_stats.get('first', 0)) if isinstance(distance_stats, dict) else 0
+            places = (int(distance_stats.get('second', 0)) + int(distance_stats.get('third', 0))) if isinstance(distance_stats, dict) else 0
+
+            if total == 0:
+                return 0
+
+            win_rate = wins / total
+            place_rate = (wins + places) / total
+
+            if win_rate >= 0.4:
+                return 10
+            elif win_rate >= 0.3:
+                return 7
+            elif win_rate >= 0.2:
+                return 5
+            elif place_rate >= 0.5:
+                return 3
+            elif place_rate >= 0.3:
+                return 0
+            else:
+                return -5
+
+        except (ValueError, TypeError, ZeroDivisionError):
+            return 0
+
+    def _rate_track_performance(self, course_stats) -> int:
+        """Rate track performance (-5 to +10)"""
+        if not course_stats:
+            return 0
+
+        try:
+            total = int(course_stats.get('total', 0)) if isinstance(course_stats, dict) else 0
+            wins = int(course_stats.get('first', 0)) if isinstance(course_stats, dict) else 0
+
+            if total == 0:
+                return 0
+
+            win_rate = wins / total
+
+            if win_rate >= 0.5:
+                return 10
+            elif win_rate >= 0.3:
+                return 5
+            elif win_rate >= 0.2:
+                return 2
+            else:
+                return -3
+
+        except (ValueError, TypeError, ZeroDivisionError):
+            return 0
+
+    def _rate_freshness(self, last_raced_str) -> int:
+        """Rate freshness based on days since last race (-5 to +5)"""
+        if not last_raced_str:
+            return 0
+
+        try:
+            last_raced = datetime.fromisoformat(last_raced_str).date()
+            today = date.today()
+            days_since = (today - last_raced).days
+
+            if days_since < 0:
+                return 0
+
+            if 7 <= days_since <= 21:
+                return 5  # Optimal freshness
+            elif 4 <= days_since < 7:
+                return 3
+            elif 21 < days_since <= 35:
+                return 2
+            elif 35 < days_since <= 60:
+                return -2
+            else:
+                return -5
+
+        except (ValueError, TypeError):
+            return 0
+
+    def _rate_margins(self, form_string: str) -> int:
+        """Rate winning margins from form (0 to +5)"""
+        if not form_string:
+            return 0
+
+        # Count recent wins (1s in form)
+        wins = form_string[:5].count('1')
+
+        if wins >= 3:
+            return 5
+        elif wins >= 2:
+            return 3
+        elif wins >= 1:
+            return 2
         else:
-            rsi_prob = 100 / len(race.runners)
+            return 0
 
-        # 4. Form consistency adjustment
-        form_bonus = 0
-        if runner.last_starts and len(runner.last_starts) >= 3:
-            try:
-                std_dev = statistics.stdev(runner.last_starts[:3])
-                if std_dev < 1.5:  # Very consistent
-                    form_bonus = 2.0
-                elif std_dev < 2.5:  # Reasonably consistent
-                    form_bonus = 1.0
-            except:
-                pass
+    def _rate_track_condition(self, runner, going: str) -> int:
+        """Rate suitability for track condition (-5 to +5)"""
+        if not going:
+            return 0
 
-        # 5. Combine probabilities (weighted average)
-        # 50% RSI, 50% market price (market is efficient)
-        final_prob = (rsi_prob * 0.5) + (implied_prob * 0.5) + form_bonus
+        going_lower = going.lower()
 
-        # 6. Normalize to realistic range
-        # Allow higher cap for strong favourites, lower cap for outsiders
-        if runner.price <= 2.5:
-            max_prob = 55.0  # Strong favourites can have higher win rates
-        elif runner.price <= 4.0:
-            max_prob = 45.0
-        elif runner.price <= 7.0:
-            max_prob = 35.0
+        # Map going to stats field - look for attributes on runner
+        condition_stats = None
+        if 'heavy' in going_lower:
+            condition_stats = getattr(runner, 'ground_heavy_stats', None)
+        elif 'soft' in going_lower:
+            condition_stats = getattr(runner, 'ground_soft_stats', None)
+        elif 'good' in going_lower:
+            condition_stats = getattr(runner, 'ground_good_stats', None)
+        elif 'firm' in going_lower:
+            condition_stats = getattr(runner, 'ground_firm_stats', None)
         else:
-            max_prob = 25.0  # Longshots capped lower
+            return 0
 
-        final_prob = max(5.0, min(max_prob, final_prob))
+        if not condition_stats:
+            return 0
 
-        return round(final_prob, 1)
+        try:
+            total = int(condition_stats.get('total', 0)) if isinstance(condition_stats, dict) else 0
+            wins = int(condition_stats.get('first', 0)) if isinstance(condition_stats, dict) else 0
+
+            if total == 0:
+                return 0
+
+            win_rate = wins / total
+
+            if win_rate >= 0.4:
+                return 5
+            elif win_rate >= 0.2:
+                return 2
+            else:
+                return -3
+
+        except (ValueError, TypeError, ZeroDivisionError):
+            return 0
+
+    def _calculate_win_percentage(self, runner: Runner, race: Race, speed_rating: int) -> float:
+        """
+        Estimate win probability from speed rating and market rank
+        Returns percentage (0-100)
+        """
+        # Base probability from speed rating
+        # 100 rating = 90% win prob, 70 rating = 30% win prob
+        base_prob = (speed_rating - 50) / 50 * 0.6 + 0.3
+        base_prob = max(0.1, min(0.9, base_prob))
+
+        # Get market rank
+        sorted_by_price = sorted(race.runners, key=lambda r: r.price)
+        market_rank = next((i+1 for i, r in enumerate(sorted_by_price)
+                           if r.name == runner.name), 99)
+
+        # Adjust for market position
+        if market_rank == 1:
+            multiplier = 1.0  # Favorite
+        elif market_rank == 2:
+            multiplier = 0.8  # 2nd favorite
+        else:
+            multiplier = 0.6
+
+        return base_prob * multiplier * 100  # Return as percentage
 
 
 
@@ -1969,20 +1961,20 @@ def main():
                         race_time_str = local_time.strftime('%H:%M')
 
                         # ========================================
-                        # EDGE BET (RSI-based selection)
+                        # EDGE BET (Speed rating-based selection)
                         # ========================================
                         selection = analyst._get_top_selection(race)
                         if not selection:
                             continue
 
                         # Calculate metrics
-                        rsi = analyst._calculate_rsi(selection, race)
-                        win_pct = analyst._calculate_win_percentage(selection, race, rsi)
-                        units = analyst._calculate_units(selection, win_pct, rsi)
-                        is_tracked = analyst._is_tracked(selection, race, rsi, win_pct)
+                        speed_rating = analyst._calculate_speed_rating(selection, race)
+                        win_pct = analyst._calculate_win_percentage(selection, race, speed_rating)
+                        units = analyst._calculate_units(selection, win_pct, speed_rating)
+                        is_tracked = analyst._is_tracked(selection, race, speed_rating, win_pct)
                         market_rank = analyst._calculate_market_rank(selection, race)
 
-                        # ONLY post EDGE betsh
+                        # ONLY post EDGE bets
                         if not is_tracked:
                             output_races.add(race_key)
                             continue
@@ -2000,7 +1992,7 @@ def main():
                             horse_num=selection.saddlecloth,
                             price=selection.price,
                             units=units,
-                            rsi=rsi,
+                            rsi=speed_rating,
                             is_tracked=is_tracked,
                             race_time=race.start_time,
                             market_rank=market_rank
@@ -2018,7 +2010,7 @@ def main():
                                 horse_name=selection.name,
                                 price=selection.price,
                                 units=units,
-                                rsi=rsi,
+                                rsi=speed_rating,
                                 is_tracked=is_tracked,
                                 market_rank=market_rank
                             )
@@ -2027,7 +2019,7 @@ def main():
                         bet_type = "🔥 BEST BET" if market_rank == 1 else "📊 EDGE BET"
                         print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [{bet_type}]")
                         print(f"   {selection.saddlecloth}. {selection.name} @ ${selection.price:.2f}")
-                        print(f"   {units}u | RSI {rsi}% | Market Rank: {market_rank}")
+                        print(f"   {units}u | Speed Rating {speed_rating} | Market Rank: {market_rank}")
 
                         output_races.add(race_key)
 
