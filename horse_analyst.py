@@ -872,6 +872,18 @@ class RacingAPIClient:
                                 print(f"    ⚠️  No runner data for R{race_number}")
                                 continue
 
+                            # Double-check for trials (some APIs don't flag them in embedded data)
+                            race_name = (race_detail.get('race_name') or '').upper()
+                            race_class = (race_detail.get('class') or '').upper()
+                            if (race_detail.get('is_trial') or
+                                race_detail.get('is_jump_out') or
+                                'TRIAL' in race_name or
+                                'JUMP OUT' in race_name or
+                                'JUMPOUT' in race_name or
+                                'TRIAL' in race_class):
+                                print(f"    ⚠️  R{race_number}: SKIPPED (trial race)")
+                                continue
+
                             # Parse start time from API
                             start_time = None
                             start_time_str = embedded_race.get('start_time') or race_detail.get('start_time') or race_detail.get('off_time')
