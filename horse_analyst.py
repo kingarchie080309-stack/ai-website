@@ -1369,8 +1369,8 @@ class HorseRacingAnalyst:
 
         kelly_bet = self.KELLY_FRACTION * edge  # FULL Kelly (1.0)
 
-        # Cap at 4.0 units max
-        return min(kelly_bet, 4.0)
+        # Cap at 4.0 units max and round to 2 decimal places
+        return round(min(kelly_bet, 4.0), 2)
 
     # ========================================
     # SELECTION METHODS
