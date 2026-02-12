@@ -1869,6 +1869,8 @@ def main():
     password = os.getenv('RACING_API_PASSWORD')
     discord_token = os.getenv('DISCORD_TOKEN')
     discord_channel = os.getenv('DISCORD_CHANNEL_ID')
+    discord_token_2 = os.getenv('DISCORD_TOKEN_2')
+    discord_channel_2 = os.getenv('DISCORD_CHANNEL_ID_2')
 
     if not username or not password:
         print("Error: RACING_API_USERNAME and RACING_API_PASSWORD must be set in .env file")
@@ -1879,15 +1881,18 @@ def main():
     print("EDGE BETS ONLY - High confidence selections")
     print("Outputs selections 3 minutes before race start")
     if discord_token and discord_channel:
-        print("✓ Discord bot enabled")
+        print("✓ Discord bot 1 enabled")
     else:
         print("⚠ No DISCORD_TOKEN/DISCORD_CHANNEL_ID set - console output only")
+    if discord_token_2 and discord_channel_2:
+        print("✓ Discord bot 2 enabled")
     print("=" * 60)
 
     # Initialize API client, Discord, and bet tracker
     api_client = RacingAPIClient(username, password)
     analyst = create_analyst()
     discord = DiscordNotifier(discord_token, discord_channel) if discord_token and discord_channel else None
+    discord2 = DiscordNotifier(discord_token_2, discord_channel_2) if discord_token_2 and discord_channel_2 else None
     bet_tracker = BetTracker()
 
     # Start Discord command handler
@@ -1998,9 +2003,24 @@ def main():
                             market_rank=market_rank
                         )
 
-                        # Send to Discord
+                        # Send to Discord (both bots if configured)
                         if discord:
                             discord.send_tip(
+                                race_time=race_time_str,
+                                track=race.track_name,
+                                race_num=race.race_number,
+                                distance=race.distance,
+                                surface=race.surface,
+                                horse_num=selection.saddlecloth,
+                                horse_name=selection.name,
+                                price=selection.price,
+                                units=units,
+                                rsi=speed_rating,
+                                is_tracked=is_tracked,
+                                market_rank=market_rank
+                            )
+                        if discord2:
+                            discord2.send_tip(
                                 race_time=race_time_str,
                                 track=race.track_name,
                                 race_num=race.race_number,
