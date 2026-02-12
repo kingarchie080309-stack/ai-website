@@ -880,8 +880,11 @@ class RacingAPIClient:
                                 'TRIAL' in race_name or
                                 'JUMP OUT' in race_name or
                                 'JUMPOUT' in race_name or
-                                'TRIAL' in race_class):
-                                print(f"    ⚠️  R{race_number}: SKIPPED (trial race)")
+                                'TRIAL' in race_class or
+                                'JUMP OUT' in race_class or
+                                '-TRL' in race_class or
+                                race_class.endswith('TRL')):
+                                print(f"    ⚠️  R{race_number}: SKIPPED (trial/jump out)")
                                 continue
 
                             # Parse start time from API
@@ -961,6 +964,16 @@ class RacingAPIClient:
 
                             if not runners:
                                 print(f"    ⚠️ R{race_number}: No runners found")
+                                continue
+
+                            # Check if race has real bookmaker odds (not trials with default prices)
+                            # Count how many runners have actual bookmaker odds vs defaults
+                            runners_with_odds = sum(1 for r in race_detail.get('runners', [])
+                                                   if r.get('odds') and len(r.get('odds', [])) > 0)
+                            total_runners = len(race_detail.get('runners', []))
+
+                            if total_runners > 0 and runners_with_odds < (total_runners * 0.5):
+                                print(f"    ⚠️ R{race_number}: SKIPPED (no real bookmaker odds - likely trial)")
                                 continue
 
                             # Create race object
