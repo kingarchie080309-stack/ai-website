@@ -1,7 +1,7 @@
 """
 HORSE RACING AI - SPEED RATING SYSTEM
 Production horse racing analysis with speed ratings and Full Kelly staking
-Filters: $2-$5, Rank 1-2, 70+ speed rating
+Filters: $2-$10, Rank 1-2, 70+ speed rating
 """
 
 from dataclasses import dataclass
@@ -660,9 +660,9 @@ class DiscordCommandHandler:
 
 **Mode:**
 **EDGE BETS ONLY** 🎯 - High confidence selections meeting strict filters
-- Price: $2.00-$5.00 | Rank: 1-2 | Speed Rating: 70+
-- Must be top 1-5 in market (varies by odds)
-- Stakes: 1/2 Kelly Criterion (0.5u - 5.0u based on edge)"""
+- Price: $2.00-$10.00 | Rank: 1-2 | Speed Rating: 70+
+- Must be top 2 in market (favorites and second favorites only)
+- Stakes: Full Kelly Criterion (capped at 4.0u)"""
 
         self.discord.send_message(help_text)
 
@@ -1218,12 +1218,12 @@ class HorseRacingAnalyst:
     """
     PRODUCTION HORSE RACING ANALYST
     Speed Rating System with Full Kelly staking
-    Filters: $2-$5 price range, Rank 1-2 market position, 70+ speed rating
+    Filters: $2-$10 price range, Rank 1-2 market position, 70+ speed rating
     """
 
     # NEW SPEED RATING SYSTEM CONFIG
     MIN_PRICE = 2.00
-    MAX_PRICE = 5.00
+    MAX_PRICE = 10.00
     MAX_RANK = 2
     MIN_SPEED_RATING = 70
     KELLY_FRACTION = 1.0  # Full Kelly
