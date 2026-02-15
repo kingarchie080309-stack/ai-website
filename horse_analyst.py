@@ -110,9 +110,9 @@ class BetTracker:
 
     def record_bet(self, track: str, race_num: int, horse_name: str, horse_num: int,
                    price: float, units: float, rsi: int, is_tracked: bool,
-                   race_time: datetime, market_rank: int = 999) -> str:
+                   race_time: datetime, market_rank: int = 999, bet_type: str = "NEX BEST") -> str:
         """Record a new bet and return its ID"""
-        bet_id = f"{track}_R{race_num}_{race_time.strftime('%Y%m%d_%H%M')}"
+        bet_id = f"{track}_R{race_num}_{horse_name}_{race_time.strftime('%Y%m%d_%H%M')}"
 
         bet = {
             "id": bet_id,
@@ -125,6 +125,7 @@ class BetTracker:
             "rsi": rsi,
             "is_tracked": is_tracked,
             "market_rank": market_rank,
+            "bet_type": bet_type,  # NEX BEST, NEX EDGE, or NEX VALUE
             "race_time": race_time.isoformat(),
             "recorded_at": datetime.now(timezone.utc).isoformat(),
             "result": None,  # "win", "loss", or None (pending)
@@ -231,13 +232,32 @@ class BetTracker:
 
         return False
 
-    def calculate_stats(self, bets: List[Dict], tracked_only: bool = False, market_rank_filter: int = None) -> Dict:
+    def calculate_stats(self, bets: List[Dict], tracked_only: bool = False, market_rank_filter: int = None, bet_type_filter: str = None) -> Dict:
         """Calculate statistics for a list of bets"""
         if tracked_only:
             bets = [b for b in bets if b.get("is_tracked")]
 
         if market_rank_filter is not None:
             bets = [b for b in bets if b.get("market_rank") == market_rank_filter]
+
+        if bet_type_filter is not None:
+            # Handle old bets without bet_type field (backward compatibility)
+            filtered_bets = []
+            for b in bets:
+                bet_type = b.get("bet_type")
+
+                # Infer bet_type for old bets based on is_tracked and market_rank
+                if bet_type is None:
+                    if b.get("is_tracked", False):
+                        bet_type = "NEX BEST"  # Old tracked bets were Rank 1
+                    elif b.get("market_rank", 999) in [2, 3]:
+                        bet_type = "NEX EDGE"  # Rank 2-3 are edge bets
+                    else:
+                        bet_type = "NEX VALUE"  # Everything else is value
+
+                if bet_type == bet_type_filter:
+                    filtered_bets.append(b)
+            bets = filtered_bets
 
         if not bets:
             return {
@@ -314,16 +334,27 @@ class DiscordNotifier:
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
     def send_tip(self, race_time: str, track: str, race_num: int, distance: int,
                  surface: str, horse_num: int, horse_name: str, price: float,
-                 units: float, rsi: int, is_tracked: bool = False, market_rank: int = 999):
+                 units: float, rsi: int, is_tracked: bool = False, market_rank: int = 999,
+                 bet_type: str = "NEX BEST"):
         """Send a formatted tip to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
             return False
 
-        # BEST BET = market rank 1 (favorite), EDGE BET = rank 2-3
-        is_best_bet = market_rank == 1
-        color = 0xFF4500 if is_best_bet else 0x00FF00  # Orange-red for BEST BET, Green for EDGE BET
+        # Set colors and emojis based on bet type
+        if bet_type == "NEX BEST":
+            color = 0xFF4500  # Orange-red
+            emoji = "🔥"
+            rating_label = "Speed Rating"
+        elif bet_type == "NEX EDGE":
+            color = 0x00FF00  # Green
+            emoji = "⚡"
+            rating_label = "Speed Rating"
+        else:  # NEX VALUE
+            color = 0x9B59B6  # Purple
+            emoji = "💎"
+            rating_label = "RSI Score"
 
-        title = f"🔥 BEST BET | {track} R{race_num}" if is_best_bet else f"📊 EDGE BET | {track} R{race_num}"
+        title = f"{emoji} {bet_type} | {track} R{race_num}"
 
         fields = [
             {"name": "⏰ Race Time", "value": race_time, "inline": True},
@@ -331,15 +362,17 @@ class DiscordNotifier:
             {"name": "🌿 Surface", "value": surface, "inline": True},
             {"name": "🐴 Selection", "value": f"**{horse_num}. {horse_name}**", "inline": False},
             {"name": "💰 Odds", "value": f"${price:.2f}", "inline": True},
-            {"name": "📊 Units", "value": f"{units}u", "inline": True},
-            {"name": "📈 Speed Rating", "value": f"{rsi}", "inline": True},
+            {"name": "📊 Units", "value": f"{units:.2f}u", "inline": True},
+            {"name": f"📈 {rating_label}", "value": f"{rsi}", "inline": True},
         ]
 
-        # Add market rank for BEST BETs
-        if is_best_bet:
+        # Add market rank for NEX BEST
+        if bet_type == "NEX BEST":
             fields.append({"name": "🏆 Market Rank", "value": "Favorite (Rank 1)", "inline": True})
+        elif bet_type == "NEX EDGE":
+            fields.append({"name": "🏆 Market Rank", "value": f"Rank {market_rank}", "inline": True})
 
-        footer_text = "Horse Tipper | 🔥 BEST BET" if is_best_bet else "Horse Tipper | 📊 EDGE BET"
+        footer_text = f"Horse Tipper | {emoji} {bet_type}"
 
         embed = {
             "title": title,
@@ -364,7 +397,7 @@ class DiscordNotifier:
         return response.status_code == 200
 
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
-    def send_results_embed(self, period: str, overall_stats: Dict, best_bet_stats: Dict = None, edge_bet_stats: Dict = None):
+    def send_results_embed(self, period: str, overall_stats: Dict, best_bet_stats: Dict = None, edge_bet_stats: Dict = None, value_bet_stats: Dict = None):
         """Send a formatted results embed to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
             return False
@@ -392,9 +425,9 @@ class DiscordNotifier:
         # Build fields with separate sections
         fields = []
 
-        # BEST BETS section
+        # NEX BEST section
         if best_bet_stats and best_bet_stats["total_bets"] > 0:
-            fields.append({"name": "🔥 BEST BETS (Rank 1 Favorites)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            fields.append({"name": "🔥 NEX BEST (Rank 1 Favorites)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
             fields.extend([
                 {"name": "Bets", "value": str(best_bet_stats["total_bets"]), "inline": True},
                 {"name": "Wins", "value": f"{best_bet_stats['wins']} ({best_bet_stats['win_rate']}%)", "inline": True},
@@ -404,15 +437,27 @@ class DiscordNotifier:
                 {"name": "\u200b", "value": "\u200b", "inline": True},
             ])
 
-        # EDGE BETS section
+        # NEX EDGE section
         if edge_bet_stats and edge_bet_stats["total_bets"] > 0:
-            fields.append({"name": "📊 EDGE BETS (Rank 2-3)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            fields.append({"name": "⚡ NEX EDGE (Rank 2-3)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
             fields.extend([
                 {"name": "Bets", "value": str(edge_bet_stats["total_bets"]), "inline": True},
                 {"name": "Wins", "value": f"{edge_bet_stats['wins']} ({edge_bet_stats['win_rate']}%)", "inline": True},
                 {"name": "P/L", "value": f"{edge_bet_stats['profit']:+.2f}u", "inline": True},
                 {"name": "ROI", "value": f"{edge_bet_stats['roi']:+.1f}%", "inline": True},
                 {"name": "Avg Odds", "value": f"${edge_bet_stats['avg_odds']:.2f}", "inline": True},
+                {"name": "\u200b", "value": "\u200b", "inline": True},
+            ])
+
+        # NEX VALUE section
+        if value_bet_stats and value_bet_stats["total_bets"] > 0:
+            fields.append({"name": "💎 NEX VALUE (RSI System)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            fields.extend([
+                {"name": "Bets", "value": str(value_bet_stats["total_bets"]), "inline": True},
+                {"name": "Wins", "value": f"{value_bet_stats['wins']} ({value_bet_stats['win_rate']}%)", "inline": True},
+                {"name": "P/L", "value": f"{value_bet_stats['profit']:+.2f}u", "inline": True},
+                {"name": "ROI", "value": f"{value_bet_stats['roi']:+.1f}%", "inline": True},
+                {"name": "Avg Odds", "value": f"${value_bet_stats['avg_odds']:.2f}", "inline": True},
                 {"name": "\u200b", "value": "\u200b", "inline": True},
             ])
 
@@ -431,7 +476,7 @@ class DiscordNotifier:
             "title": title,
             "color": color,
             "fields": fields,
-            "footer": {"text": f"Horse Tipper | 🔥 BEST BET • 📊 EDGE BET • Generated {datetime.now(AEDT).strftime('%H:%M')}"}
+            "footer": {"text": f"Horse Tipper | 🔥 NEX BEST • ⚡ NEX EDGE • 💎 NEX VALUE • Generated {datetime.now(AEDT).strftime('%H:%M')}"}
         }
 
         payload = {"embeds": [embed]}
@@ -588,15 +633,14 @@ class DiscordCommandHandler:
         """Send results for the specified period"""
         bets = self.bet_tracker.get_bets_in_period(period=period)
 
-        # Calculate separate stats for BEST BETs and EDGE BETs
-        best_bet_stats = self.bet_tracker.calculate_stats(bets, market_rank_filter=1)
-        rank2_stats = self.bet_tracker.calculate_stats(bets, market_rank_filter=2)
-        rank3_stats = self.bet_tracker.calculate_stats(bets, market_rank_filter=3)
-        edge_bet_stats = self._merge_stats(rank2_stats, rank3_stats)
+        # Calculate separate stats for each bet type
+        nex_best_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX BEST")
+        nex_edge_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX EDGE")
+        nex_value_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX VALUE")
 
         overall_stats = self.bet_tracker.calculate_stats(bets)
 
-        self.discord.send_results_embed(period, overall_stats, best_bet_stats, edge_bet_stats)
+        self.discord.send_results_embed(period, overall_stats, nex_best_stats, nex_edge_stats, nex_value_stats)
 
         print(f"📊 Sent {period} results to Discord")
 
@@ -659,7 +703,7 @@ class DiscordCommandHandler:
 `!stats` - Same as !weekly
 
 **Mode:**
-**EDGE BETS ONLY** 🎯 - High confidence selections meeting strict filters
+**NEX EDGE ONLY** 🎯 - High confidence selections meeting strict filters
 - Price: $2.00-$10.00 | Rank: 1-2 | Speed Rating: 70+
 - Must be top 2 in market (favorites and second favorites only)
 - Stakes: Full Kelly Criterion (capped at 4.0u)"""
@@ -1221,12 +1265,30 @@ class HorseRacingAnalyst:
     Filters: $2-$10 price range, Rank 1-2 market position, 70+ speed rating
     """
 
-    # NEW SPEED RATING SYSTEM CONFIG
+    # NEX BEST - SPEED RATING SYSTEM CONFIG
     MIN_PRICE = 2.00
     MAX_PRICE = 10.00
-    MAX_RANK = 2
+    NEX_RANK = 1  # Rank 1 = NEX BEST (favorites only)
+    MAX_RANK = 3  # NEX EDGE = Rank 2-3 (second/third favorites)
     MIN_SPEED_RATING = 70
-    KELLY_FRACTION = 1.0  # Full Kelly
+    KELLY_FRACTION = 1.5  # 1.5x Kelly (aggressive)
+
+    # NEX VALUE - RSI SYSTEM CONFIG (93% ROI backtested)
+    RSI_THRESHOLDS = {
+        (1.80, 2.51): 62,
+        (2.51, 4.01): 55,
+        (4.01, 7.01): 52,
+        (7.01, 12.01): 58,
+        (12.01, 999.99): 65,
+    }
+
+    MARKET_RANK_LIMITS = {
+        (1.80, 2.51): 2,
+        (2.51, 4.01): 3,
+        (4.01, 7.01): 4,
+        (7.01, 12.01): 4,
+        (12.01, 999.99): 5,
+    }
 
     def __init__(self):
         self.analysis_cache = {}
@@ -1238,6 +1300,203 @@ class HorseRacingAnalyst:
             if r.name == runner.name:
                 return rank
         return 999
+
+    # ========================================
+    # RSI SYSTEM METHODS (for NEX VALUE)
+    # ========================================
+
+    def _get_minimum_rsi(self, odds: float) -> int:
+        """Get minimum RSI threshold for given odds range"""
+        for (lo, hi), min_rsi in self.RSI_THRESHOLDS.items():
+            if lo <= odds < hi:
+                return min_rsi
+        return 999
+
+    def _get_market_rank_limit(self, odds: float) -> int:
+        """Get maximum market rank allowed for given odds range"""
+        for (lo, hi), max_rank in self.MARKET_RANK_LIMITS.items():
+            if lo <= odds < hi:
+                return max_rank
+        return 0
+
+    def _calculate_rsi(self, runner: Runner, race: Race) -> int:
+        """Calculate RSI score (1-100) using 6 components"""
+        import statistics
+
+        rsi = 0
+
+        # 1. HORSE FORM & ABILITY (35 points max)
+        form_score = 0
+        if runner.last_starts and len(runner.last_starts) > 0:
+            recent = runner.last_starts[:3]
+            wins = sum(1 for pos in recent if pos == 1)
+            form_score += wins * 5
+            places = sum(1 for pos in recent if 2 <= pos <= 3)
+            form_score += places * 2
+            if len(recent) >= 2:
+                try:
+                    avg_pos = statistics.mean(recent)
+                    if avg_pos <= 3:
+                        form_score += 1
+                except:
+                    pass
+
+        speed_component = min(13, (runner.speed_rating / 100) * 13)
+        form_score += speed_component
+
+        if runner.last_starts and len(runner.last_starts) >= 2:
+            if runner.last_starts[0] < runner.last_starts[1]:
+                form_score += 5
+            elif runner.last_starts[0] == runner.last_starts[1]:
+                form_score += 2
+            if runner.last_starts[0] == 1:
+                form_score += 4
+
+        form_score = min(35, form_score)
+        rsi += int(form_score)
+
+        # 2. TRAINER (12 points max)
+        trainer_score = 3
+        if runner.class_rating >= 70:
+            trainer_score += 4
+        elif runner.class_rating >= 50:
+            trainer_score += 2
+        if runner.trainer and runner.jockey:
+            trainer_score += 3
+        trainer_score = min(12, trainer_score)
+        rsi += int(trainer_score)
+
+        # 3. JOCKEY (8 points max)
+        jockey_score = 0
+        if runner.jockey:
+            jockey_score += 3
+        if runner.speed_rating >= 70:
+            jockey_score += 4
+        elif runner.speed_rating >= 50:
+            jockey_score += 2
+        jockey_score = min(8, jockey_score)
+        rsi += int(jockey_score)
+
+        # 4. TRACK, DISTANCE & CONDITIONS (15 points max)
+        track_score = 3
+        if runner.last_starts and len(runner.last_starts) > 0:
+            if runner.last_starts[0] <= 3:
+                track_score += 5
+            elif runner.last_starts[0] <= 5:
+                track_score += 3
+        if (race.surface or '').lower() in ['good', 'turf', 'firm']:
+            track_score += 4
+        else:
+            track_score += 2
+        track_score = min(15, track_score)
+        rsi += int(track_score)
+
+        # 5. CLASS & MAP FACTORS (15 points max)
+        class_map_score = 0
+        if race.runners:
+            avg_class = statistics.mean([r.class_rating for r in race.runners])
+            if runner.class_rating > avg_class * 1.15:
+                class_map_score += 6
+            elif runner.class_rating > avg_class:
+                class_map_score += 3
+        if runner.barrier <= 4:
+            class_map_score += 6
+        elif runner.barrier <= 8:
+            class_map_score += 4
+        elif runner.barrier <= 12:
+            class_map_score += 2
+        if race.runners and len(race.runners) <= 10:
+            class_map_score += 2
+        elif race.runners and len(race.runners) <= 14:
+            class_map_score += 1
+        class_map_score = min(15, class_map_score)
+        rsi += int(class_map_score)
+
+        # 6. MARKET INTELLIGENCE (15 points max)
+        market_score = 0
+        if race.runners:
+            sorted_by_price = sorted(race.runners, key=lambda r: r.price)
+            market_rank = next((i for i, r in enumerate(sorted_by_price, 1) if r.name == runner.name), 99)
+            if market_rank == 1:
+                market_score += 9
+            elif market_rank == 2:
+                market_score += 7
+            elif market_rank == 3:
+                market_score += 5
+            elif market_rank <= 5:
+                market_score += 3
+        if runner.price <= 2.5:
+            market_score += 6
+        elif runner.price <= 4.0:
+            market_score += 5
+        elif runner.price <= 6.0:
+            market_score += 4
+        elif runner.price <= 10.0:
+            market_score += 2
+        elif runner.price <= 15.0:
+            market_score += 1
+        market_score = min(15, market_score)
+        rsi += int(market_score)
+
+        return max(1, min(100, rsi))
+
+    def _calculate_rsi_win_percentage(self, runner: Runner, race: Race, rsi: int) -> float:
+        """Calculate win percentage for RSI system"""
+        import statistics
+
+        if runner.price > 0:
+            implied_prob = (1 / runner.price) * 100
+        else:
+            implied_prob = 5.0
+        all_rsi = [self._calculate_rsi(r, race) for r in race.runners]
+        total_rsi = sum(all_rsi)
+        rsi_prob = (rsi / total_rsi) * 100 if total_rsi > 0 else 100 / len(race.runners)
+        form_bonus = 0
+        if runner.last_starts and len(runner.last_starts) >= 3:
+            try:
+                std_dev = statistics.stdev(runner.last_starts[:3])
+                if std_dev < 1.5:
+                    form_bonus = 2.0
+                elif std_dev < 2.5:
+                    form_bonus = 1.0
+            except:
+                pass
+        win_pct = (implied_prob * 0.5) + (rsi_prob * 0.5) + form_bonus
+        return max(1, min(95, win_pct))
+
+    def _calculate_rsi_units(self, runner: Runner, rsi_win_pct: float) -> float:
+        """Calculate bet size using Half Kelly for RSI system"""
+        p = rsi_win_pct / 100.0
+        q = 1.0 - p
+        b = runner.price - 1.0
+        if b <= 0:
+            return 0.0
+        kelly_fraction = (b * p - q) / b
+        half_kelly = kelly_fraction * 0.5
+        if half_kelly <= 0:
+            return 0.0
+        units = half_kelly * 100
+        units = max(0.5, min(5.0, units))
+        return round(units, 2)
+
+    def _is_rsi_value_bet(self, runner: Runner, race: Race, rsi: int) -> bool:
+        """Check if runner qualifies as RSI value bet"""
+        if runner.price < 1.80 or runner.price > 20.0:
+            return False
+        if rsi < 50:
+            return False
+        min_rsi = self._get_minimum_rsi(runner.price)
+        if rsi < min_rsi:
+            return False
+        market_rank = self._calculate_market_rank(runner, race)
+        max_rank = self._get_market_rank_limit(runner.price)
+        if market_rank > max_rank:
+            return False
+        return True
+
+    # ========================================
+    # END RSI SYSTEM METHODS
+    # ========================================
 
     def _is_tracked(self, runner: Runner, race: Race, speed_rating: int, win_pct: float) -> bool:
         """
@@ -1871,6 +2130,7 @@ def main():
     discord_channel = os.getenv('DISCORD_CHANNEL_ID')
     discord_token_2 = os.getenv('DISCORD_TOKEN_2')
     discord_channel_2 = os.getenv('DISCORD_CHANNEL_ID_2')
+    discord_channel_2_edge = os.getenv('DISCORD_CHANNEL_ID_2_EDGE')
 
     if not username or not password:
         print("Error: RACING_API_USERNAME and RACING_API_PASSWORD must be set in .env file")
@@ -1878,14 +2138,16 @@ def main():
 
     print("=" * 60)
     print("HORSE TIPPER - Live Race Monitor")
-    print("EDGE BETS ONLY - High confidence selections")
+    print("NEX BEST - Rank 1 favorites | NEX EDGE - Rank 2-3")
     print("Outputs selections 3 minutes before race start")
     if discord_token and discord_channel:
         print("✓ Discord bot 1 enabled")
     else:
         print("⚠ No DISCORD_TOKEN/DISCORD_CHANNEL_ID set - console output only")
     if discord_token_2 and discord_channel_2:
-        print("✓ Discord bot 2 enabled")
+        print("✓ Discord bot 2 enabled (NEX BEST)")
+    if discord_token_2 and discord_channel_2_edge:
+        print("✓ Discord bot 2 edge channel enabled (NEX EDGE + NEX VALUE)")
     print("=" * 60)
 
     # Initialize API client, Discord, and bet tracker
@@ -1893,13 +2155,18 @@ def main():
     analyst = create_analyst()
     discord = DiscordNotifier(discord_token, discord_channel) if discord_token and discord_channel else None
     discord2 = DiscordNotifier(discord_token_2, discord_channel_2) if discord_token_2 and discord_channel_2 else None
+    discord2_edge = DiscordNotifier(discord_token_2, discord_channel_2_edge) if discord_token_2 and discord_channel_2_edge else None
     bet_tracker = BetTracker()
 
-    # Start Discord command handler
+    # Start Discord command handlers (one for each bot)
     command_handler = None
+    command_handler2 = None
     if discord:
         command_handler = DiscordCommandHandler(discord, bet_tracker)
         command_handler.start()
+    if discord2:
+        command_handler2 = DiscordCommandHandler(discord2, bet_tracker)
+        command_handler2.start()
 
     # Track races we've already output to avoid duplicates
     output_races = set()
@@ -1966,80 +2233,232 @@ def main():
                         race_time_str = local_time.strftime('%H:%M')
 
                         # ========================================
-                        # EDGE BET (Speed rating-based selection)
+                        # NEX BEST (Speed rating Rank 1 favorites)
                         # ========================================
                         selection = analyst._get_top_selection(race)
-                        if not selection:
-                            continue
+                        if selection:
+                            # Calculate metrics
+                            speed_rating = analyst._calculate_speed_rating(selection, race)
+                            win_pct = analyst._calculate_win_percentage(selection, race, speed_rating)
+                            units = analyst._calculate_units(selection, win_pct, speed_rating)
+                            market_rank = analyst._calculate_market_rank(selection, race)
 
-                        # Calculate metrics
-                        speed_rating = analyst._calculate_speed_rating(selection, race)
-                        win_pct = analyst._calculate_win_percentage(selection, race, speed_rating)
-                        units = analyst._calculate_units(selection, win_pct, speed_rating)
-                        is_tracked = analyst._is_tracked(selection, race, speed_rating, win_pct)
-                        market_rank = analyst._calculate_market_rank(selection, race)
+                            # Check if qualifies for NEX BEST (Rank 1, Speed 70+, $2-$10)
+                            if (analyst._is_tracked(selection, race, speed_rating, win_pct) and
+                                market_rank == 1 and units > 0):
 
-                        # ONLY post EDGE bets
-                        if not is_tracked:
-                            output_races.add(race_key)
-                            continue
+                                # Record NEX BEST bet
+                                bet_tracker.record_bet(
+                                    track=race.track_name,
+                                    race_num=race.race_number,
+                                    horse_name=selection.name,
+                                    horse_num=selection.saddlecloth,
+                                    price=selection.price,
+                                    units=units,
+                                    rsi=speed_rating,
+                                    is_tracked=True,
+                                    race_time=race.start_time,
+                                    market_rank=market_rank,
+                                    bet_type="NEX BEST"
+                                )
 
-                        # Skip if Kelly returns 0 units (no edge)
-                        if units <= 0:
-                            output_races.add(race_key)
-                            continue
+                                # Send NEX BEST to both servers
+                                if discord:
+                                    discord.send_tip(
+                                        race_time=race_time_str,
+                                        track=race.track_name,
+                                        race_num=race.race_number,
+                                        distance=race.distance,
+                                        surface=race.surface,
+                                        horse_num=selection.saddlecloth,
+                                        horse_name=selection.name,
+                                        price=selection.price,
+                                        units=units,
+                                        rsi=speed_rating,
+                                        is_tracked=True,
+                                        market_rank=market_rank,
+                                        bet_type="NEX BEST"
+                                    )
+                                if discord2:
+                                    discord2.send_tip(
+                                        race_time=race_time_str,
+                                        track=race.track_name,
+                                        race_num=race.race_number,
+                                        distance=race.distance,
+                                        surface=race.surface,
+                                        horse_num=selection.saddlecloth,
+                                        horse_name=selection.name,
+                                        price=selection.price,
+                                        units=units,
+                                        rsi=speed_rating,
+                                        is_tracked=True,
+                                        market_rank=market_rank,
+                                        bet_type="NEX BEST"
+                                    )
 
-                        # Record the bet
-                        bet_tracker.record_bet(
-                            track=race.track_name,
-                            race_num=race.race_number,
-                            horse_name=selection.name,
-                            horse_num=selection.saddlecloth,
-                            price=selection.price,
-                            units=units,
-                            rsi=speed_rating,
-                            is_tracked=is_tracked,
-                            race_time=race.start_time,
-                            market_rank=market_rank
-                        )
+                                # Print to console
+                                print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [🔥 NEX BEST]")
+                                print(f"   {selection.saddlecloth}. {selection.name} @ ${selection.price:.2f}")
+                                print(f"   {units:.2f}u | Speed Rating {speed_rating} | Rank 1 (Favorite)")
 
-                        # Send to Discord (both bots if configured)
-                        if discord:
-                            discord.send_tip(
-                                race_time=race_time_str,
+                        # ========================================
+                        # NEX EDGE (Speed rating Rank 2-3) - MAX 1 BET PER RACE
+                        # ========================================
+                        # Check all runners for Rank 2-3 horses, pick the best one
+                        edge_candidates = []
+                        for runner in race.runners:
+                            # Calculate metrics
+                            speed_rating = analyst._calculate_speed_rating(runner, race)
+                            win_pct = analyst._calculate_win_percentage(runner, race, speed_rating)
+                            units = analyst._calculate_units(runner, win_pct, speed_rating)
+                            market_rank = analyst._calculate_market_rank(runner, race)
+
+                            # Check if qualifies for NEX EDGE (Rank 2-3, Speed 70+, $2-$10)
+                            if (analyst._is_tracked(runner, race, speed_rating, win_pct) and
+                                market_rank in [2, 3] and units > 0):
+                                edge_candidates.append({
+                                    'runner': runner,
+                                    'speed_rating': speed_rating,
+                                    'win_pct': win_pct,
+                                    'units': units,
+                                    'market_rank': market_rank
+                                })
+
+                        # Pick the best NEX EDGE candidate (highest speed rating)
+                        if edge_candidates:
+                            # Sort by speed rating (highest first), then by market rank (lowest first)
+                            edge_candidates.sort(key=lambda x: (-x['speed_rating'], x['market_rank']))
+                            best_edge = edge_candidates[0]
+
+                            runner = best_edge['runner']
+                            speed_rating = best_edge['speed_rating']
+                            units = best_edge['units']
+                            market_rank = best_edge['market_rank']
+
+                            # Record NEX EDGE bet (not tracked in stats)
+                            bet_tracker.record_bet(
                                 track=race.track_name,
                                 race_num=race.race_number,
-                                distance=race.distance,
-                                surface=race.surface,
-                                horse_num=selection.saddlecloth,
-                                horse_name=selection.name,
-                                price=selection.price,
+                                horse_name=runner.name,
+                                horse_num=runner.saddlecloth,
+                                price=runner.price,
                                 units=units,
                                 rsi=speed_rating,
-                                is_tracked=is_tracked,
-                                market_rank=market_rank
-                            )
-                        if discord2:
-                            discord2.send_tip(
-                                race_time=race_time_str,
-                                track=race.track_name,
-                                race_num=race.race_number,
-                                distance=race.distance,
-                                surface=race.surface,
-                                horse_num=selection.saddlecloth,
-                                horse_name=selection.name,
-                                price=selection.price,
-                                units=units,
-                                rsi=speed_rating,
-                                is_tracked=is_tracked,
-                                market_rank=market_rank
+                                is_tracked=False,  # Not tracked
+                                race_time=race.start_time,
+                                market_rank=market_rank,
+                                bet_type="NEX EDGE"
                             )
 
-                        # Print to console
-                        bet_type = "🔥 BEST BET" if market_rank == 1 else "📊 EDGE BET"
-                        print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [{bet_type}]")
-                        print(f"   {selection.saddlecloth}. {selection.name} @ ${selection.price:.2f}")
-                        print(f"   {units}u | Speed Rating {speed_rating} | Market Rank: {market_rank}")
+                            # Send NEX EDGE to server 1
+                            if discord:
+                                discord.send_tip(
+                                    race_time=race_time_str,
+                                    track=race.track_name,
+                                    race_num=race.race_number,
+                                    distance=race.distance,
+                                    surface=race.surface,
+                                    horse_num=runner.saddlecloth,
+                                    horse_name=runner.name,
+                                    price=runner.price,
+                                    units=units,
+                                    rsi=speed_rating,
+                                    is_tracked=False,
+                                    market_rank=market_rank,
+                                    bet_type="NEX EDGE"
+                                )
+
+                            # Send NEX EDGE to server 2 edge channel
+                            if discord2_edge:
+                                discord2_edge.send_tip(
+                                    race_time=race_time_str,
+                                    track=race.track_name,
+                                    race_num=race.race_number,
+                                    distance=race.distance,
+                                    surface=race.surface,
+                                    horse_num=runner.saddlecloth,
+                                    horse_name=runner.name,
+                                    price=runner.price,
+                                    units=units,
+                                    rsi=speed_rating,
+                                    is_tracked=False,
+                                    market_rank=market_rank,
+                                    bet_type="NEX EDGE"
+                                )
+
+                            # Print to console
+                            print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [⚡ NEX EDGE]")
+                            print(f"   {runner.saddlecloth}. {runner.name} @ ${runner.price:.2f}")
+                            print(f"   {units:.2f}u | Speed Rating {speed_rating} | Rank {market_rank}")
+
+                        # ========================================
+                        # NEX VALUE (RSI system)
+                        # ========================================
+                        # Check all runners for RSI value bets
+                        for runner in race.runners:
+                            rsi = analyst._calculate_rsi(runner, race)
+
+                            if analyst._is_rsi_value_bet(runner, race, rsi):
+                                rsi_win_pct = analyst._calculate_rsi_win_percentage(runner, race, rsi)
+                                rsi_units = analyst._calculate_rsi_units(runner, rsi_win_pct)
+                                rsi_market_rank = analyst._calculate_market_rank(runner, race)
+
+                                if rsi_units > 0:
+                                    # Record NEX VALUE bet (not tracked in stats)
+                                    bet_tracker.record_bet(
+                                        track=race.track_name,
+                                        race_num=race.race_number,
+                                        horse_name=runner.name,
+                                        horse_num=runner.saddlecloth,
+                                        price=runner.price,
+                                        units=rsi_units,
+                                        rsi=rsi,
+                                        is_tracked=False,  # Not tracked (separate system)
+                                        race_time=race.start_time,
+                                        market_rank=rsi_market_rank,
+                                        bet_type="NEX VALUE"
+                                    )
+
+                                    # Send NEX VALUE to server 1
+                                    if discord:
+                                        discord.send_tip(
+                                            race_time=race_time_str,
+                                            track=race.track_name,
+                                            race_num=race.race_number,
+                                            distance=race.distance,
+                                            surface=race.surface,
+                                            horse_num=runner.saddlecloth,
+                                            horse_name=runner.name,
+                                            price=runner.price,
+                                            units=rsi_units,
+                                            rsi=rsi,
+                                            is_tracked=False,
+                                            market_rank=rsi_market_rank,
+                                            bet_type="NEX VALUE"
+                                        )
+
+                                    # Send NEX VALUE to server 2 edge channel
+                                    if discord2_edge:
+                                        discord2_edge.send_tip(
+                                            race_time=race_time_str,
+                                            track=race.track_name,
+                                            race_num=race.race_number,
+                                            distance=race.distance,
+                                            surface=race.surface,
+                                            horse_num=runner.saddlecloth,
+                                            horse_name=runner.name,
+                                            price=runner.price,
+                                            units=rsi_units,
+                                            rsi=rsi,
+                                            is_tracked=False,
+                                            market_rank=rsi_market_rank,
+                                            bet_type="NEX VALUE"
+                                        )
+
+                                    # Print to console
+                                    print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [💎 NEX VALUE]")
+                                    print(f"   {runner.saddlecloth}. {runner.name} @ ${runner.price:.2f}")
+                                    print(f"   {rsi_units:.2f}u | RSI Score {rsi} | Rank {rsi_market_rank}")
 
                         output_races.add(race_key)
 
