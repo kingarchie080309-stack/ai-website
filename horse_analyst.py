@@ -2240,26 +2240,55 @@ def main():
 
                         bet_posted = False
 
-                        # PRIORITY 1: NEX BEST (Speed rating Rank 1 favorites)
+                        # Get favorite's price for co-favorite check
+                        fav_price = None
                         selection = analyst._get_top_selection(race)
-                        if selection and not bet_posted:
-                            # Calculate metrics
-                            speed_rating = analyst._calculate_speed_rating(selection, race)
-                            win_pct = analyst._calculate_win_percentage(selection, race, speed_rating)
-                            units = analyst._calculate_units(selection, win_pct, speed_rating)
-                            market_rank = analyst._calculate_market_rank(selection, race)
+                        if selection:
+                            fav_price = selection.price
 
-                            # Check if qualifies for NEX BEST (Rank 1, Speed 70+, $2-$10)
-                            if (analyst._is_tracked(selection, race, speed_rating, win_pct) and
-                                market_rank == 1 and units > 0):
+                        # PRIORITY 1: NEX BEST (Rank 1 OR Rank 2-3 within $0.50 of favorite)
+                        if not bet_posted and fav_price:
+                            best_candidates = []
+                            for runner in race.runners:
+                                # Calculate metrics
+                                speed_rating = analyst._calculate_speed_rating(runner, race)
+                                win_pct = analyst._calculate_win_percentage(runner, race, speed_rating)
+                                units = analyst._calculate_units(runner, win_pct, speed_rating)
+                                market_rank = analyst._calculate_market_rank(runner, race)
+
+                                # Check if qualifies for NEX BEST
+                                # 1. Rank 1 favorites, OR
+                                # 2. Rank 2-3 within $0.50 of favorite (co-favorites)
+                                is_rank_1 = (market_rank == 1)
+                                is_co_favorite = (market_rank in [2, 3] and abs(runner.price - fav_price) <= 0.50)
+
+                                if (analyst._is_tracked(runner, race, speed_rating, win_pct) and
+                                    (is_rank_1 or is_co_favorite) and units > 0):
+                                    best_candidates.append({
+                                        'runner': runner,
+                                        'speed_rating': speed_rating,
+                                        'units': units,
+                                        'market_rank': market_rank,
+                                        'is_co_favorite': is_co_favorite
+                                    })
+
+                            # Pick the best NEX BEST candidate (highest speed rating)
+                            if best_candidates:
+                                best_candidates.sort(key=lambda x: (-x['speed_rating'], x['market_rank']))
+                                best = best_candidates[0]
+
+                                runner = best['runner']
+                                speed_rating = best['speed_rating']
+                                units = best['units']
+                                market_rank = best['market_rank']
 
                                 # Record NEX BEST bet
                                 bet_tracker.record_bet(
                                     track=race.track_name,
                                     race_num=race.race_number,
-                                    horse_name=selection.name,
-                                    horse_num=selection.saddlecloth,
-                                    price=selection.price,
+                                    horse_name=runner.name,
+                                    horse_num=runner.saddlecloth,
+                                    price=runner.price,
                                     units=units,
                                     rsi=speed_rating,
                                     is_tracked=True,
@@ -2276,9 +2305,9 @@ def main():
                                         race_num=race.race_number,
                                         distance=race.distance,
                                         surface=race.surface,
-                                        horse_num=selection.saddlecloth,
-                                        horse_name=selection.name,
-                                        price=selection.price,
+                                        horse_num=runner.saddlecloth,
+                                        horse_name=runner.name,
+                                        price=runner.price,
                                         units=units,
                                         rsi=speed_rating,
                                         is_tracked=True,
@@ -2292,9 +2321,9 @@ def main():
                                         race_num=race.race_number,
                                         distance=race.distance,
                                         surface=race.surface,
-                                        horse_num=selection.saddlecloth,
-                                        horse_name=selection.name,
-                                        price=selection.price,
+                                        horse_num=runner.saddlecloth,
+                                        horse_name=runner.name,
+                                        price=runner.price,
                                         units=units,
                                         rsi=speed_rating,
                                         is_tracked=True,
@@ -2303,9 +2332,10 @@ def main():
                                     )
 
                                 # Print to console
+                                co_fav_label = " (Co-Favorite)" if best['is_co_favorite'] else " (Favorite)"
                                 print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [🔥 NEX BEST]")
-                                print(f"   {selection.saddlecloth}. {selection.name} @ ${selection.price:.2f}")
-                                print(f"   {units:.2f}u | Speed Rating {speed_rating} | Rank 1 (Favorite)")
+                                print(f"   {runner.saddlecloth}. {runner.name} @ ${runner.price:.2f}")
+                                print(f"   {units:.2f}u | Speed Rating {speed_rating} | Rank {market_rank}{co_fav_label}")
 
                                 bet_posted = True
 
@@ -2397,7 +2427,7 @@ def main():
                                 bet_posted = True
 
                         # PRIORITY 3: NEX EDGE (Speed rating Rank 2-3) - only if no NEX BEST or NEX VALUE
-                        if not bet_posted:
+                        if not bet_posted and fav_price:
                             edge_candidates = []
                             for runner in race.runners:
                                 # Calculate metrics
@@ -2406,10 +2436,13 @@ def main():
                                 units = analyst._calculate_units(runner, win_pct, speed_rating)
                                 market_rank = analyst._calculate_market_rank(runner, race)
 
-                                # Check if qualifies for NEX EDGE (Rank 2-3, Speed 70+, $3.50-$10)
+                                # Check if qualifies for NEX EDGE
+                                # Rank 2-3, Speed 70+, $3.50-$10, NOT within $0.50 of favorite
+                                is_not_co_favorite = abs(runner.price - fav_price) > 0.50
                                 if (analyst._is_tracked(runner, race, speed_rating, win_pct) and
                                     market_rank in [2, 3] and units > 0 and
-                                    runner.price >= analyst.MIN_EDGE_PRICE):
+                                    runner.price >= analyst.MIN_EDGE_PRICE and
+                                    is_not_co_favorite):
                                     edge_candidates.append({
                                         'runner': runner,
                                         'speed_rating': speed_rating,
