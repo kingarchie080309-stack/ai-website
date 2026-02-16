@@ -1466,17 +1466,17 @@ class HorseRacingAnalyst:
         return max(1, min(95, win_pct))
 
     def _calculate_rsi_units(self, runner: Runner, rsi_win_pct: float) -> float:
-        """Calculate bet size using Half Kelly for RSI system"""
+        """Calculate bet size using Quarter Kelly for RSI system"""
         p = rsi_win_pct / 100.0
         q = 1.0 - p
         b = runner.price - 1.0
         if b <= 0:
             return 0.0
         kelly_fraction = (b * p - q) / b
-        half_kelly = kelly_fraction * 0.5
-        if half_kelly <= 0:
+        quarter_kelly = kelly_fraction * 0.25
+        if quarter_kelly <= 0:
             return 0.0
-        units = half_kelly * 100
+        units = quarter_kelly * 100
         units = max(0.5, min(5.0, units))
         return round(units, 2)
 
