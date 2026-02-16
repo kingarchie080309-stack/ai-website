@@ -1270,6 +1270,7 @@ class HorseRacingAnalyst:
     MAX_PRICE = 10.00
     NEX_RANK = 1  # Rank 1 = NEX BEST (favorites only)
     MAX_RANK = 3  # NEX EDGE = Rank 2-3 (second/third favorites)
+    MIN_EDGE_PRICE = 3.50  # NEX EDGE minimum odds to avoid horses firming into favorites
     MIN_SPEED_RATING = 70
     KELLY_FRACTION = 1.5  # 1.5x Kelly (aggressive)
 
@@ -2405,9 +2406,10 @@ def main():
                                 units = analyst._calculate_units(runner, win_pct, speed_rating)
                                 market_rank = analyst._calculate_market_rank(runner, race)
 
-                                # Check if qualifies for NEX EDGE (Rank 2-3, Speed 70+, $2-$10)
+                                # Check if qualifies for NEX EDGE (Rank 2-3, Speed 70+, $3.50-$10)
                                 if (analyst._is_tracked(runner, race, speed_rating, win_pct) and
-                                    market_rank in [2, 3] and units > 0):
+                                    market_rank in [2, 3] and units > 0 and
+                                    runner.price >= analyst.MIN_EDGE_PRICE):
                                     edge_candidates.append({
                                         'runner': runner,
                                         'speed_rating': speed_rating,
