@@ -554,6 +554,13 @@ class DiscordCommandHandler:
             try:
                 messages = self.discord.get_recent_messages(limit=10)
 
+                # Debug: log if we can't read messages
+                if messages is None or len(messages) == 0:
+                    # Only print this once every 30 seconds to avoid spam
+                    if not hasattr(self, '_last_warning') or time.time() - self._last_warning > 30:
+                        print("⚠ Discord command handler: No messages received (check bot permissions)")
+                        self._last_warning = time.time()
+
                 for msg in messages:
                     msg_id = msg.get("id")
 
@@ -632,6 +639,20 @@ class DiscordCommandHandler:
     def _send_results(self, period: str):
         """Send results for the specified period"""
         bets = self.bet_tracker.get_bets_in_period(period=period)
+
+        # If no bets, send a simple message
+        if not bets:
+            period_names = {
+                "daily": "today",
+                "weekly": "this week",
+                "monthly": "this month",
+                "yearly": "this year",
+                "lifetime": "all time"
+            }
+            period_name = period_names.get(period, period)
+            self.discord.send_message(f"📊 No bets recorded {period_name}.")
+            print(f"📊 Sent '{period}' results to Discord (no bets)")
+            return
 
         # Calculate separate stats for each bet type
         nex_best_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX BEST")
