@@ -2261,11 +2261,11 @@ def main():
 
                         bet_posted = False
 
-                        # Get favorite's price for co-favorite check
+                        # Get actual market favorite's price (lowest price = rank 1)
                         fav_price = None
-                        selection = analyst._get_top_selection(race)
-                        if selection:
-                            fav_price = selection.price
+                        if race.runners:
+                            sorted_by_price = sorted(race.runners, key=lambda r: r.price)
+                            fav_price = sorted_by_price[0].price
 
                         # PRIORITY 1: NEX BEST (Rank 1 OR Rank 2-3 within $0.50 of favorite)
                         if not bet_posted and fav_price:
