@@ -2652,9 +2652,9 @@ def main():
                                         edge_rank=edge_rank
                                     )
 
-                                # Send NEX QUINELLA to server 2
-                                if discord2:
-                                    discord2.send_quinella_tip(
+                                # Send NEX QUINELLA to server 2 edge channel (untracked)
+                                if discord2_edge:
+                                    discord2_edge.send_quinella_tip(
                                         race_time=race_time_str,
                                         track=race.track_name,
                                         race_num=race.race_number,
