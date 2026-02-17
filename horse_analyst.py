@@ -1335,11 +1335,11 @@ class HorseRacingAnalyst:
 
     # NEX BEST - SPEED RATING SYSTEM CONFIG
     MIN_PRICE = 2.00
-    MAX_PRICE = 10.00
+    MAX_PRICE = 5.00  # Tightened from $10 - edge drops off above $5
     NEX_RANK = 1  # Rank 1 = NEX BEST (favorites only)
     MAX_RANK = 3  # NEX EDGE = Rank 2-3 (second/third favorites)
     MIN_EDGE_PRICE = 3.50  # NEX EDGE minimum odds to avoid horses firming into favorites
-    MIN_SPEED_RATING = 70
+    MIN_SPEED_RATING = 80  # Raised from 70 - win rate jumps from 46% to 67%
     KELLY_FRACTION = 1.5  # 1.5x Kelly (aggressive)
 
     # NEX VALUE - RSI SYSTEM CONFIG (93% ROI backtested)
