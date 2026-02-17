@@ -387,6 +387,40 @@ class DiscordNotifier:
         return response.status_code == 200
 
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
+    def send_exacta_tip(self, race_time: str, track: str, race_num: int, distance: int,
+                        surface: str, fav_num: int, fav_name: str, fav_price: float,
+                        edge_num: int, edge_name: str, edge_price: float,
+                        edge_speed_rating: int, edge_rank: int):
+        """Send a NEX EXACTA tip to Discord"""
+        if not self.bot_token or not self.channel_id:
+            return False
+
+        color = 0xFFD700  # Gold
+        title = f"🎯 NEX EXACTA | {track} R{race_num}"
+
+        fields = [
+            {"name": "⏰ Race Time", "value": race_time, "inline": True},
+            {"name": "📏 Distance", "value": f"{distance}m", "inline": True},
+            {"name": "🌿 Surface", "value": surface, "inline": True},
+            {"name": "1️⃣ FIRST (Market Fav)", "value": f"**{fav_num}. {fav_name}** @ ${fav_price:.2f}", "inline": False},
+            {"name": "2️⃣ SECOND (NEX EDGE)", "value": f"**{edge_num}. {edge_name}** @ ${edge_price:.2f}", "inline": False},
+            {"name": "📈 Edge Speed Rating", "value": f"{edge_speed_rating}", "inline": True},
+            {"name": "🏆 Edge Market Rank", "value": f"Rank {edge_rank}", "inline": True},
+        ]
+
+        embed = {
+            "title": title,
+            "color": color,
+            "fields": fields,
+            "footer": {"text": "Horse Tipper | 🎯 NEX EXACTA (Straight)"}
+        }
+
+        payload = {"embeds": [embed]}
+        url = f"{self.base_url}/channels/{self.channel_id}/messages"
+        response = self.session.post(url, json=payload, timeout=10)
+        return response.status_code == 200
+
+    @retry_on_network_error(max_retries=3, backoff_base=2.0)
     def send_message(self, content: str):
         """Send a simple text message to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
@@ -397,7 +431,7 @@ class DiscordNotifier:
         return response.status_code == 200
 
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
-    def send_results_embed(self, period: str, overall_stats: Dict, best_bet_stats: Dict = None, edge_bet_stats: Dict = None, value_bet_stats: Dict = None):
+    def send_results_embed(self, period: str, overall_stats: Dict, best_bet_stats: Dict = None, edge_bet_stats: Dict = None, value_bet_stats: Dict = None, exacta_bet_stats: Dict = None):
         """Send a formatted results embed to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
             return False
@@ -461,6 +495,18 @@ class DiscordNotifier:
                 {"name": "\u200b", "value": "\u200b", "inline": True},
             ])
 
+        # NEX EXACTA section
+        if exacta_bet_stats and exacta_bet_stats["total_bets"] > 0:
+            fields.append({"name": "🎯 NEX EXACTA (Fav 1st + Edge 2nd)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            fields.extend([
+                {"name": "Bets", "value": str(exacta_bet_stats["total_bets"]), "inline": True},
+                {"name": "Wins", "value": f"{exacta_bet_stats['wins']} ({exacta_bet_stats['win_rate']}%)", "inline": True},
+                {"name": "P/L", "value": f"{exacta_bet_stats['profit']:+.2f}u", "inline": True},
+                {"name": "ROI", "value": f"{exacta_bet_stats['roi']:+.1f}%", "inline": True},
+                {"name": "Avg Odds", "value": f"${exacta_bet_stats['avg_odds']:.2f}", "inline": True},
+                {"name": "\u200b", "value": "\u200b", "inline": True},
+            ])
+
         # OVERALL section
         fields.append({"name": "📊 OVERALL", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
         fields.extend([
@@ -476,7 +522,7 @@ class DiscordNotifier:
             "title": title,
             "color": color,
             "fields": fields,
-            "footer": {"text": f"Horse Tipper | 🔥 NEX BEST • ⚡ NEX EDGE • 💎 NEX VALUE • Generated {datetime.now(AEDT).strftime('%H:%M')}"}
+            "footer": {"text": f"Horse Tipper | 🔥 BEST • ⚡ EDGE • 💎 VALUE • 🎯 EXACTA • Generated {datetime.now(AEDT).strftime('%H:%M')}"}
         }
 
         payload = {"embeds": [embed]}
@@ -658,10 +704,11 @@ class DiscordCommandHandler:
         nex_best_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX BEST")
         nex_edge_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX EDGE")
         nex_value_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX VALUE")
+        nex_exacta_stats = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX EXACTA")
 
         overall_stats = self.bet_tracker.calculate_stats(bets)
 
-        self.discord.send_results_embed(period, overall_stats, nex_best_stats, nex_edge_stats, nex_value_stats)
+        self.discord.send_results_embed(period, overall_stats, nex_best_stats, nex_edge_stats, nex_value_stats, nex_exacta_stats)
 
         print(f"📊 Sent {period} results to Discord")
 
@@ -2537,6 +2584,96 @@ def main():
                                 print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [⚡ NEX EDGE]")
                                 print(f"   {runner.saddlecloth}. {runner.name} @ ${runner.price:.2f}")
                                 print(f"   {units:.2f}u | Speed Rating {speed_rating} | Rank {market_rank}")
+
+                        # ========================================
+                        # NEX EXACTA (Market Fav 1st + Edge 2nd)
+                        # Runs independently of win bet priority
+                        # ========================================
+                        if fav_price and race.runners:
+                            # Get actual market favorite runner (lowest price)
+                            market_fav = sorted_by_price[0]
+
+                            # Find best NEX EDGE candidate for exacta
+                            exacta_edge_candidates = []
+                            for runner in race.runners:
+                                speed_rating = analyst._calculate_speed_rating(runner, race)
+                                win_pct = analyst._calculate_win_percentage(runner, race, speed_rating)
+                                units = analyst._calculate_units(runner, win_pct, speed_rating)
+                                market_rank = analyst._calculate_market_rank(runner, race)
+
+                                is_not_co_favorite = abs(runner.price - fav_price) > 0.50
+                                if (analyst._is_tracked(runner, race, speed_rating, win_pct) and
+                                    market_rank in [2, 3] and units > 0 and
+                                    runner.price >= analyst.MIN_EDGE_PRICE and
+                                    is_not_co_favorite):
+                                    exacta_edge_candidates.append({
+                                        'runner': runner,
+                                        'speed_rating': speed_rating,
+                                        'market_rank': market_rank
+                                    })
+
+                            if exacta_edge_candidates:
+                                exacta_edge_candidates.sort(key=lambda x: (-x['speed_rating'], x['market_rank']))
+                                best_exacta_edge = exacta_edge_candidates[0]
+                                edge_runner = best_exacta_edge['runner']
+                                edge_sr = best_exacta_edge['speed_rating']
+                                edge_rank = best_exacta_edge['market_rank']
+
+                                # Record NEX EXACTA bet
+                                bet_tracker.record_bet(
+                                    track=race.track_name,
+                                    race_num=race.race_number,
+                                    horse_name=f"{market_fav.name}/{edge_runner.name}",
+                                    horse_num=market_fav.saddlecloth,
+                                    price=market_fav.price,
+                                    units=1.0,
+                                    rsi=edge_sr,
+                                    is_tracked=False,
+                                    race_time=race.start_time,
+                                    market_rank=edge_rank,
+                                    bet_type="NEX EXACTA"
+                                )
+
+                                # Send NEX EXACTA to server 1
+                                if discord:
+                                    discord.send_exacta_tip(
+                                        race_time=race_time_str,
+                                        track=race.track_name,
+                                        race_num=race.race_number,
+                                        distance=race.distance,
+                                        surface=race.surface,
+                                        fav_num=market_fav.saddlecloth,
+                                        fav_name=market_fav.name,
+                                        fav_price=market_fav.price,
+                                        edge_num=edge_runner.saddlecloth,
+                                        edge_name=edge_runner.name,
+                                        edge_price=edge_runner.price,
+                                        edge_speed_rating=edge_sr,
+                                        edge_rank=edge_rank
+                                    )
+
+                                # Send NEX EXACTA to server 2
+                                if discord2:
+                                    discord2.send_exacta_tip(
+                                        race_time=race_time_str,
+                                        track=race.track_name,
+                                        race_num=race.race_number,
+                                        distance=race.distance,
+                                        surface=race.surface,
+                                        fav_num=market_fav.saddlecloth,
+                                        fav_name=market_fav.name,
+                                        fav_price=market_fav.price,
+                                        edge_num=edge_runner.saddlecloth,
+                                        edge_name=edge_runner.name,
+                                        edge_price=edge_runner.price,
+                                        edge_speed_rating=edge_sr,
+                                        edge_rank=edge_rank
+                                    )
+
+                                # Print to console
+                                print(f"\n⏰ {race_time_str} | {race.track_name} R{race.race_number} [🎯 NEX EXACTA]")
+                                print(f"   1st: {market_fav.saddlecloth}. {market_fav.name} @ ${market_fav.price:.2f} (Fav)")
+                                print(f"   2nd: {edge_runner.saddlecloth}. {edge_runner.name} @ ${edge_runner.price:.2f} (R{edge_rank} SR{edge_sr})")
 
                         output_races.add(race_key)
 
