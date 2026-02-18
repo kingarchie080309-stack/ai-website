@@ -149,8 +149,8 @@ class BetTracker:
         return False
 
     def get_bets_in_period(self, days: int = None, period: str = None) -> List[Dict]:
-        """Get bets within a time period"""
-        now = datetime.now(timezone.utc)
+        """Get bets within a time period (all boundaries in AEDT)"""
+        now = datetime.now(AEDT)
 
         # Day-of-week names → weekday index (Mon=0 … Sun=6)
         _DOW = {"monday":0,"tuesday":1,"wednesday":2,"thursday":3,
