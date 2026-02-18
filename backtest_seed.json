@@ -6,15 +6,15 @@
     "horse_name": "Arrabbiata",
     "horse_num": 2,
     "price": 6.0,
-    "units": 0.08,
+    "units": 1.15,
     "rsi": 91,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-18T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Armidale_R4_Arrabbiata_20260118_NEXBET",
@@ -23,15 +23,15 @@
     "horse_name": "Arrabbiata",
     "horse_num": 2,
     "price": 6.0,
-    "units": 0.1,
+    "units": 1.31,
     "rsi": 91,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cowra_R3_Vicious Rumour_20260118_NEXBET",
@@ -40,15 +40,15 @@
     "horse_name": "Vicious Rumour",
     "horse_num": 10,
     "price": 5.0,
-    "units": 0.04,
+    "units": 1.16,
     "rsi": 80,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cowra_R7_Zale_20260118_NEXSNIPE",
@@ -57,15 +57,15 @@
     "horse_name": "Zale",
     "horse_num": 10,
     "price": 3.0,
-    "units": 0.08,
+    "units": 1.14,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-18T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cowra_R7_Zale_20260118_NEXBET",
@@ -74,15 +74,15 @@
     "horse_name": "Zale",
     "horse_num": 10,
     "price": 3.0,
-    "units": 0.09,
+    "units": 1.23,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R5_Gingerson_20260118_NEXBET",
@@ -91,15 +91,15 @@
     "horse_name": "Gingerson",
     "horse_num": 4,
     "price": 7.0,
-    "units": 0.08,
+    "units": 1.2,
     "rsi": 89,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R6_Geegees Missile_20260118_NEXSNIPE",
@@ -108,15 +108,15 @@
     "horse_name": "Geegees Missile",
     "horse_num": 1,
     "price": 3.2,
-    "units": 0.08,
+    "units": 1.11,
     "rsi": 89,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-18T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R6_Geegees Missile_20260118_NEXBET",
@@ -125,15 +125,15 @@
     "horse_name": "Geegees Missile",
     "horse_num": 1,
     "price": 3.2,
-    "units": 0.09,
+    "units": 1.19,
     "rsi": 89,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Barker_R3_Ah Kum_20260118_NEXBET",
@@ -142,15 +142,15 @@
     "horse_name": "Ah Kum",
     "horse_num": 3,
     "price": 3.5,
-    "units": 0.05,
+    "units": 1.04,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Barker_R8_Timeless Gem_20260118_NEXBET",
@@ -159,15 +159,15 @@
     "horse_name": "Timeless Gem",
     "horse_num": 7,
     "price": 5.0,
-    "units": 0.05,
+    "units": 1.11,
     "rsi": 83,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Barker_R9_Ma Ma Belle_20260118_NEXBET",
@@ -176,15 +176,15 @@
     "horse_name": "Ma Ma Belle",
     "horse_num": 6,
     "price": 3.2,
-    "units": 0.05,
+    "units": 1.16,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-18T16:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Gunnedah_R6_Haiku Star_20260119_NEXBET",
@@ -193,15 +193,15 @@
     "horse_name": "Haiku Star",
     "horse_num": 1,
     "price": 5.5,
-    "units": 0.02,
+    "units": 1.1,
     "rsi": 75,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-19T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geelong_R7_Ultra Blue_20260120_NEXSNIPE",
@@ -210,15 +210,15 @@
     "horse_name": "Ultra Blue",
     "horse_num": 2,
     "price": 3.3,
-    "units": 0.12,
+    "units": 1.32,
     "rsi": 91,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-20T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geelong_R7_Ultra Blue_20260120_NEXBET",
@@ -227,15 +227,15 @@
     "horse_name": "Ultra Blue",
     "horse_num": 2,
     "price": 3.3,
-    "units": 0.13,
+    "units": 1.38,
     "rsi": 91,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-20T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ipswich_R6_Lumens Lenny_20260121_NEXBET",
@@ -244,15 +244,15 @@
     "horse_name": "Lumens Lenny",
     "horse_num": 6,
     "price": 4.8,
-    "units": 0.02,
+    "units": 0.97,
     "rsi": 76,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ipswich_R4_Ratenotice_20260121_NEXBET",
@@ -261,15 +261,15 @@
     "horse_name": "Ratenotice",
     "horse_num": 15,
     "price": 4.2,
-    "units": 0.02,
+    "units": 1.04,
     "rsi": 76,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ipswich_R7_Jimmyinthejungle_20260121_NEXBET",
@@ -278,15 +278,15 @@
     "horse_name": "Jimmyinthejungle",
     "horse_num": 5,
     "price": 6.5,
-    "units": 0.02,
+    "units": 1.0,
     "rsi": 78,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 10,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Bunbury_R7_Bird On A Wire_20260121_NEXBET",
@@ -295,15 +295,15 @@
     "horse_name": "Bird On A Wire",
     "horse_num": 5,
     "price": 5.5,
-    "units": 0.12,
+    "units": 1.35,
     "rsi": 94,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 8,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Randwick-Kensington_R5_Vanessi_20260121_NEXBET",
@@ -312,15 +312,15 @@
     "horse_name": "Vanessi",
     "horse_num": 7,
     "price": 5.0,
-    "units": 0.01,
+    "units": 0.83,
     "rsi": 73,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Randwick-Kensington_R7_Existential Bob_20260121_NEXBET",
@@ -329,15 +329,15 @@
     "horse_name": "Existential Bob",
     "horse_num": 5,
     "price": 5.5,
-    "units": 0.03,
+    "units": 1.12,
     "rsi": 78,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 5,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sandown-Hillside_R5_Brandjam_20260121_NEXBET",
@@ -346,15 +346,15 @@
     "horse_name": "Brandjam",
     "horse_num": 7,
     "price": 3.4,
-    "units": 0.01,
+    "units": 1.07,
     "rsi": 73,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sandown-Hillside_R8_Savamoon_20260121_NEXBET",
@@ -363,15 +363,15 @@
     "horse_name": "Savamoon",
     "horse_num": 3,
     "price": 2.7,
-    "units": 0.1,
+    "units": 1.3,
     "rsi": 85,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-21T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Tamworth_R2_Sipping Shamus_20260122_NEXBET",
@@ -380,15 +380,15 @@
     "horse_name": "Sipping Shamus",
     "horse_num": 4,
     "price": 3.3,
-    "units": 0.17,
+    "units": 1.43,
     "rsi": 95,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Tamworth_R6_Call Me Terry_20260122_NEXBET",
@@ -397,15 +397,15 @@
     "horse_name": "Call Me Terry",
     "horse_num": 8,
     "price": 8.0,
-    "units": 0.06,
+    "units": 1.15,
     "rsi": 85,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Tamworth_R7_Zoomorphic_20260122_NEXBET",
@@ -414,15 +414,15 @@
     "horse_name": "Zoomorphic",
     "horse_num": 3,
     "price": 6.5,
-    "units": 0.02,
+    "units": 0.96,
     "rsi": 76,
     "market_rank": 5,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 9,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kembla Grange_R1_Kitty Okay_20260122_NEXSNIPE",
@@ -431,15 +431,15 @@
     "horse_name": "Kitty Okay",
     "horse_num": 6,
     "price": 2.7,
-    "units": 0.09,
+    "units": 1.22,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-22T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kembla Grange_R1_Kitty Okay_20260122_NEXBET",
@@ -448,15 +448,15 @@
     "horse_name": "Kitty Okay",
     "horse_num": 6,
     "price": 2.7,
-    "units": 0.1,
+    "units": 1.31,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Warwick_R1_Miss Highfalutin_20260122_NEXSNIPE",
@@ -465,15 +465,15 @@
     "horse_name": "Miss Highfalutin",
     "horse_num": 14,
     "price": 4.2,
-    "units": 0.16,
+    "units": 1.33,
     "rsi": 100,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-22T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Warwick_R1_Miss Highfalutin_20260122_NEXBET",
@@ -482,15 +482,15 @@
     "horse_name": "Miss Highfalutin",
     "horse_num": 14,
     "price": 4.2,
-    "units": 0.16,
+    "units": 1.33,
     "rsi": 100,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Warwick_R3_Airswing_20260122_NEXBET",
@@ -499,15 +499,15 @@
     "horse_name": "Airswing",
     "horse_num": 2,
     "price": 4.6,
-    "units": 0.01,
+    "units": 0.83,
     "rsi": 73,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Warwick_R5_Petite Palace_20260122_NEXBET",
@@ -516,15 +516,15 @@
     "horse_name": "Petite Palace",
     "horse_num": 10,
     "price": 3.3,
-    "units": 0.05,
+    "units": 1.02,
     "rsi": 82,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cranbourne_R7_Night Flash_20260122_NEXSNIPE",
@@ -533,15 +533,15 @@
     "horse_name": "Night Flash",
     "horse_num": 4,
     "price": 4.2,
-    "units": 0.02,
+    "units": 0.8,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-22T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cranbourne_R7_Night Flash_20260122_NEXBET",
@@ -550,15 +550,15 @@
     "horse_name": "Night Flash",
     "horse_num": 4,
     "price": 4.2,
-    "units": 0.04,
+    "units": 1.02,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-22T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Moruya_R7_Dolzino_20260123_NEXBET",
@@ -567,15 +567,15 @@
     "horse_name": "Dolzino",
     "horse_num": 1,
     "price": 5.5,
-    "units": 0.01,
+    "units": 1.01,
     "rsi": 74,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Port Macquarie_R7_Moscow Circus_20260123_NEXBET",
@@ -584,15 +584,15 @@
     "horse_name": "Moscow Circus",
     "horse_num": 6,
     "price": 2.6,
-    "units": 0.01,
+    "units": 1.07,
     "rsi": 73,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Canterbury_R7_Kimberley Secrets_20260123_NEXSNIPE",
@@ -601,15 +601,15 @@
     "horse_name": "Kimberley Secrets",
     "horse_num": 3,
     "price": 4.2,
-    "units": 0.05,
+    "units": 1.08,
     "rsi": 83,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-23T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Canterbury_R7_Kimberley Secrets_20260123_NEXBET",
@@ -618,15 +618,15 @@
     "horse_name": "Kimberley Secrets",
     "horse_num": 3,
     "price": 4.2,
-    "units": 0.06,
+    "units": 1.19,
     "rsi": 83,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Canterbury_R5_Steel Strike_20260123_NEXBET",
@@ -635,15 +635,15 @@
     "horse_name": "Steel Strike",
     "horse_num": 5,
     "price": 2.8,
-    "units": 0.13,
+    "units": 1.3,
     "rsi": 91,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Emerald_R3_Sideshow Frankie_20260123_NEXSNIPE",
@@ -652,15 +652,15 @@
     "horse_name": "Sideshow Frankie",
     "horse_num": 2,
     "price": 3.6,
-    "units": 0.04,
+    "units": 1.1,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-23T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Emerald_R3_Sideshow Frankie_20260123_NEXBET",
@@ -669,15 +669,15 @@
     "horse_name": "Sideshow Frankie",
     "horse_num": 2,
     "price": 3.6,
-    "units": 0.05,
+    "units": 1.23,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Gold Coast_R3_Razors_20260123_NEXSNIPE",
@@ -686,15 +686,15 @@
     "horse_name": "Razors",
     "horse_num": 3,
     "price": 7.5,
-    "units": 0.09,
+    "units": 1.17,
     "rsi": 92,
     "market_rank": 5,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-23T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Gold Coast_R3_Razors_20260123_NEXBET",
@@ -703,15 +703,15 @@
     "horse_name": "Razors",
     "horse_num": 3,
     "price": 7.5,
-    "units": 0.09,
+    "units": 1.23,
     "rsi": 92,
     "market_rank": 5,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Gold Coast_R7_Kadall_20260123_NEXBET",
@@ -720,15 +720,15 @@
     "horse_name": "Kadall",
     "horse_num": 3,
     "price": 4.0,
-    "units": 0.1,
+    "units": 1.27,
     "rsi": 89,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 10,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Port Lincoln_R1_Grecian Storm_20260123_NEXBET",
@@ -737,15 +737,15 @@
     "horse_name": "Grecian Storm",
     "horse_num": 11,
     "price": 4.4,
-    "units": 0.03,
+    "units": 1.0,
     "rsi": 79,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Port Lincoln_R2_Game Over_20260123_NEXBET",
@@ -754,15 +754,15 @@
     "horse_name": "Game Over",
     "horse_num": 1,
     "price": 3.4,
-    "units": 0.06,
+    "units": 1.15,
     "rsi": 84,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Launceston_R3_Vortistar_20260123_NEXBET",
@@ -771,15 +771,15 @@
     "horse_name": "Vortistar",
     "horse_num": 9,
     "price": 4.8,
-    "units": 0.05,
+    "units": 1.06,
     "rsi": 84,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geraldton_R4_Queen Of Hawks_20260123_NEXBET",
@@ -788,15 +788,15 @@
     "horse_name": "Queen Of Hawks",
     "horse_num": 2,
     "price": 2.7,
-    "units": 0.04,
+    "units": 1.12,
     "rsi": 78,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pakenham_R4_Shinjina_20260123_NEXBET",
@@ -805,15 +805,15 @@
     "horse_name": "Shinjina",
     "horse_num": 5,
     "price": 2.7,
-    "units": 0.01,
+    "units": 0.75,
     "rsi": 77,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pakenham_R8_Stage 'n' Screen_20260123_NEXBET",
@@ -822,15 +822,15 @@
     "horse_name": "Stage 'n' Screen",
     "horse_num": 2,
     "price": 4.2,
-    "units": 0.02,
+    "units": 0.9,
     "rsi": 78,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-23T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R7_Monte Veebee_20260124_NEXBET",
@@ -839,15 +839,15 @@
     "horse_name": "Monte Veebee",
     "horse_num": 11,
     "price": 2.7,
-    "units": 0.03,
+    "units": 0.91,
     "rsi": 78,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Murwillumbah_R3_Fanci Fleur_20260124_NEXBET",
@@ -856,15 +856,15 @@
     "horse_name": "Fanci Fleur",
     "horse_num": 8,
     "price": 7.5,
-    "units": 0.02,
+    "units": 1.01,
     "rsi": 76,
     "market_rank": 5,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 9,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Randwick_R2_Promitto_20260124_NEXSNIPE",
@@ -873,15 +873,15 @@
     "horse_name": "Promitto",
     "horse_num": 2,
     "price": 8.0,
-    "units": 0.04,
+    "units": 1.01,
     "rsi": 84,
     "market_rank": 6,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-24T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Randwick_R2_Promitto_20260124_NEXBET",
@@ -890,15 +890,15 @@
     "horse_name": "Promitto",
     "horse_num": 2,
     "price": 8.0,
-    "units": 0.05,
+    "units": 1.12,
     "rsi": 84,
     "market_rank": 6,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Townsville_R4_Buffet Buster_20260124_NEXBET",
@@ -907,15 +907,15 @@
     "horse_name": "Buffet Buster",
     "horse_num": 5,
     "price": 2.8,
-    "units": 0.05,
+    "units": 1.15,
     "rsi": 80,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Townsville_R7_Henry's Blade_20260124_NEXBET",
@@ -924,15 +924,15 @@
     "horse_name": "Henry's Blade",
     "horse_num": 8,
     "price": 5.0,
-    "units": 0.05,
+    "units": 1.05,
     "rsi": 84,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R8_Cut The Talk_20260124_NEXSNIPE",
@@ -941,15 +941,15 @@
     "horse_name": "Cut The Talk",
     "horse_num": 7,
     "price": 4.2,
-    "units": 0.03,
+    "units": 0.84,
     "rsi": 84,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-24T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R8_Cut The Talk_20260124_NEXBET",
@@ -958,15 +958,15 @@
     "horse_name": "Cut The Talk",
     "horse_num": 7,
     "price": 4.2,
-    "units": 0.05,
+    "units": 1.05,
     "rsi": 84,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pioneer Park_R3_Buckleup Buddy_20260124_NEXBET",
@@ -975,15 +975,15 @@
     "horse_name": "Buckleup Buddy",
     "horse_num": 2,
     "price": 7.5,
-    "units": 0.02,
+    "units": 1.04,
     "rsi": 77,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pioneer Park_R5_Mummsie_20260124_NEXSNIPE",
@@ -992,15 +992,15 @@
     "horse_name": "Mummsie",
     "horse_num": 5,
     "price": 3.5,
-    "units": 0.13,
+    "units": 1.34,
     "rsi": 92,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-24T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pioneer Park_R5_Mummsie_20260124_NEXBET",
@@ -1009,15 +1009,15 @@
     "horse_name": "Mummsie",
     "horse_num": 5,
     "price": 3.5,
-    "units": 0.14,
+    "units": 1.39,
     "rsi": 92,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-24T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Grafton_R1_Alaska Dream_20260125_NEXSNIPE",
@@ -1026,15 +1026,15 @@
     "horse_name": "Alaska Dream",
     "horse_num": 1,
     "price": 2.8,
-    "units": 0.09,
+    "units": 1.1,
     "rsi": 89,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-25T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Grafton_R1_Alaska Dream_20260125_NEXBET",
@@ -1043,15 +1043,15 @@
     "horse_name": "Alaska Dream",
     "horse_num": 1,
     "price": 2.8,
-    "units": 0.12,
+    "units": 1.28,
     "rsi": 89,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-25T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Moe_R8_Itsukushima_20260125_NEXBET",
@@ -1060,15 +1060,15 @@
     "horse_name": "Itsukushima",
     "horse_num": 2,
     "price": 3.1,
-    "units": 0.07,
+    "units": 1.13,
     "rsi": 84,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-25T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Gambier_R5_Cork Harbour_20260125_NEXBET",
@@ -1077,15 +1077,15 @@
     "horse_name": "Cork Harbour",
     "horse_num": 5,
     "price": 7.5,
-    "units": 0.11,
+    "units": 1.28,
     "rsi": 95,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-25T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Gambier_R7_Dartboard_20260125_NEXBET",
@@ -1094,15 +1094,15 @@
     "horse_name": "Dartboard",
     "horse_num": 7,
     "price": 3.8,
-    "units": 0.12,
+    "units": 1.27,
     "rsi": 93,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-25T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R4_Gingerson_20260125_NEXSNIPE",
@@ -1111,15 +1111,15 @@
     "horse_name": "Gingerson",
     "horse_num": 4,
     "price": 4.4,
-    "units": 0.14,
+    "units": 1.34,
     "rsi": 96,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-25T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R4_Gingerson_20260125_NEXBET",
@@ -1128,15 +1128,15 @@
     "horse_name": "Gingerson",
     "horse_num": 4,
     "price": 4.4,
-    "units": 0.15,
+    "units": 1.36,
     "rsi": 96,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-25T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kilcoy_R5_Purosangue_20260126_NEXBET",
@@ -1145,15 +1145,15 @@
     "horse_name": "Purosangue",
     "horse_num": 1,
     "price": 4.4,
-    "units": 0.03,
+    "units": 1.14,
     "rsi": 78,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-26T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geelong_R5_Thailess_20260126_NEXBET",
@@ -1162,15 +1162,15 @@
     "horse_name": "Thailess",
     "horse_num": 5,
     "price": 8.0,
-    "units": 0.02,
+    "units": 1.12,
     "rsi": 77,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-26T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geelong_R6_Revolver_20260126_NEXSNIPE",
@@ -1179,15 +1179,15 @@
     "horse_name": "Revolver",
     "horse_num": 5,
     "price": 6.5,
-    "units": 0.05,
+    "units": 1.12,
     "rsi": 85,
     "market_rank": 4,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-26T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geelong_R6_Revolver_20260126_NEXBET",
@@ -1196,15 +1196,15 @@
     "horse_name": "Revolver",
     "horse_num": 5,
     "price": 6.5,
-    "units": 0.06,
+    "units": 1.22,
     "rsi": 85,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-26T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hanging Rock_R4_Dionisio_20260126_NEXSNIPE",
@@ -1213,15 +1213,15 @@
     "horse_name": "Dionisio",
     "horse_num": 2,
     "price": 3.3,
-    "units": 0.08,
+    "units": 1.22,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-26T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hanging Rock_R4_Dionisio_20260126_NEXBET",
@@ -1230,15 +1230,15 @@
     "horse_name": "Dionisio",
     "horse_num": 2,
     "price": 3.3,
-    "units": 0.09,
+    "units": 1.31,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-26T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hanging Rock_R7_Whistler Girl_20260126_NEXBET",
@@ -1247,15 +1247,15 @@
     "horse_name": "Whistler Girl",
     "horse_num": 9,
     "price": 3.4,
-    "units": 0.04,
+    "units": 1.08,
     "rsi": 80,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-26T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Bunbury_R6_Coondle_20260126_NEXBET",
@@ -1264,15 +1264,15 @@
     "horse_name": "Coondle",
     "horse_num": 7,
     "price": 7.0,
-    "units": 0.08,
+    "units": 1.16,
     "rsi": 91,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-26T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 5,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Wagga_R7_Fourthtimelucky_20260126_NEXBET",
@@ -1281,15 +1281,15 @@
     "horse_name": "Fourthtimelucky",
     "horse_num": 3,
     "price": 4.4,
-    "units": 0.1,
+    "units": 1.23,
     "rsi": 91,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-26T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R4_Naughty Tortie_20260128_NEXBET",
@@ -1298,15 +1298,15 @@
     "horse_name": "Naughty Tortie",
     "horse_num": 1,
     "price": 8.0,
-    "units": 0.05,
+    "units": 1.12,
     "rsi": 84,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-28T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R3_Don't Wink_20260128_NEXBET",
@@ -1315,15 +1315,15 @@
     "horse_name": "Don't Wink",
     "horse_num": 7,
     "price": 2.9,
-    "units": 0.17,
+    "units": 1.31,
     "rsi": 98,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-28T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Scone_R7_Vierville_20260129_NEXBET",
@@ -1332,15 +1332,32 @@
     "horse_name": "Vierville",
     "horse_num": 2,
     "price": 4.0,
-    "units": 0.01,
+    "units": 0.97,
     "rsi": 72,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-29T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Rockhampton_R3_Replace The Ace_20260129_NEXBET",
+    "track": "Rockhampton",
+    "race_num": 3,
+    "horse_name": "Replace The Ace",
+    "horse_num": 2,
+    "price": 2.7,
+    "units": 1.03,
+    "rsi": 70,
+    "market_rank": 1,
+    "bet_type": "NEX BET",
+    "race_time": "2026-01-29T13:30:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 3,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Albany_R3_Village Girl_20260129_NEXBET",
@@ -1349,15 +1366,15 @@
     "horse_name": "Village Girl",
     "horse_num": 6,
     "price": 3.8,
-    "units": 0.04,
+    "units": 0.91,
     "rsi": 84,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-29T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Albany_R8_Lordgivemestrength_20260129_NEXBET",
@@ -1366,15 +1383,15 @@
     "horse_name": "Lordgivemestrength",
     "horse_num": 11,
     "price": 5.5,
-    "units": 0.02,
+    "units": 0.84,
     "rsi": 79,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-29T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pakenham_R7_Betwitchery_20260129_NEXSNIPE",
@@ -1383,15 +1400,15 @@
     "horse_name": "Betwitchery",
     "horse_num": 2,
     "price": 3.1,
-    "units": 0.05,
+    "units": 1.01,
     "rsi": 84,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-29T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pakenham_R7_Betwitchery_20260129_NEXBET",
@@ -1400,15 +1417,15 @@
     "horse_name": "Betwitchery",
     "horse_num": 2,
     "price": 3.1,
-    "units": 0.06,
+    "units": 1.12,
     "rsi": 84,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-29T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Taree_R2_Jade Trees_20260130_NEXBET",
@@ -1417,15 +1434,15 @@
     "horse_name": "Jade Trees",
     "horse_num": 1,
     "price": 3.1,
-    "units": 0.02,
+    "units": 0.96,
     "rsi": 77,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-30T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Taree_R6_Get Some Fun_20260130_NEXSNIPE",
@@ -1434,15 +1451,15 @@
     "horse_name": "Get Some Fun",
     "horse_num": 2,
     "price": 4.0,
-    "units": 0.06,
+    "units": 1.18,
     "rsi": 84,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-30T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Taree_R6_Get Some Fun_20260130_NEXBET",
@@ -1451,15 +1468,15 @@
     "horse_name": "Get Some Fun",
     "horse_num": 2,
     "price": 4.0,
-    "units": 0.07,
+    "units": 1.29,
     "rsi": 84,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-30T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Canterbury_R3_Albany Road_20260130_NEXBET",
@@ -1468,15 +1485,15 @@
     "horse_name": "Albany Road",
     "horse_num": 6,
     "price": 2.8,
-    "units": 0.05,
+    "units": 1.02,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-30T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Canterbury_R4_Calga Power_20260130_NEXBET",
@@ -1485,15 +1502,15 @@
     "horse_name": "Calga Power",
     "horse_num": 6,
     "price": 3.1,
-    "units": 0.18,
+    "units": 1.39,
     "rsi": 98,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-30T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Dalby_R8_Cardiologist_20260130_NEXBET",
@@ -1502,15 +1519,15 @@
     "horse_name": "Cardiologist",
     "horse_num": 1,
     "price": 5.0,
-    "units": 0.01,
+    "units": 1.01,
     "rsi": 74,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-30T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Launceston_R4_Street Diva_20260130_NEXBET",
@@ -1519,15 +1536,15 @@
     "horse_name": "Street Diva",
     "horse_num": 1,
     "price": 2.6,
-    "units": 0.11,
+    "units": 1.33,
     "rsi": 87,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-30T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Launceston_R7_Material Madam_20260130_NEXSNIPE",
@@ -1536,15 +1553,15 @@
     "horse_name": "Material Madam",
     "horse_num": 6,
     "price": 4.4,
-    "units": 0.02,
+    "units": 0.84,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-30T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Launceston_R7_Material Madam_20260130_NEXBET",
@@ -1553,15 +1570,15 @@
     "horse_name": "Material Madam",
     "horse_num": 6,
     "price": 4.4,
-    "units": 0.04,
+    "units": 1.08,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-30T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R6_Fiorsum Fred_20260131_NEXSNIPE",
@@ -1570,15 +1587,15 @@
     "horse_name": "Fiorsum Fred",
     "horse_num": 4,
     "price": 6.5,
-    "units": 0.04,
+    "units": 0.98,
     "rsi": 83,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-31T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R6_Fiorsum Fred_20260131_NEXBET",
@@ -1587,15 +1604,15 @@
     "horse_name": "Fiorsum Fred",
     "horse_num": 4,
     "price": 6.5,
-    "units": 0.05,
+    "units": 1.2,
     "rsi": 83,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R7_Throttle Response_20260131_NEXBET",
@@ -1604,15 +1621,15 @@
     "horse_name": "Throttle Response",
     "horse_num": 8,
     "price": 5.5,
-    "units": 0.03,
+    "units": 1.14,
     "rsi": 78,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Rosehill_R9_Cormac T_20260131_NEXSNIPE",
@@ -1621,15 +1638,15 @@
     "horse_name": "Cormac T",
     "horse_num": 2,
     "price": 6.5,
-    "units": 0.03,
+    "units": 0.93,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-31T16:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Rosehill_R9_Cormac T_20260131_NEXBET",
@@ -1638,15 +1655,15 @@
     "horse_name": "Cormac T",
     "horse_num": 2,
     "price": 6.5,
-    "units": 0.03,
+    "units": 1.07,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T16:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Bundaberg_R2_Aces Up_20260131_NEXSNIPE",
@@ -1655,15 +1672,15 @@
     "horse_name": "Aces Up",
     "horse_num": 1,
     "price": 3.4,
-    "units": 0.12,
+    "units": 1.21,
     "rsi": 94,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-31T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Bundaberg_R2_Aces Up_20260131_NEXBET",
@@ -1672,15 +1689,15 @@
     "horse_name": "Aces Up",
     "horse_num": 1,
     "price": 3.4,
-    "units": 0.14,
+    "units": 1.35,
     "rsi": 94,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ipswich_R6_Run Lucy Run_20260131_NEXBET",
@@ -1689,15 +1706,15 @@
     "horse_name": "Run Lucy Run",
     "horse_num": 8,
     "price": 2.5,
-    "units": 0.01,
+    "units": 0.97,
     "rsi": 73,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Eagle Farm_R9_Wondereach_20260131_NEXBET",
@@ -1706,15 +1723,15 @@
     "horse_name": "Wondereach",
     "horse_num": 9,
     "price": 7.5,
-    "units": 0.12,
+    "units": 1.28,
     "rsi": 96,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T16:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 9,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kyneton_R8_Brutal World_20260131_NEXBET",
@@ -1723,15 +1740,15 @@
     "horse_name": "Brutal World",
     "horse_num": 7,
     "price": 4.4,
-    "units": 0.01,
+    "units": 0.86,
     "rsi": 75,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 9,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Morphettville_R8_Sghirripa_20260131_NEXSNIPE",
@@ -1740,15 +1757,15 @@
     "horse_name": "Sghirripa",
     "horse_num": 2,
     "price": 6.0,
-    "units": 0.07,
+    "units": 1.22,
     "rsi": 86,
     "market_rank": 4,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-31T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Morphettville_R8_Sghirripa_20260131_NEXBET",
@@ -1757,15 +1774,15 @@
     "horse_name": "Sghirripa",
     "horse_num": 2,
     "price": 6.0,
-    "units": 0.08,
+    "units": 1.31,
     "rsi": 86,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Esperance_R5_Razmas_20260131_NEXBET",
@@ -1774,15 +1791,32 @@
     "horse_name": "Razmas",
     "horse_num": 4,
     "price": 7.5,
-    "units": 0.03,
+    "units": 1.07,
     "rsi": 79,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Esperance_R6_Swift Streaker_20260131_NEXBET",
+    "track": "Esperance",
+    "race_num": 6,
+    "horse_name": "Swift Streaker",
+    "horse_num": 1,
+    "price": 3.8,
+    "units": 1.11,
+    "rsi": 71,
+    "market_rank": 2,
+    "bet_type": "NEX BET",
+    "race_time": "2026-01-31T15:00:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 3,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R1_Tycoon Harry_20260131_NEXBET",
@@ -1791,15 +1825,15 @@
     "horse_name": "Tycoon Harry",
     "horse_num": 6,
     "price": 3.1,
-    "units": 0.02,
+    "units": 0.96,
     "rsi": 77,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R2_Twisted Steel_20260131_NEXBET",
@@ -1808,15 +1842,15 @@
     "horse_name": "Twisted Steel",
     "horse_num": 1,
     "price": 3.5,
-    "units": 0.12,
+    "units": 1.37,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R4_Sonoftheboss_20260131_NEXSNIPE",
@@ -1825,15 +1859,15 @@
     "horse_name": "Sonoftheboss",
     "horse_num": 1,
     "price": 5.0,
-    "units": 0.06,
+    "units": 1.05,
     "rsi": 86,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-31T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R4_Sonoftheboss_20260131_NEXBET",
@@ -1842,15 +1876,15 @@
     "horse_name": "Sonoftheboss",
     "horse_num": 1,
     "price": 5.0,
-    "units": 0.06,
+    "units": 1.15,
     "rsi": 86,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Fannie Bay_R1_Rock Revolution_20260131_NEXSNIPE",
@@ -1859,15 +1893,15 @@
     "horse_name": "Rock Revolution",
     "horse_num": 1,
     "price": 6.0,
-    "units": 0.16,
+    "units": 1.46,
     "rsi": 98,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-01-31T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Fannie Bay_R1_Rock Revolution_20260131_NEXBET",
@@ -1876,15 +1910,15 @@
     "horse_name": "Rock Revolution",
     "horse_num": 1,
     "price": 6.0,
-    "units": 0.16,
+    "units": 1.47,
     "rsi": 98,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Fannie Bay_R5_Bruno Bruno_20260131_NEXBET",
@@ -1893,15 +1927,15 @@
     "horse_name": "Bruno Bruno",
     "horse_num": 2,
     "price": 6.0,
-    "units": 0.04,
+    "units": 0.99,
     "rsi": 84,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Morphettville Parks_R3_Cielao_20260131_NEXBET",
@@ -1910,15 +1944,15 @@
     "horse_name": "Cielao",
     "horse_num": 7,
     "price": 4.6,
-    "units": 0.01,
+    "units": 0.9,
     "rsi": 73,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-01-31T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Strathalbyn_R2_Tenterk_20260201_NEXSNIPE",
@@ -1927,15 +1961,15 @@
     "horse_name": "Tenterk",
     "horse_num": 4,
     "price": 5.5,
-    "units": 0.14,
+    "units": 1.31,
     "rsi": 99,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-01T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Strathalbyn_R2_Tenterk_20260201_NEXBET",
@@ -1944,15 +1978,15 @@
     "horse_name": "Tenterk",
     "horse_num": 4,
     "price": 5.5,
-    "units": 0.15,
+    "units": 1.32,
     "rsi": 99,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-01T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Strathalbyn_R4_Chartin_20260201_NEXBET",
@@ -1961,15 +1995,15 @@
     "horse_name": "Chartin",
     "horse_num": 8,
     "price": 4.0,
-    "units": 0.01,
+    "units": 1.0,
     "rsi": 73,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-01T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 10,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sapphire Coast_R1_Falcon Gold_20260201_NEXSNIPE",
@@ -1978,15 +2012,15 @@
     "horse_name": "Falcon Gold",
     "horse_num": 2,
     "price": 5.5,
-    "units": 0.03,
+    "units": 0.84,
     "rsi": 84,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-01T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sapphire Coast_R1_Falcon Gold_20260201_NEXBET",
@@ -1995,15 +2029,15 @@
     "horse_name": "Falcon Gold",
     "horse_num": 2,
     "price": 5.5,
-    "units": 0.05,
+    "units": 1.05,
     "rsi": 84,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-01T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sapphire Coast_R3_Jazz All Knight_20260201_NEXBET",
@@ -2012,15 +2046,15 @@
     "horse_name": "Jazz All Knight",
     "horse_num": 3,
     "price": 3.2,
-    "units": 0.04,
+    "units": 1.12,
     "rsi": 78,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-01T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sapphire Coast_R6_Cougars_20260201_NEXSNIPE",
@@ -2029,15 +2063,15 @@
     "horse_name": "Cougars",
     "horse_num": 9,
     "price": 2.8,
-    "units": 0.11,
+    "units": 1.15,
     "rsi": 91,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-01T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 11,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sapphire Coast_R6_Cougars_20260201_NEXBET",
@@ -2046,15 +2080,32 @@
     "horse_name": "Cougars",
     "horse_num": 9,
     "price": 2.8,
-    "units": 0.13,
+    "units": 1.31,
     "rsi": 91,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-01T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 11,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Sapphire Coast_R7_Direct Fire_20260201_NEXBET",
+    "track": "Sapphire Coast",
+    "race_num": 7,
+    "horse_name": "Direct Fire",
+    "horse_num": 9,
+    "price": 5.0,
+    "units": 1.04,
+    "rsi": 71,
+    "market_rank": 2,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-01T15:30:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 10,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Beaumont_R1_Golden Smile_20260202_NEXSNIPE",
@@ -2063,15 +2114,15 @@
     "horse_name": "Golden Smile",
     "horse_num": 3,
     "price": 3.0,
-    "units": 0.12,
+    "units": 1.3,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-02T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Beaumont_R1_Golden Smile_20260202_NEXBET",
@@ -2080,15 +2131,15 @@
     "horse_name": "Golden Smile",
     "horse_num": 3,
     "price": 3.0,
-    "units": 0.13,
+    "units": 1.37,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-02T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Beaumont_R5_Ensign Parker_20260202_NEXBET",
@@ -2097,15 +2148,15 @@
     "horse_name": "Ensign Parker",
     "horse_num": 2,
     "price": 5.5,
-    "units": 0.04,
+    "units": 1.23,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-02T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Beaumont_R6_Issy's Star_20260202_NEXBET",
@@ -2114,15 +2165,15 @@
     "horse_name": "Issy's Star",
     "horse_num": 7,
     "price": 7.0,
-    "units": 0.03,
+    "units": 1.21,
     "rsi": 78,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-02T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Grafton_R4_Pixie Hallow_20260203_NEXBET",
@@ -2131,15 +2182,15 @@
     "horse_name": "Pixie Hallow",
     "horse_num": 1,
     "price": 6.0,
-    "units": 0.02,
+    "units": 1.17,
     "rsi": 75,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-03T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Warwick Farm_R1_Feminino_20260204_NEXBET",
@@ -2148,15 +2199,15 @@
     "horse_name": "Feminino",
     "horse_num": 7,
     "price": 4.4,
-    "units": 0.01,
+    "units": 0.93,
     "rsi": 75,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-04T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Eagle Farm_R2_Provance_20260204_NEXBET",
@@ -2165,15 +2216,15 @@
     "horse_name": "Provance",
     "horse_num": 6,
     "price": 2.7,
-    "units": 0.11,
+    "units": 1.21,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-04T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Eagle Farm_R7_Backstage_20260204_NEXBET",
@@ -2182,15 +2233,15 @@
     "horse_name": "Backstage",
     "horse_num": 1,
     "price": 6.0,
-    "units": 0.1,
+    "units": 1.37,
     "rsi": 90,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-04T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Eagle Farm_R8_Simply Excels_20260204_NEXBET",
@@ -2199,15 +2250,15 @@
     "horse_name": "Simply Excels",
     "horse_num": 1,
     "price": 4.4,
-    "units": 0.01,
+    "units": 1.13,
     "rsi": 72,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-04T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R3_Cannykev_20260204_NEXSNIPE",
@@ -2216,15 +2267,15 @@
     "horse_name": "Cannykev",
     "horse_num": 2,
     "price": 2.5,
-    "units": 0.09,
+    "units": 1.04,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-04T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R3_Cannykev_20260204_NEXBET",
@@ -2233,15 +2284,32 @@
     "horse_name": "Cannykev",
     "horse_num": 2,
     "price": 2.5,
-    "units": 0.12,
+    "units": 1.21,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-04T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Ascot_R6_Just Leroy_20260204_NEXBET",
+    "track": "Ascot",
+    "race_num": 6,
+    "horse_name": "Just Leroy",
+    "horse_num": 7,
+    "price": 7.5,
+    "units": 0.78,
+    "rsi": 73,
+    "market_rank": 4,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-04T15:00:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 2,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Murray Bridge GH_R6_Magic Princess_20260204_NEXBET",
@@ -2250,15 +2318,15 @@
     "horse_name": "Magic Princess",
     "horse_num": 7,
     "price": 6.0,
-    "units": 0.04,
+    "units": 1.11,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-04T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Albury_R4_Dantains Prize_20260205_NEXSNIPE",
@@ -2267,15 +2335,15 @@
     "horse_name": "Dantains Prize",
     "horse_num": 11,
     "price": 5.0,
-    "units": 0.12,
+    "units": 1.18,
     "rsi": 97,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-05T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Albury_R4_Dantains Prize_20260205_NEXBET",
@@ -2284,15 +2352,15 @@
     "horse_name": "Dantains Prize",
     "horse_num": 11,
     "price": 5.0,
-    "units": 0.14,
+    "units": 1.31,
     "rsi": 97,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-05T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Albury_R8_Hellberg_20260205_NEXSNIPE",
@@ -2301,15 +2369,15 @@
     "horse_name": "Hellberg",
     "horse_num": 1,
     "price": 5.0,
-    "units": 0.03,
+    "units": 0.95,
     "rsi": 81,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-05T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 14,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Albury_R8_Hellberg_20260205_NEXBET",
@@ -2318,15 +2386,32 @@
     "horse_name": "Hellberg",
     "horse_num": 1,
     "price": 5.0,
-    "units": 0.04,
+    "units": 1.08,
     "rsi": 81,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-05T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 14,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Rockhampton_R7_Panigale_20260205_NEXBET",
+    "track": "Rockhampton",
+    "race_num": 7,
+    "horse_name": "Panigale",
+    "horse_num": 2,
+    "price": 6.0,
+    "units": 0.75,
+    "rsi": 71,
+    "market_rank": 2,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-05T15:30:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 10,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geraldton_R6_Sky River_20260205_NEXSNIPE",
@@ -2335,15 +2420,15 @@
     "horse_name": "Sky River",
     "horse_num": 8,
     "price": 4.6,
-    "units": 0.08,
+    "units": 1.18,
     "rsi": 88,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-05T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Geraldton_R6_Sky River_20260205_NEXBET",
@@ -2352,15 +2437,15 @@
     "horse_name": "Sky River",
     "horse_num": 8,
     "price": 4.6,
-    "units": 0.09,
+    "units": 1.26,
     "rsi": 88,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-05T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pakenham_R7_Ka Ying Cheer_20260205_NEXSNIPE",
@@ -2369,15 +2454,15 @@
     "horse_name": "Ka Ying Cheer",
     "horse_num": 1,
     "price": 6.0,
-    "units": 0.1,
+    "units": 1.3,
     "rsi": 90,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-05T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pakenham_R7_Ka Ying Cheer_20260205_NEXBET",
@@ -2386,15 +2471,15 @@
     "horse_name": "Ka Ying Cheer",
     "horse_num": 1,
     "price": 6.0,
-    "units": 0.1,
+    "units": 1.37,
     "rsi": 90,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-05T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Walcha_R4_Winged_20260206_NEXSNIPE",
@@ -2403,15 +2488,15 @@
     "horse_name": "Winged",
     "horse_num": 1,
     "price": 4.0,
-    "units": 0.02,
+    "units": 0.76,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-06T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Walcha_R4_Winged_20260206_NEXBET",
@@ -2420,15 +2505,15 @@
     "horse_name": "Winged",
     "horse_num": 1,
     "price": 4.0,
-    "units": 0.03,
+    "units": 1.0,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Walcha_R5_Rivkin_20260206_NEXBET",
@@ -2437,15 +2522,15 @@
     "horse_name": "Rivkin",
     "horse_num": 1,
     "price": 5.0,
-    "units": 0.05,
+    "units": 0.96,
     "rsi": 88,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Beaudesert_R3_Wimoweh_20260206_NEXBET",
@@ -2454,15 +2539,15 @@
     "horse_name": "Wimoweh",
     "horse_num": 6,
     "price": 3.3,
-    "units": 0.02,
+    "units": 1.0,
     "rsi": 75,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Beaudesert_R6_Divine Source_20260206_NEXBET",
@@ -2471,15 +2556,15 @@
     "horse_name": "Divine Source",
     "horse_num": 4,
     "price": 3.0,
-    "units": 0.01,
+    "units": 0.9,
     "rsi": 73,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Colac_R5_My Angel Shell_20260206_NEXBET",
@@ -2488,15 +2573,15 @@
     "horse_name": "My Angel Shell",
     "horse_num": 6,
     "price": 4.8,
-    "units": 0.03,
+    "units": 1.05,
     "rsi": 78,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 8,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cranbourne_R7_Itsukushima_20260206_NEXSNIPE",
@@ -2505,15 +2590,15 @@
     "horse_name": "Itsukushima",
     "horse_num": 2,
     "price": 4.8,
-    "units": 0.08,
+    "units": 1.18,
     "rsi": 88,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-06T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cranbourne_R7_Itsukushima_20260206_NEXBET",
@@ -2522,15 +2607,15 @@
     "horse_name": "Itsukushima",
     "horse_num": 2,
     "price": 4.8,
-    "units": 0.09,
+    "units": 1.26,
     "rsi": 88,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cranbourne_R4_Port Albert_20260206_NEXSNIPE",
@@ -2539,15 +2624,15 @@
     "horse_name": "Port Albert",
     "horse_num": 2,
     "price": 5.5,
-    "units": 0.02,
+    "units": 0.84,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-06T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cranbourne_R4_Port Albert_20260206_NEXBET",
@@ -2556,15 +2641,15 @@
     "horse_name": "Port Albert",
     "horse_num": 2,
     "price": 5.5,
-    "units": 0.04,
+    "units": 1.08,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R7_Cripps_20260206_NEXSNIPE",
@@ -2573,15 +2658,15 @@
     "horse_name": "Cripps",
     "horse_num": 1,
     "price": 2.5,
-    "units": 0.11,
+    "units": 1.13,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-06T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R7_Cripps_20260206_NEXBET",
@@ -2590,15 +2675,15 @@
     "horse_name": "Cripps",
     "horse_num": 1,
     "price": 2.5,
-    "units": 0.12,
+    "units": 1.2,
     "rsi": 90,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-06T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Tumut_R3_Pretty Penguin_20260207_NEXBET",
@@ -2607,15 +2692,15 @@
     "horse_name": "Pretty Penguin",
     "horse_num": 3,
     "price": 4.6,
-    "units": 0.06,
+    "units": 1.09,
     "rsi": 87,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Tumut_R6_Dream Inherit_20260207_NEXSNIPE",
@@ -2624,15 +2709,15 @@
     "horse_name": "Dream Inherit",
     "horse_num": 2,
     "price": 5.5,
-    "units": 0.04,
+    "units": 1.1,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-07T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Tumut_R6_Dream Inherit_20260207_NEXBET",
@@ -2641,15 +2726,15 @@
     "horse_name": "Dream Inherit",
     "horse_num": 2,
     "price": 5.5,
-    "units": 0.04,
+    "units": 1.23,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kembla Grange_R6_Ishikari_20260207_NEXSNIPE",
@@ -2658,15 +2743,15 @@
     "horse_name": "Ishikari",
     "horse_num": 5,
     "price": 6.5,
-    "units": 0.08,
+    "units": 1.2,
     "rsi": 89,
     "market_rank": 5,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-07T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kembla Grange_R6_Ishikari_20260207_NEXBET",
@@ -2675,15 +2760,15 @@
     "horse_name": "Ishikari",
     "horse_num": 5,
     "price": 6.5,
-    "units": 0.09,
+    "units": 1.27,
     "rsi": 89,
     "market_rank": 5,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kembla Grange_R7_Okami Star_20260207_NEXBET",
@@ -2692,15 +2777,15 @@
     "horse_name": "Okami Star",
     "horse_num": 15,
     "price": 4.6,
-    "units": 0.03,
+    "units": 1.0,
     "rsi": 78,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Toowoomba_R2_Snitzond_20260207_NEXBET",
@@ -2709,15 +2794,15 @@
     "horse_name": "Snitzond",
     "horse_num": 3,
     "price": 4.0,
-    "units": 0.02,
+    "units": 1.11,
     "rsi": 76,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Caulfield_R2_Make It Sweet_20260207_NEXBET",
@@ -2726,15 +2811,15 @@
     "horse_name": "Make It Sweet",
     "horse_num": 4,
     "price": 7.5,
-    "units": 0.03,
+    "units": 0.9,
     "rsi": 83,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T13:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 5,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Caulfield_R8_Signature Scent_20260207_NEXBET",
@@ -2743,15 +2828,15 @@
     "horse_name": "Signature Scent",
     "horse_num": 4,
     "price": 5.5,
-    "units": 0.09,
+    "units": 1.2,
     "rsi": 90,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 5,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R1_Sound Of Speed_20260207_NEXBET",
@@ -2760,15 +2845,15 @@
     "horse_name": "Sound Of Speed",
     "horse_num": 2,
     "price": 2.8,
-    "units": 0.19,
+    "units": 1.33,
     "rsi": 100,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-07T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Sunshine Coast_R8_Ambassadors_20260208_NEXBET",
@@ -2777,15 +2862,15 @@
     "horse_name": "Ambassadors",
     "horse_num": 8,
     "price": 7.0,
-    "units": 0.02,
+    "units": 0.91,
     "rsi": 78,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ararat_R4_Whistler Girl_20260208_NEXBET",
@@ -2794,15 +2879,15 @@
     "horse_name": "Whistler Girl",
     "horse_num": 5,
     "price": 5.0,
-    "units": 0.03,
+    "units": 1.14,
     "rsi": 78,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 8,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Wangaratta_R7_Rumours Abound_20260208_NEXBET",
@@ -2811,15 +2896,15 @@
     "horse_name": "Rumours Abound",
     "horse_num": 4,
     "price": 2.5,
-    "units": 0.08,
+    "units": 1.27,
     "rsi": 83,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Naracoorte_R8_Wichitall_20260208_NEXBET",
@@ -2828,15 +2913,15 @@
     "horse_name": "Wichitall",
     "horse_num": 2,
     "price": 4.4,
-    "units": 0.08,
+    "units": 1.3,
     "rsi": 85,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R9_Ziryab_20260208_NEXBET",
@@ -2845,15 +2930,15 @@
     "horse_name": "Ziryab",
     "horse_num": 8,
     "price": 3.2,
-    "units": 0.04,
+    "units": 1.14,
     "rsi": 78,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T16:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Barker_R5_Queen Of Hawks_20260208_NEXBET",
@@ -2862,15 +2947,15 @@
     "horse_name": "Queen Of Hawks",
     "horse_num": 4,
     "price": 2.8,
-    "units": 0.02,
+    "units": 1.15,
     "rsi": 74,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Barker_R3_Vomo Island_20260208_NEXSNIPE",
@@ -2879,15 +2964,15 @@
     "horse_name": "Vomo Island",
     "horse_num": 1,
     "price": 3.4,
-    "units": 0.07,
+    "units": 1.2,
     "rsi": 85,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-08T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 8,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Barker_R3_Vomo Island_20260208_NEXBET",
@@ -2896,15 +2981,15 @@
     "horse_name": "Vomo Island",
     "horse_num": 1,
     "price": 3.4,
-    "units": 0.09,
+    "units": 1.3,
     "rsi": 85,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 8,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Mt Barker_R7_Storm Commander_20260208_NEXBET",
@@ -2913,15 +2998,15 @@
     "horse_name": "Storm Commander",
     "horse_num": 5,
     "price": 4.2,
-    "units": 0.02,
+    "units": 0.89,
     "rsi": 76,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-08T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Muswellbrook_R7_Yes Yes Boss_20260209_NEXBET",
@@ -2930,15 +3015,15 @@
     "horse_name": "Yes Yes Boss",
     "horse_num": 11,
     "price": 5.0,
-    "units": 0.02,
+    "units": 0.9,
     "rsi": 78,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-09T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Muswellbrook_R4_Miss Rebel_20260209_NEXBET",
@@ -2947,15 +3032,15 @@
     "horse_name": "Miss Rebel",
     "horse_num": 6,
     "price": 2.7,
-    "units": 0.12,
+    "units": 1.23,
     "rsi": 90,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-09T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Muswellbrook_R6_Vicious Rumour_20260209_NEXBET",
@@ -2964,15 +3049,15 @@
     "horse_name": "Vicious Rumour",
     "horse_num": 7,
     "price": 2.7,
-    "units": 0.1,
+    "units": 1.31,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-09T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Wyong_R7_Hydrometer_20260210_NEXBET",
@@ -2981,15 +3066,15 @@
     "horse_name": "Hydrometer",
     "horse_num": 3,
     "price": 2.6,
-    "units": 0.01,
+    "units": 0.89,
     "rsi": 72,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-10T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 10,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Wyong_R6_Apollo Ridge_20260210_NEXBET",
@@ -2998,15 +3083,15 @@
     "horse_name": "Apollo Ridge",
     "horse_num": 4,
     "price": 3.6,
-    "units": 0.01,
+    "units": 1.0,
     "rsi": 74,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-10T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Lismore_R5_She's Enuff_20260210_NEXSNIPE",
@@ -3015,15 +3100,15 @@
     "horse_name": "She's Enuff",
     "horse_num": 9,
     "price": 5.0,
-    "units": 0.05,
+    "units": 1.14,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-10T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Lismore_R5_She's Enuff_20260210_NEXBET",
@@ -3032,15 +3117,15 @@
     "horse_name": "She's Enuff",
     "horse_num": 9,
     "price": 5.0,
-    "units": 0.06,
+    "units": 1.26,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-10T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Lismore_R7_All Too Foxy_20260210_NEXBET",
@@ -3049,15 +3134,15 @@
     "horse_name": "All Too Foxy",
     "horse_num": 9,
     "price": 6.5,
-    "units": 0.11,
+    "units": 1.31,
     "rsi": 92,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-10T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Gatton_R7_Clearly George_20260210_NEXSNIPE",
@@ -3066,15 +3151,15 @@
     "horse_name": "Clearly George",
     "horse_num": 3,
     "price": 4.6,
-    "units": 0.07,
+    "units": 1.1,
     "rsi": 89,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-10T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Gatton_R7_Clearly George_20260210_NEXBET",
@@ -3083,15 +3168,15 @@
     "horse_name": "Clearly George",
     "horse_num": 3,
     "price": 4.6,
-    "units": 0.1,
+    "units": 1.28,
     "rsi": 89,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-10T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kyneton_R6_The Arrow_20260210_NEXBET",
@@ -3100,15 +3185,15 @@
     "horse_name": "The Arrow",
     "horse_num": 7,
     "price": 6.5,
-    "units": 0.05,
+    "units": 1.26,
     "rsi": 82,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-10T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Doomben_R3_Meadowbrook_20260211_NEXSNIPE",
@@ -3117,15 +3202,15 @@
     "horse_name": "Meadowbrook",
     "horse_num": 7,
     "price": 4.8,
-    "units": 0.03,
+    "units": 0.88,
     "rsi": 82,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-11T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Doomben_R3_Meadowbrook_20260211_NEXBET",
@@ -3134,15 +3219,32 @@
     "horse_name": "Meadowbrook",
     "horse_num": 7,
     "price": 4.8,
-    "units": 0.05,
+    "units": 1.11,
     "rsi": 82,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-11T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Doomben_R4_Kadall_20260211_NEXBET",
+    "track": "Doomben",
+    "race_num": 4,
+    "horse_name": "Kadall",
+    "horse_num": 4,
+    "price": 5.5,
+    "units": 0.96,
+    "rsi": 71,
+    "market_rank": 3,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-11T14:00:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 2,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Belmont Park_R3_Stylin'_20260211_NEXSNIPE",
@@ -3151,15 +3253,15 @@
     "horse_name": "Stylin'",
     "horse_num": 10,
     "price": 8.0,
-    "units": 0.02,
+    "units": 0.84,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-11T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Belmont Park_R3_Stylin'_20260211_NEXBET",
@@ -3168,15 +3270,15 @@
     "horse_name": "Stylin'",
     "horse_num": 10,
     "price": 8.0,
-    "units": 0.03,
+    "units": 1.08,
     "rsi": 80,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-11T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Goulburn_R6_Burrowa_20260212_NEXSNIPE",
@@ -3185,15 +3287,15 @@
     "horse_name": "Burrowa",
     "horse_num": 4,
     "price": 8.0,
-    "units": 0.11,
+    "units": 1.36,
     "rsi": 93,
     "market_rank": 4,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-12T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Goulburn_R6_Burrowa_20260212_NEXBET",
@@ -3202,15 +3304,15 @@
     "horse_name": "Burrowa",
     "horse_num": 4,
     "price": 8.0,
-    "units": 0.12,
+    "units": 1.41,
     "rsi": 93,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-12T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Taree_R5_Dwayne_20260213_NEXSNIPE",
@@ -3219,15 +3321,15 @@
     "horse_name": "Dwayne",
     "horse_num": 2,
     "price": 2.7,
-    "units": 0.03,
+    "units": 0.84,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-13T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Taree_R5_Dwayne_20260213_NEXBET",
@@ -3236,15 +3338,15 @@
     "horse_name": "Dwayne",
     "horse_num": 2,
     "price": 2.7,
-    "units": 0.05,
+    "units": 1.08,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Taree_R7_Diamondsaremio_20260213_NEXBET",
@@ -3253,15 +3355,32 @@
     "horse_name": "Diamondsaremio",
     "horse_num": 5,
     "price": 5.0,
-    "units": 0.05,
+    "units": 0.95,
     "rsi": 87,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Canterbury_R6_Pillow Fight_20260213_NEXBET",
+    "track": "Canterbury",
+    "race_num": 6,
+    "horse_name": "Pillow Fight",
+    "horse_num": 3,
+    "price": 3.7,
+    "units": 0.82,
+    "rsi": 72,
+    "market_rank": 2,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-13T15:00:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 2,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Canterbury_R5_Shalaa Gold_20260213_NEXBET",
@@ -3270,15 +3389,15 @@
     "horse_name": "Shalaa Gold",
     "horse_num": 3,
     "price": 6.5,
-    "units": 0.02,
+    "units": 1.1,
     "rsi": 76,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 10,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Clare_R4_Crown And Anchor_20260213_NEXBET",
@@ -3287,15 +3406,15 @@
     "horse_name": "Crown And Anchor",
     "horse_num": 6,
     "price": 5.5,
-    "units": 0.02,
+    "units": 1.03,
     "rsi": 75,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Clare_R5_Strawberry Swing_20260213_NEXBET",
@@ -3304,15 +3423,15 @@
     "horse_name": "Strawberry Swing",
     "horse_num": 3,
     "price": 5.5,
-    "units": 0.02,
+    "units": 1.08,
     "rsi": 75,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Clare_R6_Real Valentia_20260213_NEXBET",
@@ -3321,15 +3440,15 @@
     "horse_name": "Real Valentia",
     "horse_num": 5,
     "price": 3.4,
-    "units": 0.02,
+    "units": 0.98,
     "rsi": 77,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Esperance_R5_Swift Streaker_20260213_NEXSNIPE",
@@ -3338,15 +3457,15 @@
     "horse_name": "Swift Streaker",
     "horse_num": 3,
     "price": 3.3,
-    "units": 0.04,
+    "units": 1.1,
     "rsi": 80,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-13T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 9,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Esperance_R5_Swift Streaker_20260213_NEXBET",
@@ -3355,15 +3474,15 @@
     "horse_name": "Swift Streaker",
     "horse_num": 3,
     "price": 3.3,
-    "units": 0.05,
+    "units": 1.23,
     "rsi": 80,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 9,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Esperance_R7_Wild Imagination_20260213_NEXBET",
@@ -3372,15 +3491,15 @@
     "horse_name": "Wild Imagination",
     "horse_num": 1,
     "price": 4.4,
-    "units": 0.06,
+    "units": 1.26,
     "rsi": 82,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-13T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R5_One Destiny_20260214_NEXBET",
@@ -3389,15 +3508,15 @@
     "horse_name": "One Destiny",
     "horse_num": 2,
     "price": 6.0,
-    "units": 0.06,
+    "units": 1.05,
     "rsi": 88,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R4_The Magic Man_20260214_NEXSNIPE",
@@ -3406,15 +3525,15 @@
     "horse_name": "The Magic Man",
     "horse_num": 5,
     "price": 4.8,
-    "units": 0.09,
+    "units": 1.17,
     "rsi": 92,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-14T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R4_The Magic Man_20260214_NEXBET",
@@ -3423,15 +3542,15 @@
     "horse_name": "The Magic Man",
     "horse_num": 5,
     "price": 4.8,
-    "units": 0.11,
+    "units": 1.32,
     "rsi": 92,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R3_Velaris_20260214_NEXSNIPE",
@@ -3440,15 +3559,15 @@
     "horse_name": "Velaris",
     "horse_num": 3,
     "price": 7.5,
-    "units": 0.11,
+    "units": 1.36,
     "rsi": 93,
     "market_rank": 4,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-14T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Newcastle_R3_Velaris_20260214_NEXBET",
@@ -3457,15 +3576,15 @@
     "horse_name": "Velaris",
     "horse_num": 3,
     "price": 7.5,
-    "units": 0.12,
+    "units": 1.41,
     "rsi": 93,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T13:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Randwick_R6_Savvy Hallie_20260214_NEXBET",
@@ -3474,15 +3593,15 @@
     "horse_name": "Savvy Hallie",
     "horse_num": 2,
     "price": 3.7,
-    "units": 0.03,
+    "units": 0.93,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Dalby_R5_Reggae Fire_20260214_NEXBET",
@@ -3491,15 +3610,15 @@
     "horse_name": "Reggae Fire",
     "horse_num": 2,
     "price": 6.0,
-    "units": 0.02,
+    "units": 1.1,
     "rsi": 75,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Dalby_R4_Mr Wandji_20260214_NEXBET",
@@ -3508,15 +3627,32 @@
     "horse_name": "Mr Wandji",
     "horse_num": 2,
     "price": 2.7,
-    "units": 0.01,
+    "units": 1.13,
     "rsi": 72,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Eagle Farm_R7_Super Duck_20260214_NEXBET",
+    "track": "Eagle Farm",
+    "race_num": 7,
+    "horse_name": "Super Duck",
+    "horse_num": 12,
+    "price": 8.0,
+    "units": 0.89,
+    "rsi": 71,
+    "market_rank": 5,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-14T15:30:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 4,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Eagle Farm_R6_North Pole_20260214_NEXSNIPE",
@@ -3525,15 +3661,15 @@
     "horse_name": "North Pole",
     "horse_num": 2,
     "price": 2.6,
-    "units": 0.08,
+    "units": 1.06,
     "rsi": 87,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-14T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Eagle Farm_R6_North Pole_20260214_NEXBET",
@@ -3542,15 +3678,15 @@
     "horse_name": "North Pole",
     "horse_num": 2,
     "price": 2.6,
-    "units": 0.1,
+    "units": 1.26,
     "rsi": 87,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Eagle Farm_R10_Facundo_20260214_NEXBET",
@@ -3559,15 +3695,15 @@
     "horse_name": "Facundo",
     "horse_num": 13,
     "price": 6.0,
-    "units": 0.07,
+    "units": 1.06,
     "rsi": 90,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T17:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 6,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ballarat_R6_Subtle Power_20260214_NEXBET",
@@ -3576,15 +3712,15 @@
     "horse_name": "Subtle Power",
     "horse_num": 11,
     "price": 3.6,
-    "units": 0.05,
+    "units": 1.12,
     "rsi": 82,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pinjarra_R5_Oisin_20260214_NEXSNIPE",
@@ -3593,15 +3729,15 @@
     "horse_name": "Oisin",
     "horse_num": 3,
     "price": 2.8,
-    "units": 0.12,
+    "units": 1.3,
     "rsi": 90,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-14T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pinjarra_R5_Oisin_20260214_NEXBET",
@@ -3610,15 +3746,15 @@
     "horse_name": "Oisin",
     "horse_num": 3,
     "price": 2.8,
-    "units": 0.13,
+    "units": 1.37,
     "rsi": 90,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pinjarra_R6_Golden Vale_20260214_NEXBET",
@@ -3627,15 +3763,15 @@
     "horse_name": "Golden Vale",
     "horse_num": 1,
     "price": 6.0,
-    "units": 0.01,
+    "units": 1.06,
     "rsi": 73,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pinjarra_R8_Twisted Steel_20260214_NEXSNIPE",
@@ -3644,15 +3780,15 @@
     "horse_name": "Twisted Steel",
     "horse_num": 3,
     "price": 2.5,
-    "units": 0.07,
+    "units": 1.05,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-14T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Pinjarra_R8_Twisted Steel_20260214_NEXBET",
@@ -3661,15 +3797,15 @@
     "horse_name": "Twisted Steel",
     "horse_num": 3,
     "price": 2.5,
-    "units": 0.09,
+    "units": 1.15,
     "rsi": 86,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T16:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Fannie Bay_R5_Stormfront_20260214_NEXSNIPE",
@@ -3678,15 +3814,15 @@
     "horse_name": "Stormfront",
     "horse_num": 5,
     "price": 4.6,
-    "units": 0.08,
+    "units": 1.18,
     "rsi": 88,
     "market_rank": 3,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-14T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Fannie Bay_R5_Stormfront_20260214_NEXBET",
@@ -3695,15 +3831,32 @@
     "horse_name": "Stormfront",
     "horse_num": 5,
     "price": 4.6,
-    "units": 0.09,
+    "units": 1.26,
     "rsi": 88,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Fannie Bay_R4_Lochlorian_20260214_NEXBET",
+    "track": "Fannie Bay",
+    "race_num": 4,
+    "horse_name": "Lochlorian",
+    "horse_num": 5,
+    "price": 2.7,
+    "units": 0.81,
+    "rsi": 71,
+    "market_rank": 1,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-14T14:00:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "win",
+    "finishing_position": 1,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Morphettville Parks_R7_Path To Profit_20260214_NEXSNIPE",
@@ -3712,15 +3865,15 @@
     "horse_name": "Path To Profit",
     "horse_num": 13,
     "price": 4.8,
-    "units": 0.02,
+    "units": 0.76,
     "rsi": 80,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-14T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 8,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Morphettville Parks_R7_Path To Profit_20260214_NEXBET",
@@ -3729,15 +3882,15 @@
     "horse_name": "Path To Profit",
     "horse_num": 13,
     "price": 4.8,
-    "units": 0.03,
+    "units": 1.0,
     "rsi": 80,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-14T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 8,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Dubbo_R5_Brutal Love_20260215_NEXBET",
@@ -3746,15 +3899,15 @@
     "horse_name": "Brutal Love",
     "horse_num": 4,
     "price": 2.7,
-    "units": 0.2,
+    "units": 1.39,
     "rsi": 98,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-15T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Coffs Harbour_R4_Personal Space_20260215_NEXBET",
@@ -3763,15 +3916,15 @@
     "horse_name": "Personal Space",
     "horse_num": 9,
     "price": 6.5,
-    "units": 0.07,
+    "units": 1.06,
     "rsi": 90,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-15T14:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 3,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Coffs Harbour_R6_Kingdom Undersiege_20260215_NEXBET",
@@ -3780,15 +3933,15 @@
     "horse_name": "Kingdom Undersiege",
     "horse_num": 3,
     "price": 4.2,
-    "units": 0.03,
+    "units": 1.05,
     "rsi": 78,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-15T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 7,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Hobart_R5_Material Madam_20260215_NEXBET",
@@ -3797,15 +3950,15 @@
     "horse_name": "Material Madam",
     "horse_num": 2,
     "price": 4.6,
-    "units": 0.07,
+    "units": 1.16,
     "rsi": 86,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-15T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R7_Mistress Of War_20260215_NEXSNIPE",
@@ -3814,15 +3967,15 @@
     "horse_name": "Mistress Of War",
     "horse_num": 3,
     "price": 3.3,
-    "units": 0.09,
+    "units": 1.24,
     "rsi": 87,
     "market_rank": 1,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-15T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Ascot_R7_Mistress Of War_20260215_NEXBET",
@@ -3831,15 +3984,15 @@
     "horse_name": "Mistress Of War",
     "horse_num": 3,
     "price": 3.3,
-    "units": 0.1,
+    "units": 1.33,
     "rsi": 87,
     "market_rank": 1,
     "bet_type": "NEX BET",
     "race_time": "2026-02-15T15:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cairns_R5_Parch_20260216_NEXSNIPE",
@@ -3848,15 +4001,15 @@
     "horse_name": "Parch",
     "horse_num": 1,
     "price": 5.5,
-    "units": 0.03,
+    "units": 0.93,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-16T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Cairns_R5_Parch_20260216_NEXBET",
@@ -3865,15 +4018,15 @@
     "horse_name": "Parch",
     "horse_num": 1,
     "price": 5.5,
-    "units": 0.04,
+    "units": 1.16,
     "rsi": 80,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-16T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 4,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kembla Grange_R6_Satness_20260217_NEXBET",
@@ -3882,15 +4035,15 @@
     "horse_name": "Satness",
     "horse_num": 4,
     "price": 5.5,
-    "units": 0.01,
+    "units": 1.01,
     "rsi": 74,
     "market_rank": 4,
     "bet_type": "NEX BET",
     "race_time": "2026-02-17T15:00:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Rockhampton_R5_Henry's Blade_20260217_NEXBET",
@@ -3899,15 +4052,32 @@
     "horse_name": "Henry's Blade",
     "horse_num": 2,
     "price": 4.6,
-    "units": 0.09,
+    "units": 1.2,
     "rsi": 90,
     "market_rank": 3,
     "bet_type": "NEX BET",
     "race_time": "2026-02-17T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
+  },
+  {
+    "id": "Werribee_R5_Zetalyn_20260217_NEXBET",
+    "track": "Werribee",
+    "race_num": 5,
+    "horse_name": "Zetalyn",
+    "horse_num": 7,
+    "price": 5.5,
+    "units": 0.96,
+    "rsi": 71,
+    "market_rank": 3,
+    "bet_type": "NEX BET",
+    "race_time": "2026-02-17T14:30:00+11:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
+    "result": "loss",
+    "finishing_position": 2,
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Warwick Farm_R5_Lancelot Du Lac_20260218_NEXBET",
@@ -3916,15 +4086,15 @@
     "horse_name": "Lancelot Du Lac",
     "horse_num": 2,
     "price": 2.8,
-    "units": 0.01,
+    "units": 1.13,
     "rsi": 72,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-18T14:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "loss",
     "finishing_position": 2,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kilcoy_R1_Betterindanude_20260218_NEXSNIPE",
@@ -3933,15 +4103,15 @@
     "horse_name": "Betterindanude",
     "horse_num": 1,
     "price": 3.5,
-    "units": 0.04,
+    "units": 0.86,
     "rsi": 85,
     "market_rank": 2,
     "bet_type": "NEX SNIPE",
     "race_time": "2026-02-18T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   },
   {
     "id": "Kilcoy_R1_Betterindanude_20260218_NEXBET",
@@ -3950,14 +4120,14 @@
     "horse_name": "Betterindanude",
     "horse_num": 1,
     "price": 3.5,
-    "units": 0.06,
+    "units": 1.06,
     "rsi": 85,
     "market_rank": 2,
     "bet_type": "NEX BET",
     "race_time": "2026-02-18T12:30:00+11:00",
-    "recorded_at": "2026-02-18T13:14:13.577367+00:00",
+    "recorded_at": "2026-02-18T13:44:29.238487+00:00",
     "result": "win",
     "finishing_position": 1,
-    "settled_at": "2026-02-18T13:14:13.577367+00:00"
+    "settled_at": "2026-02-18T13:44:29.238487+00:00"
   }
 ]

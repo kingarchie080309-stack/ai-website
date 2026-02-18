@@ -99,7 +99,8 @@ def calc_units(r, mode: str) -> float:
     if edge <= 0:
         return 0.0
     conf = confidence(r, mode)
-    return round(min(conf * edge, 4.0), 2)
+    stake = conf + 0.5          # 0.25→0.75u, 0.50→1.00u, 1.00→1.50u
+    return round(min(stake, 2.0), 2)
 
 
 def market_rank(runner_name: str, runners: list) -> int:
