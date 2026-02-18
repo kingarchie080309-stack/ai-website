@@ -25,9 +25,11 @@ ENV/
 
 # Data files
 *.json
+!backtest_seed.json
 *.backup
 *.txt
 !requirements.txt
 
 # Logs
 *.log
+node_modules
