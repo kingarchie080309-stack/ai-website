@@ -81,8 +81,15 @@ class BetTracker:
                 bets = []
 
         # Merge backtest seed data (skip any IDs already present)
-        seed_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "backtest_seed.json")
-        if os.path.exists(seed_path):
+        # Try multiple candidate paths — Railway may use /app, CWD, or script dir
+        seed_candidates = [
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "backtest_seed.json"),
+            os.path.join(os.getcwd(), "backtest_seed.json"),
+            "/app/backtest_seed.json",
+        ]
+        seed_path = next((p for p in seed_candidates if os.path.exists(p)), None)
+        print(f"  Seed path checked: {seed_candidates[0]} → {'found' if seed_path else 'not found'}")
+        if seed_path:
             try:
                 with open(seed_path, 'r') as f:
                     seed_bets = json.load(f)
@@ -93,8 +100,8 @@ class BetTracker:
                     print(f"  Merged {len(new_bets)} backtest bets from seed ({len(seed_bets)} total in seed, {len(existing_ids)} already existed)")
                     self.bets = bets
                     self._save_bets()
-            except (json.JSONDecodeError, IOError):
-                pass
+            except (json.JSONDecodeError, IOError) as e:
+                print(f"  ⚠ Could not load seed: {e}")
 
         return bets
 
