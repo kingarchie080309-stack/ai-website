@@ -719,10 +719,47 @@ class DiscordCommandHandler:
         self.bet_tracker.bets = []
         self.bet_tracker._save_bets()
 
-        # Reload seed data
-        self.bet_tracker.bets = self.bet_tracker._load_bets()
-        new_count = len(self.bet_tracker.bets)
+        # Load seed data — try local file first, then GitHub raw as fallback
+        seed_bets = []
 
+        # 1. Try local file (multiple candidate paths)
+        seed_candidates = [
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), "backtest_seed.json"),
+            os.path.join(os.getcwd(), "backtest_seed.json"),
+            "/app/backtest_seed.json",
+        ]
+        for candidate in seed_candidates:
+            if os.path.exists(candidate):
+                try:
+                    with open(candidate, 'r') as f:
+                        seed_bets = json.load(f)
+                    print(f"  ✓ Seed loaded from file: {candidate} ({len(seed_bets)} bets)")
+                    break
+                except Exception as e:
+                    print(f"  ⚠ Seed read error at {candidate}: {e}")
+
+        # 2. Fallback: fetch from GitHub raw
+        if not seed_bets:
+            print("  Seed file not found locally, fetching from GitHub...")
+            try:
+                url = "https://raw.githubusercontent.com/dcxtrfx/Horsey-AI/main/backtest_seed.json"
+                r = requests.get(url, timeout=15)
+                if r.status_code == 200:
+                    seed_bets = r.json()
+                    print(f"  ✓ Seed fetched from GitHub ({len(seed_bets)} bets)")
+                else:
+                    print(f"  ⚠ GitHub fetch failed: HTTP {r.status_code}")
+            except Exception as e:
+                print(f"  ⚠ GitHub fetch error: {e}")
+
+        # Merge into tracker
+        if seed_bets:
+            existing_ids = {b.get("id") for b in self.bet_tracker.bets}
+            new_bets = [b for b in seed_bets if b.get("id") not in existing_ids]
+            self.bet_tracker.bets.extend(new_bets)
+            self.bet_tracker._save_bets()
+
+        new_count = len(self.bet_tracker.bets)
         self.discord.send_message(
             f"🗑️ **Tracker wiped!**\n"
             f"Removed {old_count} old bets.\n"
