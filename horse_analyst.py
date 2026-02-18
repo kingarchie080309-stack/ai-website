@@ -152,6 +152,12 @@ class BetTracker:
         """Get bets within a time period"""
         now = datetime.now(timezone.utc)
 
+        # Day-of-week names → weekday index (Mon=0 … Sun=6)
+        _DOW = {"monday":0,"tuesday":1,"wednesday":2,"thursday":3,
+                "friday":4,"saturday":5,"sunday":6}
+
+        start = end = None
+
         if period == "daily":
             start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         elif period == "weekly":
@@ -161,6 +167,13 @@ class BetTracker:
             start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
         elif period == "yearly":
             start = now.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        elif period in _DOW:
+            # Show bets for that specific day in the current week (Mon–Sun)
+            target_dow = _DOW[period]
+            monday = now - timedelta(days=now.weekday())
+            day_start = monday + timedelta(days=target_dow)
+            start = day_start.replace(hour=0, minute=0, second=0, microsecond=0)
+            end   = start + timedelta(days=1)
         elif days:
             start = now - timedelta(days=days)
         else:
@@ -170,7 +183,7 @@ class BetTracker:
         for bet in self.bets:
             try:
                 bet_time = datetime.fromisoformat(bet.get("race_time", "").replace('Z', '+00:00'))
-                if bet_time >= start:
+                if bet_time >= start and (end is None or bet_time < end):
                     filtered.append(bet)
             except (ValueError, TypeError):
                 continue
@@ -374,7 +387,7 @@ class DiscordNotifier:
         return response.status_code == 200
 
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
-    def send_results_embed(self, period: str, overall_stats: Dict, snipe_stats: Dict = None, nex_bet_stats: Dict = None):
+    def send_results_embed(self, period: str, overall_stats: Dict, snipe_stats: Dict = None, nex_bet_stats: Dict = None, date_range: str = ""):
         """Send a formatted results embed to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
             return False
@@ -385,10 +398,18 @@ class DiscordNotifier:
             "weekly": "📆 Weekly Results",
             "monthly": "🗓️ Monthly Results",
             "yearly": "📊 Yearly Results",
-            "lifetime": "📊 Lifetime Results"
+            "lifetime": "📊 Lifetime Results",
+            "monday": "📅 Monday's Results",
+            "tuesday": "📅 Tuesday's Results",
+            "wednesday": "📅 Wednesday's Results",
+            "thursday": "📅 Thursday's Results",
+            "friday": "📅 Friday's Results",
+            "saturday": "📅 Saturday's Results",
+            "sunday": "📅 Sunday's Results",
         }
 
-        title = period_names.get(period, f"📊 {period.title()} Results")
+        base_title = period_names.get(period, f"📊 {period.title()} Results")
+        title = f"{base_title} | {date_range}" if date_range else base_title
 
         # Determine color based on total profit
         total_profit = overall_stats["profit"]
@@ -477,13 +498,21 @@ class DiscordCommandHandler:
         "!weekly": "weekly",
         "!monthly": "monthly",
         "!yearly": "yearly",
-        "!results": "daily",  # Alias for daily
-        "!stats": "weekly",   # Alias for weekly
-        "!bets": "bets",      # Show recent bets
-        "!pending": "pending", # Show pending bets
+        "!results": "daily",     # Alias for daily
+        "!stats": "weekly",      # Alias for weekly
+        "!bets": "bets",         # Show recent bets
+        "!pending": "pending",   # Show pending bets
         "!help": "help",
         "!lifetime": "lifetime",
-        "!wipe": "wipe",      # Clear all bets and reload backtest seed
+        "!wipe": "wipe",         # Clear all bets and reload backtest seed
+        # Day-of-week commands
+        "!monday": "monday",
+        "!tuesday": "tuesday",
+        "!wednesday": "wednesday",
+        "!thursday": "thursday",
+        "!friday": "friday",
+        "!saturday": "saturday",
+        "!sunday": "sunday",
     }
 
     def __init__(self, discord: 'DiscordNotifier', bet_tracker: 'BetTracker'):
@@ -616,7 +645,14 @@ class DiscordCommandHandler:
                 "weekly": "this week",
                 "monthly": "this month",
                 "yearly": "this year",
-                "lifetime": "all time"
+                "lifetime": "all time",
+                "monday": "this Monday",
+                "tuesday": "this Tuesday",
+                "wednesday": "this Wednesday",
+                "thursday": "this Thursday",
+                "friday": "this Friday",
+                "saturday": "this Saturday",
+                "sunday": "this Sunday",
             }
             period_name = period_names.get(period, period)
             self.discord.send_message(f"📊 No bets recorded {period_name}.")
@@ -628,8 +664,32 @@ class DiscordCommandHandler:
         nex_bet_stats   = self.bet_tracker.calculate_stats(bets, bet_type_filter="NEX BET")
         overall_stats   = self.bet_tracker.calculate_stats(bets)
 
+        # Build date range label (AEDT)
+        now_aedt = datetime.now(AEDT)
+        _DOW = {"monday":0,"tuesday":1,"wednesday":2,"thursday":3,
+                "friday":4,"saturday":5,"sunday":6}
+        if period == "daily":
+            date_range = now_aedt.strftime("%-d %b %Y")
+        elif period == "weekly":
+            monday = now_aedt - timedelta(days=now_aedt.weekday())
+            sunday = monday + timedelta(days=6)
+            date_range = f"{monday.strftime('%-d %b')} – {sunday.strftime('%-d %b %Y')}"
+        elif period == "monthly":
+            date_range = now_aedt.strftime("%B %Y")
+        elif period == "yearly":
+            date_range = now_aedt.strftime("%Y")
+        elif period == "lifetime":
+            date_range = "All time"
+        elif period in _DOW:
+            monday = now_aedt - timedelta(days=now_aedt.weekday())
+            day = monday + timedelta(days=_DOW[period])
+            date_range = day.strftime("%-d %b %Y")
+        else:
+            date_range = ""
+
         self.discord.send_results_embed(period, overall_stats,
-                                        snipe_stats=nex_snipe_stats, nex_bet_stats=nex_bet_stats)
+                                        snipe_stats=nex_snipe_stats, nex_bet_stats=nex_bet_stats,
+                                        date_range=date_range)
 
         print(f"📊 Sent {period} results to Discord")
 
@@ -682,6 +742,9 @@ class DiscordCommandHandler:
 `!monthly` - This month's results
 `!yearly` - This year's results
 `!lifetime` - All time results
+
+**By Day:**
+`!monday` `!tuesday` `!wednesday` `!thursday` `!friday` `!saturday` `!sunday`
 
 **Bets:**
 `!bets` - Show today's bets
