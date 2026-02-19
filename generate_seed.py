@@ -21,9 +21,9 @@ SN_MAX_TR     = 3;     SN_MAX_SETTLE = 3
 SN_PACE       = {"op"};SN_MIN_WIN    = 5.0;  SN_MAX_CC = 0.0
 
 HV_MIN_PRICE  = 2.50;  HV_MAX_PRICE  = 8.00
-HV_MAX_RANK   = 5;     HV_MIN_SCORE  = 70
-HV_MAX_TR     = 99;    HV_MAX_SETTLE = 3
-HV_PACE       = {"op"};HV_MIN_WIN    = 5.0
+HV_MAX_RANK   = 3;     HV_MIN_SCORE  = 75
+HV_MAX_TR     = 99;    HV_MAX_SETTLE = 1
+HV_PACE       = {"op"};HV_MIN_WIN    = 5.0;  HV_MAX_CC = 1.0
 
 
 def norm_style(raw: str) -> str:
@@ -68,6 +68,8 @@ def is_nex_bet(r) -> bool:
     if ps > HV_MAX_SETTLE:                           return False
     win_pct = float(r.get("winPct") or 0)
     if win_pct < HV_MIN_WIN:                         return False
+    cc = r.get("classChange")
+    if cc is None or float(cc) > HV_MAX_CC:          return False
     return True
 
 
