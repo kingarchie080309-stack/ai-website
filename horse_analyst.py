@@ -505,6 +505,7 @@ class DiscordCommandHandler:
         "!help": "help",
         "!lifetime": "lifetime",
         "!wipe": "wipe",         # Clear all bets and reload backtest seed
+        "!scan": "scan",         # Scan all today's upcoming races right now
         # Day-of-week commands
         "!monday": "monday",
         "!tuesday": "tuesday",
@@ -515,9 +516,10 @@ class DiscordCommandHandler:
         "!sunday": "sunday",
     }
 
-    def __init__(self, discord: 'DiscordNotifier', bet_tracker: 'BetTracker'):
+    def __init__(self, discord: 'DiscordNotifier', bet_tracker: 'BetTracker', scan_context: dict = None):
         self.discord = discord
         self.bet_tracker = bet_tracker
+        self.scan_context = scan_context or {}
         self.processed_messages = set()
         self.running = False
         self.thread = None
@@ -590,6 +592,8 @@ class DiscordCommandHandler:
                             self._send_pending_bets()
                         elif command_type == "wipe":
                             self._send_wipe()
+                        elif command_type == "scan":
+                            self._send_scan()
                         else:
                             self._send_results(command_type)
 
@@ -763,6 +767,117 @@ class DiscordCommandHandler:
 - Stakes: Kelly × Confidence (capped at 4.0u)"""
 
         self.discord.send_message(help_text)
+
+    def _send_scan(self):
+        """Scan all today's upcoming races and post every qualifying tip now."""
+        races   = self.scan_context.get("races", [])
+        analyst = self.scan_context.get("analyst")
+        if not races or not analyst:
+            self.discord.send_message("⚠️ No race data loaded yet — try again in a moment.")
+            return
+
+        now = datetime.now(timezone.utc)
+        tips = []   # list of dicts
+
+        for race in sorted(races, key=lambda r: r.start_time or now):
+            if not race.start_time:
+                continue
+            mins_away = (race.start_time - now).total_seconds() / 60
+            if mins_away < -5:          # skip races already run (>5 min ago)
+                continue
+
+            local_time = race.start_time.astimezone(AEDT)
+            time_str   = local_time.strftime('%H:%M')
+
+            snipe_horse_name = None
+
+            # ── NEX SNIPE ────────────────────────────────────────────────────
+            snipe_cands = []
+            for runner in race.runners:
+                if not analyst._is_tracked(runner, mode="SNIPER"):
+                    continue
+                sr       = analyst._calculate_speed_rating(runner)
+                units    = analyst._calculate_units(runner, sr)
+                mkt_rank = analyst._calculate_market_rank(runner, race)
+                conf     = analyst._calculate_confidence(runner, mode="SNIPER")
+                if units > 0:
+                    snipe_cands.append((runner, sr, mkt_rank, conf))
+
+            if snipe_cands:
+                snipe_cands.sort(key=lambda x: (-x[1], x[2]))
+                runner, sr, mkt_rank, conf = snipe_cands[0]
+                snipe_horse_name = runner.name
+                tips.append({
+                    "time": time_str, "mins": mins_away,
+                    "track": race.track_name, "race_num": race.race_number,
+                    "horse": runner.name, "num": runner.saddlecloth,
+                    "price": runner.price, "score": runner.pf_score or sr,
+                    "conf": int(conf * 100), "system": "NEX SNIPE",
+                    "emoji": "🎯",
+                })
+
+            # ── NEX BET ──────────────────────────────────────────────────────
+            bet_cands = []
+            for runner in race.runners:
+                if runner.name == snipe_horse_name:
+                    continue
+                if not analyst._is_tracked(runner, mode="HIGH_VOL"):
+                    continue
+                sr       = analyst._calculate_speed_rating(runner)
+                units    = analyst._calculate_units(runner, sr)
+                mkt_rank = analyst._calculate_market_rank(runner, race)
+                conf     = analyst._calculate_confidence(runner, mode="HIGH_VOL")
+                if units > 0:
+                    bet_cands.append((runner, sr, mkt_rank, conf))
+
+            if bet_cands:
+                bet_cands.sort(key=lambda x: (-x[1], x[2]))
+                runner, sr, mkt_rank, conf = bet_cands[0]
+                tips.append({
+                    "time": time_str, "mins": mins_away,
+                    "track": race.track_name, "race_num": race.race_number,
+                    "horse": runner.name, "num": runner.saddlecloth,
+                    "price": runner.price, "score": runner.pf_score or sr,
+                    "conf": int(conf * 100), "system": "NEX BET",
+                    "emoji": "💠",
+                })
+
+        if not tips:
+            self.discord.send_message("🔍 No qualifying tips found in today's remaining races.")
+            return
+
+        # Sort tips by time
+        tips.sort(key=lambda t: t["mins"])
+
+        # Build embed fields — one field per tip
+        fields = []
+        for t in tips:
+            mins = int(t["mins"])
+            if mins <= 0:
+                when = "**NOW**"
+            elif mins < 60:
+                when = f"in {mins}m"
+            else:
+                h, m = divmod(mins, 60)
+                when = f"in {h}h {m}m"
+
+            fields.append({
+                "name": f"{t['emoji']} {t['track']} R{t['race_num']}  |  {t['time']} AEDT  ({when})",
+                "value": (
+                    f"**{t['num']}. {t['horse']}**  @  ${t['price']:.2f}\n"
+                    f"System: {t['system']}  |  PF Score: {t['score']:.0f}  |  Conf: {t['conf']}%"
+                ),
+                "inline": False,
+            })
+
+        embed = {
+            "title": f"🔍 Today's Tips  —  {len(tips)} qualifying bets",
+            "description": f"Scanned {len(races)} races  |  {datetime.now(AEDT).strftime('%d %b %Y, %H:%M')} AEDT",
+            "color": 0x7B68EE,
+            "fields": fields[:25],   # Discord cap
+            "footer": {"text": f"Horse Tipper | !scan  |  {len([t for t in tips if t['system']=='NEX SNIPE'])} SNIPE  •  {len([t for t in tips if t['system']=='NEX BET'])} BET"},
+        }
+        self.discord._send_embed(embed)
 
     def _send_wipe(self):
         """Clear all bets and reload from built-in backtest seed"""
@@ -2066,11 +2181,14 @@ def main():
 
     bet_tracker = BetTracker()
 
+    # Shared scan context — updated whenever races/analyst change
+    scan_context: dict = {"races": [], "analyst": analyst}
+
     # Start Discord command handlers (one for each bot)
     command_handler = None
     command_handler2 = None
     if discord:
-        command_handler = DiscordCommandHandler(discord, bet_tracker)
+        command_handler = DiscordCommandHandler(discord, bet_tracker, scan_context)
         command_handler.start()
     if discord2:
         command_handler2 = DiscordCommandHandler(discord2, bet_tracker)
@@ -2100,6 +2218,7 @@ def main():
         pf_data = {}
         print(f"  ⚠ PF fetch failed: {e}")
 
+    scan_context["races"] = races   # initial population
     print("\nMonitoring for races starting soon... (Ctrl+C to stop)\n")
 
     # Track last fetch time, last settlement check, and last PF refresh
@@ -2128,6 +2247,7 @@ def main():
                     # Re-enrich with existing PF data (or refreshed below)
                     if pf_data:
                         PuntingFormClient.enrich_runners(races, pf_data)
+                scan_context["races"] = races   # keep scan_context current
                 last_fetch_time = time.time()
 
             # Refresh PF data every 30 minutes (ratings update as markets move)
