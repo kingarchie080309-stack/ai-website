@@ -20,10 +20,10 @@ SN_MAX_RANK   = 2;     SN_MIN_SCORE  = 80
 SN_MAX_TR     = 3;     SN_MAX_SETTLE = 3
 SN_PACE       = {"op"};SN_MIN_WIN    = 5.0;  SN_MAX_CC = 0.0
 
-HV_MIN_PRICE  = 2.50;  HV_MAX_PRICE  = 8.00
-HV_MAX_RANK   = 3;     HV_MIN_SCORE  = 75
-HV_MAX_TR     = 99;    HV_MAX_SETTLE = 1
-HV_PACE       = {"op"};HV_MIN_WIN    = 5.0;  HV_MAX_CC = 1.0
+HV_MIN_PRICE  = 2.50;  HV_MAX_PRICE  = 10.00
+HV_MAX_RANK   = 4;     HV_MIN_SCORE  = 70
+HV_MAX_TR     = 99;    HV_MAX_SETTLE = 4
+HV_PACE       = None;  HV_MIN_WIN    = 8.0;  HV_MAX_CC = 1.0
 
 
 def norm_style(raw: str) -> str:
@@ -62,8 +62,9 @@ def is_nex_bet(r) -> bool:
     tr = r.get("timeRank") or 99
     if tr > HV_MAX_TR:                               return False
     if not r.get("isReliable"):                      return False
-    style = norm_style(r.get("runStyle", ""))
-    if style not in HV_PACE:                         return False
+    if HV_PACE is not None:
+        style = norm_style(r.get("runStyle", ""))
+        if style not in HV_PACE:                     return False
     ps = r.get("predictedSettle") or 99
     if ps > HV_MAX_SETTLE:                           return False
     win_pct = float(r.get("winPct") or 0)
