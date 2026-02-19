@@ -387,6 +387,15 @@ class DiscordNotifier:
         return response.status_code == 200
 
     @retry_on_network_error(max_retries=3, backoff_base=2.0)
+    def send_embed(self, embed: dict):
+        """Send a raw embed dict to Discord."""
+        if not self.bot_token or not self.channel_id:
+            return False
+        url = f"{self.base_url}/channels/{self.channel_id}/messages"
+        response = self.session.post(url, json={"embeds": [embed]}, timeout=10)
+        return response.status_code == 200
+
+    @retry_on_network_error(max_retries=3, backoff_base=2.0)
     def send_results_embed(self, period: str, overall_stats: Dict, snipe_stats: Dict = None, nex_bet_stats: Dict = None, date_range: str = ""):
         """Send a formatted results embed to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
@@ -584,18 +593,24 @@ class DiscordCommandHandler:
                         command_type = self.COMMANDS[content]
                         print(f"📩 Command received: {content}")
 
-                        if command_type == "help":
-                            self._send_help()
-                        elif command_type == "bets":
-                            self._send_recent_bets()
-                        elif command_type == "pending":
-                            self._send_pending_bets()
-                        elif command_type == "wipe":
-                            self._send_wipe()
-                        elif command_type == "scan":
-                            self._send_scan()
-                        else:
-                            self._send_results(command_type)
+                        try:
+                            if command_type == "help":
+                                self._send_help()
+                            elif command_type == "bets":
+                                self._send_recent_bets()
+                            elif command_type == "pending":
+                                self._send_pending_bets()
+                            elif command_type == "wipe":
+                                self._send_wipe()
+                            elif command_type == "scan":
+                                self._send_scan()
+                            else:
+                                self._send_results(command_type)
+                        except Exception as cmd_err:
+                            import traceback
+                            err_msg = traceback.format_exc()
+                            print(f"Command error ({command_type}): {err_msg}")
+                            self.discord.send_message(f"⚠️ Command error ({command_type}): {cmd_err}")
 
                 # Keep processed list manageable
                 if len(self.processed_messages) > 1000:
@@ -882,7 +897,7 @@ class DiscordCommandHandler:
             "fields": fields[:25],   # Discord cap
             "footer": {"text": f"Horse Tipper | !scan  |  {len([t for t in tips if t['system']=='NEX SNIPE'])} SNIPE  •  {len([t for t in tips if t['system']=='NEX BET'])} BET"},
         }
-        self.discord._send_embed(embed)
+        self.discord.send_embed(embed)
 
     def _send_wipe(self):
         """Clear all bets and reload from built-in backtest seed"""
