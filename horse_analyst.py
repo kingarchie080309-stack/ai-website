@@ -843,7 +843,12 @@ class DiscordCommandHandler:
                 })
 
         if not tips:
-            self.discord.send_message("🔍 No qualifying tips found in today's remaining races.")
+            upcoming = sum(1 for r in races if r.start_time and (r.start_time - now).total_seconds() > -300)
+            pf_enriched = sum(1 for r in races for ru in r.runners if ru.pf_rank is not None)
+            self.discord.send_message(
+                f"🔍 No qualifying tips in {upcoming} upcoming races "
+                f"({len(races)} total, {pf_enriched} runners with PF data)."
+            )
             return
 
         # Sort tips by time
@@ -1785,8 +1790,8 @@ class HorseRacingAnalyst:
                     return False
                 if runner.win_pct < self.SN_MIN_WIN_PCT:
                     return False
-                # classChange: must have data and be ≤ 0 (dropped class or same)
-                if runner.class_change is None or runner.class_change > self.SN_MAX_CC:
+                # classChange: prefer dropped class; skip filter if data absent
+                if runner.class_change is not None and runner.class_change > self.SN_MAX_CC:
                     return False
                 return True
 
@@ -1808,7 +1813,7 @@ class HorseRacingAnalyst:
                     return False
                 if runner.win_pct < self.HV_MIN_WIN_PCT:
                     return False
-                if runner.class_change is None or runner.class_change > self.HV_MAX_CC:
+                if runner.class_change is not None and runner.class_change > self.HV_MAX_CC:
                     return False
                 return True
 
@@ -2191,7 +2196,7 @@ def main():
         command_handler = DiscordCommandHandler(discord, bet_tracker, scan_context)
         command_handler.start()
     if discord2:
-        command_handler2 = DiscordCommandHandler(discord2, bet_tracker)
+        command_handler2 = DiscordCommandHandler(discord2, bet_tracker, scan_context)
         command_handler2.start()
 
     # Track races we've already output to avoid duplicates
