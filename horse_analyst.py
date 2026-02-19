@@ -2235,13 +2235,20 @@ def main():
     print("\nFetching initial race data...")
 
     # Do initial fetch with verbose output
-    australia_data = api_client.get_australia_meets()
-    if australia_data and 'meets' in australia_data:
-        races = api_client.parse_australia_to_races(australia_data)
-        print(f"\n✓ Loaded {len(races)} races")
-    else:
-        races = []
-        print("No races found")
+    races = []
+    try:
+        australia_data = api_client.get_australia_meets()
+        if australia_data and 'meets' in australia_data:
+            races = api_client.parse_australia_to_races(australia_data)
+            print(f"\n✓ Loaded {len(races)} races")
+        else:
+            print("No races found in API response")
+    except Exception as e:
+        print(f"  ⚠ Racing API fetch failed: {e}")
+        if discord:
+            discord.send_message(f"⚠️ Racing API fetch failed at startup: {e}")
+        if discord2:
+            discord2.send_message(f"⚠️ Racing API fetch failed at startup: {e}")
 
     # Fetch Punting Form data and enrich runners
     print("\nFetching Punting Form signals...")
