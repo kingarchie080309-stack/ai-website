@@ -147,16 +147,21 @@ def generate():
                 # Gather qualifying runners for each system
                 snipe_cands = [(r, r.get("pfaiScore", 0), market_rank(r["name"], active))
                                for r in active if is_snipe(r)]
-                bet_cands   = [(r, r.get("pfaiScore", 0), market_rank(r["name"], active))
-                               for r in active if is_nex_bet(r)]
 
                 def pick_best(cands):
                     if not cands:
                         return None
                     return sorted(cands, key=lambda x: (-x[1], x[2]))[0][0]
 
+                snipe_runner = pick_best(snipe_cands)
+                snipe_name   = snipe_runner["name"] if snipe_runner else None
+
+                # NEX BET excludes horse already picked by NEX SNIPE
+                bet_cands = [(r, r.get("pfaiScore", 0), market_rank(r["name"], active))
+                             for r in active if is_nex_bet(r) and r["name"] != snipe_name]
+
                 for runner, mode, bet_type in [
-                    (pick_best(snipe_cands), "SNIPER",   "NEX SNIPE"),
+                    (snipe_runner,           "SNIPER",   "NEX SNIPE"),
                     (pick_best(bet_cands),   "HIGH_VOL", "NEX BET"),
                 ]:
                     if runner is None:
