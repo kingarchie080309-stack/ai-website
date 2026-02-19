@@ -858,11 +858,26 @@ class DiscordCommandHandler:
                 })
 
         if not tips:
-            upcoming = sum(1 for r in races if r.start_time and (r.start_time - now).total_seconds() > -300)
-            pf_enriched = sum(1 for r in races for ru in r.runners if ru.pf_rank is not None)
+            # ── detailed filter breakdown so we know exactly why nothing qualifies ──
+            all_runners = [ru for r in races for ru in r.runners]
+            upcoming_races = [r for r in races if r.start_time and (r.start_time - now).total_seconds() > -300]
+            pf_runners   = [ru for ru in all_runners if ru.pf_rank is not None]
+            reliable     = [ru for ru in pf_runners if ru.is_reliable]
+            hv_price     = [ru for ru in pf_runners if analyst.HV_MIN_PRICE <= ru.price <= analyst.HV_MAX_PRICE]
+            hv_rank      = [ru for ru in pf_runners if ru.pf_rank <= analyst.HV_MAX_RANK]
+            hv_score     = [ru for ru in pf_runners if (ru.pf_score or 0) >= analyst.HV_MIN_SCORE]
+            hv_settle    = [ru for ru in pf_runners if ru.pred_settle is None or ru.pred_settle <= analyst.HV_MAX_SETTLE]
             self.discord.send_message(
-                f"🔍 No qualifying tips in {upcoming} upcoming races "
-                f"({len(races)} total, {pf_enriched} runners with PF data)."
+                f"🔍 **!scan diagnostic** — {datetime.now(AEDT).strftime('%H:%M')} AEDT\n"
+                f"Races loaded: {len(races)}  |  Upcoming: {len(upcoming_races)}\n"
+                f"Runners total: {len(all_runners)}  |  With PF data: {len(pf_runners)}\n"
+                f"--- NEX BET filter funnel (of PF runners) ---\n"
+                f"is_reliable=True : {len(reliable)}\n"
+                f"price ${analyst.HV_MIN_PRICE}–${analyst.HV_MAX_PRICE}: {len(hv_price)}\n"
+                f"pfRank ≤ {analyst.HV_MAX_RANK} : {len(hv_rank)}\n"
+                f"pfScore ≥ {analyst.HV_MIN_SCORE} : {len(hv_score)}\n"
+                f"predSettle ≤ {analyst.HV_MAX_SETTLE} : {len(hv_settle)}\n"
+                f"(winPct/classChange checked too — pass all to qualify)"
             )
             return
 
