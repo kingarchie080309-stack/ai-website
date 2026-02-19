@@ -2254,6 +2254,19 @@ def main():
         print(f"  ⚠ PF fetch failed: {e}")
 
     scan_context["races"] = races   # initial population
+
+    # Notify Discord that the bot is ready
+    pf_enriched_count = sum(1 for r in races for ru in r.runners if ru.pf_rank is not None)
+    ready_msg = (
+        f"✅ **Horse Tipper ready** — {datetime.now(AEDT).strftime('%d %b %Y, %H:%M')} AEDT\n"
+        f"Loaded {len(races)} races · {pf_enriched_count} runners with PF data\n"
+        f"Type `!scan` to see today's qualifying tips."
+    )
+    if discord:
+        discord.send_message(ready_msg)
+    if discord2:
+        discord2.send_message(ready_msg)
+
     print("\nMonitoring for races starting soon... (Ctrl+C to stop)\n")
 
     # Track last fetch time, last settlement check, and last PF refresh
