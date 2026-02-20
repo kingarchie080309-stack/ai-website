@@ -881,36 +881,40 @@ class DiscordCommandHandler:
             )
             return
 
-        # Sort tips by time
-        tips.sort(key=lambda t: t["mins"])
+        # Split into SNIPE and BET, sort each
+        snipe_tips = sorted([t for t in tips if t["system"] == "NEX SNIPE"], key=lambda t: t["mins"])
+        bet_tips   = sorted([t for t in tips if t["system"] == "NEX BET"],   key=lambda t: -t["conf"])
 
-        # Build embed fields — one field per tip
-        fields = []
-        for t in tips:
+        def tip_line(t):
             mins = int(t["mins"])
             if mins <= 0:
                 when = "**NOW**"
             elif mins < 60:
-                when = f"in {mins}m"
+                when = f"{mins}m"
             else:
                 h, m = divmod(mins, 60)
-                when = f"in {h}h {m}m"
+                when = f"{h}h{m:02d}m"
+            return f"`{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} ·  _{t['conf']}%_ (in {when})"
 
-            fields.append({
-                "name": f"{t['emoji']} {t['track']} R{t['race_num']}  |  {t['time']} AEDT  ({when})",
-                "value": (
-                    f"**{t['num']}. {t['horse']}**  @  ${t['price']:.2f}\n"
-                    f"System: {t['system']}  |  PF Score: {t['score']:.0f}  |  Conf: {t['conf']}%"
-                ),
-                "inline": False,
-            })
+        snipe_val = "\n".join(tip_line(t) for t in snipe_tips) or "_None today_"
+
+        # Cap BET at 15 (sorted by confidence) to stay within Discord field limit
+        bet_shown = bet_tips[:15]
+        bet_val   = "\n".join(tip_line(t) for t in bet_shown)
+        if len(bet_tips) > 15:
+            bet_val += f"\n_...+{len(bet_tips) - 15} more_"
+
+        fields = [
+            {"name": f"🎯 NEX SNIPE — {len(snipe_tips)} tip{'s' if len(snipe_tips) != 1 else ''}", "value": snipe_val, "inline": False},
+            {"name": f"💠 NEX BET — {len(bet_tips)} tip{'s' if len(bet_tips) != 1 else ''} (top {len(bet_shown)} by confidence)", "value": bet_val or "_None today_", "inline": False},
+        ]
 
         embed = {
-            "title": f"🔍 Today's Tips  —  {len(tips)} qualifying bets",
-            "description": f"Scanned {len(races)} races  |  {datetime.now(AEDT).strftime('%d %b %Y, %H:%M')} AEDT",
+            "title": f"🔍 Today's Tips  —  {len(tips)} bets across {len(races)} races",
+            "description": datetime.now(AEDT).strftime("%d %b %Y, %H:%M AEDT"),
             "color": 0x7B68EE,
-            "fields": fields[:25],   # Discord cap
-            "footer": {"text": f"Horse Tipper | !scan  |  {len([t for t in tips if t['system']=='NEX SNIPE'])} SNIPE  •  {len([t for t in tips if t['system']=='NEX BET'])} BET"},
+            "fields": fields,
+            "footer": {"text": f"Predictive Form | !scan  |  {len(snipe_tips)} SNIPE  •  {len(bet_tips)} BET"},
         }
         self.discord.send_embed(embed)
 
