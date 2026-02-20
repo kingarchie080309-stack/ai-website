@@ -2273,6 +2273,9 @@ def main():
         if discord2:
             discord2.send_message(f"⚠️ Racing API fetch failed at startup: {e}")
 
+    # Make races available immediately so !scan works during PF fetch
+    scan_context["races"] = races
+
     # Fetch Punting Form data and enrich runners
     print("\nFetching Punting Form signals...")
     try:
@@ -2283,7 +2286,7 @@ def main():
         pf_data = {}
         print(f"  ⚠ PF fetch failed: {e}")
 
-    scan_context["races"] = races   # initial population
+    scan_context["races"] = races   # update with PF-enriched data
 
     # Notify Discord that the bot is ready
     pf_enriched_count = sum(1 for r in races for ru in r.runners if ru.pf_rank is not None)
