@@ -126,6 +126,8 @@ class BetTracker:
             "result": None,  # "win", "loss", or None (pending)
             "finishing_position": None,
             "settled_at": None,
+            "closing_price": None,  # SP at jump — for CLV calculation
+            "clv": None,            # Closing Line Value % (positive = beat the market)
         }
 
         # Check for duplicate
@@ -194,7 +196,8 @@ class BetTracker:
         """Get all pending (unsettled) bets"""
         return [b for b in self.bets if b.get("result") is None]
 
-    def settle_bet_by_horse(self, track: str, race_num: int, horse_name: str, position: int) -> bool:
+    def settle_bet_by_horse(self, track: str, race_num: int, horse_name: str, position: int,
+                            closing_price: float = None) -> bool:
         """Settle a bet by matching track, race number, and horse name"""
         horse_lower = horse_name.lower().strip()
 
@@ -213,6 +216,11 @@ class BetTracker:
                 bet["finishing_position"] = position
                 bet["result"] = "win" if position == 1 else "loss"
                 bet["settled_at"] = datetime.now(timezone.utc).isoformat()
+                # Record SP and calculate CLV if we have it
+                if closing_price and closing_price > 0:
+                    bet["closing_price"] = round(float(closing_price), 2)
+                    if bet.get("price") and bet["price"] > 0:
+                        bet["clv"] = round((bet["price"] / closing_price - 1) * 100, 1)
                 self._save_bets()
                 return True
         return False
@@ -271,7 +279,8 @@ class BetTracker:
                 "total_return": 0.0,
                 "profit": 0.0,
                 "roi": 0.0,
-                "avg_odds": 0.0
+                "avg_odds": 0.0,
+                "avg_clv": None,
             }
 
         settled = [b for b in bets if b.get("result") is not None]
@@ -301,6 +310,10 @@ class BetTracker:
         all_prices = [b.get("price", 0) for b in bets if b.get("price", 0) > 0]
         avg_odds = sum(all_prices) / len(all_prices) if all_prices else 0.0
 
+        # Calculate average CLV from settled bets that have it
+        clv_values = [b.get("clv") for b in active_settled if b.get("clv") is not None]
+        avg_clv = round(sum(clv_values) / len(clv_values), 1) if clv_values else None
+
         return {
             "total_bets": len(bets),
             "settled": len(settled),
@@ -312,7 +325,8 @@ class BetTracker:
             "total_return": round(total_return, 2),
             "profit": round(profit, 2),
             "roi": round(roi, 2),
-            "avg_odds": round(avg_odds, 2)
+            "avg_odds": round(avg_odds, 2),
+            "avg_clv": avg_clv,
         }
 
 
@@ -435,37 +449,43 @@ class DiscordNotifier:
         # NEX SNIPE section
         if snipe_stats and snipe_stats["total_bets"] > 0:
             fields.append({"name": "🎯 NEX SNIPE (PF Sniper)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            snipe_clv = snipe_stats.get("avg_clv")
+            clv_str = f"{snipe_clv:+.1f}%" if snipe_clv is not None else "n/a"
             fields.extend([
                 {"name": "Bets", "value": str(snipe_stats["total_bets"]), "inline": True},
                 {"name": "Wins", "value": f"{snipe_stats['wins']} ({snipe_stats['win_rate']}%)", "inline": True},
                 {"name": "P/L", "value": f"{snipe_stats['profit']:+.2f}u", "inline": True},
                 {"name": "ROI", "value": f"{snipe_stats['roi']:+.1f}%", "inline": True},
                 {"name": "Avg Odds", "value": f"${snipe_stats['avg_odds']:.2f}", "inline": True},
-                {"name": "\u200b", "value": "\u200b", "inline": True},
+                {"name": "Avg CLV", "value": clv_str, "inline": True},
             ])
 
         # NEX BET section
         if nex_bet_stats and nex_bet_stats["total_bets"] > 0:
             fields.append({"name": "💠 NEX BET (PF Volume)", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+            bet_clv = nex_bet_stats.get("avg_clv")
+            clv_str = f"{bet_clv:+.1f}%" if bet_clv is not None else "n/a"
             fields.extend([
                 {"name": "Bets", "value": str(nex_bet_stats["total_bets"]), "inline": True},
                 {"name": "Wins", "value": f"{nex_bet_stats['wins']} ({nex_bet_stats['win_rate']}%)", "inline": True},
                 {"name": "P/L", "value": f"{nex_bet_stats['profit']:+.2f}u", "inline": True},
                 {"name": "ROI", "value": f"{nex_bet_stats['roi']:+.1f}%", "inline": True},
                 {"name": "Avg Odds", "value": f"${nex_bet_stats['avg_odds']:.2f}", "inline": True},
-                {"name": "\u200b", "value": "\u200b", "inline": True},
+                {"name": "Avg CLV", "value": clv_str, "inline": True},
             ])
 
 
         # OVERALL section
         fields.append({"name": "📊 OVERALL", "value": "━━━━━━━━━━━━━━━━━━━━", "inline": False})
+        overall_clv = overall_stats.get("avg_clv")
+        overall_clv_str = f"{overall_clv:+.1f}%" if overall_clv is not None else "n/a"
         fields.extend([
             {"name": "Total Bets", "value": str(overall_stats["total_bets"]), "inline": True},
             {"name": "Wins", "value": f"{overall_stats['wins']} ({overall_stats['win_rate']}%)", "inline": True},
             {"name": "P/L", "value": f"{overall_stats['profit']:+.2f}u", "inline": True},
             {"name": "ROI", "value": f"{overall_stats['roi']:+.1f}%", "inline": True},
             {"name": "Staked", "value": f"{overall_stats['total_staked']:.2f}u", "inline": True},
-            {"name": "Return", "value": f"{overall_stats['total_return']:.2f}u", "inline": True},
+            {"name": "Avg CLV", "value": overall_clv_str, "inline": True},
         ])
 
         embed = {
@@ -829,16 +849,23 @@ class DiscordCommandHandler:
                 if not analyst._is_tracked(runner, mode="SNIPER"):
                     continue
                 sr       = analyst._calculate_speed_rating(runner)
-                units    = analyst._calculate_units(runner, sr)
+                units    = analyst._calculate_units(runner, sr, mode="SNIPER")
                 mkt_rank = analyst._calculate_market_rank(runner, race)
                 conf     = analyst._calculate_confidence(runner, mode="SNIPER")
                 if units > 0:
-                    snipe_cands.append((runner, sr, mkt_rank, conf))
+                    snipe_cands.append((runner, sr, units, mkt_rank, conf))
 
             if snipe_cands:
-                snipe_cands.sort(key=lambda x: (-x[1], x[2]))
-                runner, sr, mkt_rank, conf = snipe_cands[0]
+                snipe_cands.sort(key=lambda x: (-x[1], x[3]))
+                runner, sr, units, mkt_rank, conf = snipe_cands[0]
                 snipe_horse_name = runner.name
+                # Record bet now at the early (morning) price for accurate CLV tracking
+                self.bet_tracker.record_bet(
+                    track=race.track_name, race_num=race.race_number,
+                    horse_name=runner.name, horse_num=runner.saddlecloth,
+                    price=runner.price, units=units, rsi=int(runner.pf_score or sr),
+                    race_time=st, market_rank=mkt_rank, bet_type="NEX SNIPE"
+                )
                 tips.append({
                     "time": time_str, "mins": mins_away,
                     "ts": int(st.timestamp()),
@@ -857,15 +884,22 @@ class DiscordCommandHandler:
                 if not analyst._is_tracked(runner, mode="HIGH_VOL"):
                     continue
                 sr       = analyst._calculate_speed_rating(runner)
-                units    = analyst._calculate_units(runner, sr)
+                units    = analyst._calculate_units(runner, sr, mode="HIGH_VOL")
                 mkt_rank = analyst._calculate_market_rank(runner, race)
                 conf     = analyst._calculate_confidence(runner, mode="HIGH_VOL")
                 if units > 0:
-                    bet_cands.append((runner, sr, mkt_rank, conf))
+                    bet_cands.append((runner, sr, units, mkt_rank, conf))
 
             if bet_cands:
-                bet_cands.sort(key=lambda x: (-x[1], x[2]))
-                runner, sr, mkt_rank, conf = bet_cands[0]
+                bet_cands.sort(key=lambda x: (-x[1], x[3]))
+                runner, sr, units, mkt_rank, conf = bet_cands[0]
+                # Record bet now at the early (morning) price for accurate CLV tracking
+                self.bet_tracker.record_bet(
+                    track=race.track_name, race_num=race.race_number,
+                    horse_name=runner.name, horse_num=runner.saddlecloth,
+                    price=runner.price, units=units, rsi=int(runner.pf_score or sr),
+                    race_time=st, market_rank=mkt_rank, bet_type="NEX BET"
+                )
                 tips.append({
                     "time": time_str, "mins": mins_away,
                     "ts": int(st.timestamp()),
@@ -1109,6 +1143,7 @@ class RacingAPIClient:
                         return None
 
                     positions = {}
+                    sp_prices = {}
                     winner = None
 
                     for runner in race_detail.get('runners', []):
@@ -1120,10 +1155,19 @@ class RacingAPIClient:
                             if int(position) == 1:
                                 winner = horse_name
 
+                        # Capture starting price (SP) for CLV calculation
+                        sp = runner.get('sp') or runner.get('win_sp') or runner.get('sp_win')
+                        if sp:
+                            try:
+                                sp_prices[horse_name.lower()] = float(sp)
+                            except (ValueError, TypeError):
+                                pass
+
                     if positions:
                         return {
                             'winner': winner,
                             'positions': positions,
+                            'sp_prices': sp_prices,
                             'track': meet.get('course'),
                             'race_number': race_number
                         }
@@ -1953,9 +1997,29 @@ class HorseRacingAnalyst:
 
         return "\n".join(output_lines)
 
-    def _calculate_units(self, *_) -> float:
-        """Flat 1u staking on every qualifying bet."""
-        return 1.0
+    # Long-run win rates used for Kelly staking
+    _KELLY_WR   = {"SNIPER": 0.508, "HIGH_VOL": 0.295}
+    _KELLY_FRAC = 1 / 16
+    _KELLY_CAP  = {"SNIPER": 1.5, "HIGH_VOL": None}  # SNIPE capped 1.5u, BET uncapped
+
+    def _calculate_units(self, runner, sr_or_win_pct=None, mode: str = "HIGH_VOL") -> float:
+        """
+        1/16 Kelly staking based on tip price and system win rate.
+        NEX SNIPE: capped at 1.5u. NEX BET: uncapped (negative-edge returns 0 → bet skipped).
+        """
+        price = getattr(runner, 'price', None)
+        if not price or price <= 1.0:
+            return 0.0
+        p = self._KELLY_WR.get(mode, 0.295)
+        b = price - 1.0
+        f = (b * p - (1 - p)) / b
+        if f <= 0:
+            return 0.0  # negative edge — skip this bet
+        units = f * self._KELLY_FRAC * 100
+        cap   = self._KELLY_CAP.get(mode)
+        if cap:
+            units = min(units, cap)
+        return round(units, 2)
 
     # ========================================
     # SELECTION METHODS
@@ -2152,23 +2216,37 @@ def auto_settle_bets(api_client: 'RacingAPIClient', bet_tracker: 'BetTracker',
                         break
 
                 if position:
-                    # Settle the bet
-                    if bet_tracker.settle_bet_by_horse(track, race_num, horse_name, position):
+                    # Look up SP for CLV
+                    sp_prices = result.get('sp_prices', {})
+                    horse_sp = sp_prices.get(normalize_name(horse_name)) or sp_prices.get(horse_name.lower())
+
+                    # Settle the bet (passing SP for CLV tracking)
+                    if bet_tracker.settle_bet_by_horse(track, race_num, horse_name, position, closing_price=horse_sp):
                         settled_count += 1
                         is_win = position == 1
                         emoji = "🎉🏆" if is_win else "❌"
                         result_text = "WON - SEND SLIPS INTO WINS!" if is_win else f"#{position}"
 
-                        print(f"{emoji} Settled: {track} R{race_num} - {horse_name} {result_text}")
+                        # Build CLV string for logging
+                        clv_str = ""
+                        if horse_sp and bet.get("price"):
+                            clv_val = round((bet["price"] / horse_sp - 1) * 100, 1)
+                            clv_str = f" | CLV {clv_val:+.1f}% (SP ${horse_sp:.2f})"
+
+                        print(f"{emoji} Settled: {track} R{race_num} - {horse_name} {result_text}{clv_str}")
 
                         # Notify Discord
                         if discord and is_win:
                             payout = bet.get("units", 0) * bet.get("price", 0)
                             profit = payout - bet.get("units", 0)
+                            clv_discord = ""
+                            if horse_sp and bet.get("price"):
+                                clv_val = round((bet["price"] / horse_sp - 1) * 100, 1)
+                                clv_discord = f"\n📈 CLV: {clv_val:+.1f}% vs SP ${horse_sp:.2f}"
                             discord.send_message(
                                 f"🎉🏆 **WINNER!** 🏆🎉\n"
                                 f"**{horse_name}** @ ${bet.get('price', 0):.2f} - {track} R{race_num}\n"
-                                f"💰 Payout: {payout:.1f}u (+{profit:.1f}u profit)\n"
+                                f"💰 Payout: {payout:.1f}u (+{profit:.1f}u profit){clv_discord}\n"
                                 f"🎊 **SEND SLIPS INTO WINS!** 🎊"
                             )
                 else:
@@ -2252,7 +2330,7 @@ def main():
         command_handler2 = DiscordCommandHandler(discord2, bet_tracker, scan_context)
         command_handler2.start()
 
-    # Track races we've already output to avoid duplicates
+    # Track races we've already sent 3-min pre-race tips for (avoid duplicates)
     output_races = set()
 
     print("\nFetching initial race data...")
@@ -2293,12 +2371,24 @@ def main():
     ready_msg = (
         f"✅ **Horse Tipper ready** — {datetime.now(AEDT).strftime('%d %b %Y, %H:%M')} AEDT\n"
         f"Loaded {len(races)} races · {pf_enriched_count} runners with PF data\n"
-        f"Type `!scan` to see today's qualifying tips."
+        f"Sending today's early tips now..."
     )
     if discord:
         discord.send_message(ready_msg)
     if discord2:
         discord2.send_message(ready_msg)
+
+    # Send early morning tips — beat SP by getting tips out as soon as PF data loads
+    if command_handler:
+        try:
+            command_handler._send_scan()
+        except Exception as e:
+            print(f"  ⚠ Early scan (bot1) error: {e}")
+    if command_handler2:
+        try:
+            command_handler2._send_scan()
+        except Exception as e:
+            print(f"  ⚠ Early scan (bot2) error: {e}")
 
     print("\nMonitoring for races starting soon... (Ctrl+C to stop)\n")
 
@@ -2361,14 +2451,15 @@ def main():
                     # Check time until start
                     time_until_start = (race.start_time - now).total_seconds() / 60
 
-                    # Output if within 3 minutes
-                    if 0 <= time_until_start <= 3:
+                    # Output at ~3 minutes before race (2–4 min window for reliability)
+                    if 2 <= time_until_start <= 4:
                         # Get local time
                         local_time = race.start_time.astimezone(AEDT)
                         race_time_str = local_time.strftime('%H:%M')
 
                         # ========================================
                         # PF SYSTEMS: NEX SNIPE + NEX BET (independent)
+                        # 3-MIN REMINDER — sent ~3 minutes before jump
                         # Both go to Server 1 ch1 + Server 2 ch1
                         # ========================================
 
@@ -2381,7 +2472,7 @@ def main():
                                 continue
                             speed_rating = analyst._calculate_speed_rating(runner)
                             win_pct      = analyst._calculate_win_percentage(runner, speed_rating)
-                            units        = analyst._calculate_units(runner, win_pct)
+                            units        = analyst._calculate_units(runner, win_pct, mode="SNIPER")
                             market_rank  = analyst._calculate_market_rank(runner, race)
                             confidence   = analyst._calculate_confidence(runner, mode="SNIPER")
                             if units > 0:
@@ -2437,7 +2528,7 @@ def main():
                                 continue
                             speed_rating = analyst._calculate_speed_rating(runner)
                             win_pct      = analyst._calculate_win_percentage(runner, speed_rating)
-                            units        = analyst._calculate_units(runner, win_pct)
+                            units        = analyst._calculate_units(runner, win_pct, mode="HIGH_VOL")
                             market_rank  = analyst._calculate_market_rank(runner, race)
                             confidence   = analyst._calculate_confidence(runner, mode="HIGH_VOL")
                             if units > 0:
