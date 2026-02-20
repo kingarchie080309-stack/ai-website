@@ -907,17 +907,25 @@ class DiscordCommandHandler:
         def tip_line(t):
             return f"`{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} · _{t['conf']}%_ · <t:{t['ts']}:R>"
 
-        snipe_val = "\n".join(tip_line(t) for t in snipe_tips) or "_None today_"
+        # Cap both lists to stay within Discord's 1024-char field value limit
+        CAP = 10
+        snipe_shown = snipe_tips[:CAP]
+        snipe_val   = "\n".join(tip_line(t) for t in snipe_shown) or "_None today_"
+        if len(snipe_tips) > CAP:
+            snipe_val += f"\n_...+{len(snipe_tips) - CAP} more_"
 
-        # Cap BET at 15 (sorted by confidence) to stay within Discord field limit
-        bet_shown = bet_tips[:15]
-        bet_val   = "\n".join(tip_line(t) for t in bet_shown)
-        if len(bet_tips) > 15:
-            bet_val += f"\n_...+{len(bet_tips) - 15} more_"
+        bet_shown = bet_tips[:CAP]
+        bet_val   = "\n".join(tip_line(t) for t in bet_shown) or "_None today_"
+        if len(bet_tips) > CAP:
+            bet_val += f"\n_...+{len(bet_tips) - CAP} more_"
+
+        # Hard-truncate to Discord's field value limit just in case
+        snipe_val = snipe_val[:1020]
+        bet_val   = bet_val[:1020]
 
         fields = [
             {"name": f"🎯 NEX SNIPE — {len(snipe_tips)} tip{'s' if len(snipe_tips) != 1 else ''}", "value": snipe_val, "inline": False},
-            {"name": f"💠 NEX BET — {len(bet_tips)} tip{'s' if len(bet_tips) != 1 else ''} (top {len(bet_shown)} by confidence)", "value": bet_val or "_None today_", "inline": False},
+            {"name": f"💠 NEX BET — {len(bet_tips)} tip{'s' if len(bet_tips) != 1 else ''}", "value": bet_val, "inline": False},
         ]
 
         embed = {
@@ -927,7 +935,9 @@ class DiscordCommandHandler:
             "fields": fields,
             "footer": {"text": f"Predictive Form | !scan  |  {len(snipe_tips)} SNIPE  •  {len(bet_tips)} BET"},
         }
-        self.discord.send_embed(embed)
+        ok = self.discord.send_embed(embed)
+        if not ok:
+            self.discord.send_message(f"⚠️ Embed failed — {len(snipe_tips)} SNIPE, {len(bet_tips)} BET tips found but couldn't display.")
 
     def _send_wipe(self):
         """Clear all bets and reload from built-in backtest seed"""
