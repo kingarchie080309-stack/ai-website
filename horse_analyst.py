@@ -907,32 +907,30 @@ class DiscordCommandHandler:
         def tip_line(t):
             return f"`{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} · _{t['conf']}%_ · <t:{t['ts']}:R>"
 
-        # Cap both lists to stay within Discord's 1024-char field value limit
-        CAP = 10
-        snipe_shown = snipe_tips[:CAP]
-        snipe_val   = "\n".join(tip_line(t) for t in snipe_shown) or "_None today_"
-        if len(snipe_tips) > CAP:
-            snipe_val += f"\n_...+{len(snipe_tips) - CAP} more_"
+        # Build fields — split into pages of 10 to stay under Discord's 1024-char field limit
+        CHUNK = 10
+        fields = []
 
-        bet_shown = bet_tips[:CAP]
-        bet_val   = "\n".join(tip_line(t) for t in bet_shown) or "_None today_"
-        if len(bet_tips) > CAP:
-            bet_val += f"\n_...+{len(bet_tips) - CAP} more_"
+        def make_fields(tip_list, label, emoji):
+            for i in range(0, max(1, len(tip_list)), CHUNK):
+                chunk = tip_list[i:i + CHUNK]
+                page  = i // CHUNK + 1
+                pages = max(1, -(-len(tip_list) // CHUNK))  # ceiling division
+                name  = f"{emoji} {label} — {len(tip_list)} tip{'s' if len(tip_list) != 1 else ''}"
+                if pages > 1:
+                    name += f"  ({page}/{pages})"
+                value = "\n".join(tip_line(t) for t in chunk) or "_None today_"
+                fields.append({"name": name, "value": value[:1024], "inline": False})
 
-        # Hard-truncate to Discord's field value limit just in case
-        snipe_val = snipe_val[:1020]
-        bet_val   = bet_val[:1020]
+        make_fields(snipe_tips, "NEX SNIPE", "🎯")
+        make_fields(bet_tips,   "NEX BET",   "💠")
 
-        fields = [
-            {"name": f"🎯 NEX SNIPE — {len(snipe_tips)} tip{'s' if len(snipe_tips) != 1 else ''}", "value": snipe_val, "inline": False},
-            {"name": f"💠 NEX BET — {len(bet_tips)} tip{'s' if len(bet_tips) != 1 else ''}", "value": bet_val, "inline": False},
-        ]
-
+        # Discord cap: 25 fields per embed
         embed = {
             "title": f"🔍 Today's Tips  —  {len(tips)} bets across {len(races)} races",
             "description": datetime.now(AEDT).strftime("%d %b %Y, %H:%M AEDT"),
             "color": 0x7B68EE,
-            "fields": fields,
+            "fields": fields[:25],
             "footer": {"text": f"Predictive Form | !scan  |  {len(snipe_tips)} SNIPE  •  {len(bet_tips)} BET"},
         }
         ok = self.discord.send_embed(embed)
