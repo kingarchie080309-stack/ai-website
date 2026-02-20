@@ -824,6 +824,7 @@ class DiscordCommandHandler:
                 snipe_horse_name = runner.name
                 tips.append({
                     "time": time_str, "mins": mins_away,
+                    "ts": int(race.start_time.timestamp()),
                     "track": race.track_name, "race_num": race.race_number,
                     "horse": runner.name, "num": runner.saddlecloth,
                     "price": runner.price, "score": runner.pf_score or sr,
@@ -850,6 +851,7 @@ class DiscordCommandHandler:
                 runner, sr, mkt_rank, conf = bet_cands[0]
                 tips.append({
                     "time": time_str, "mins": mins_away,
+                    "ts": int(race.start_time.timestamp()),
                     "track": race.track_name, "race_num": race.race_number,
                     "horse": runner.name, "num": runner.saddlecloth,
                     "price": runner.price, "score": runner.pf_score or sr,
@@ -886,15 +888,7 @@ class DiscordCommandHandler:
         bet_tips   = sorted([t for t in tips if t["system"] == "NEX BET"],   key=lambda t: -t["conf"])
 
         def tip_line(t):
-            mins = int(t["mins"])
-            if mins <= 0:
-                when = "**NOW**"
-            elif mins < 60:
-                when = f"{mins}m"
-            else:
-                h, m = divmod(mins, 60)
-                when = f"{h}h{m:02d}m"
-            return f"`{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} ·  _{t['conf']}%_ (in {when})"
+            return f"`{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} · _{t['conf']}%_ · <t:{t['ts']}:R>"
 
         snipe_val = "\n".join(tip_line(t) for t in snipe_tips) or "_None today_"
 
