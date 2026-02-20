@@ -785,10 +785,11 @@ class DiscordCommandHandler:
 
     def _send_scan(self):
         """Scan all today's upcoming races and post every qualifying tip now."""
+        self.discord.send_message("🔍 Scanning races...")
         races   = self.scan_context.get("races", [])
         analyst = self.scan_context.get("analyst")
         if not races or not analyst:
-            self.discord.send_message("⚠️ No race data loaded yet — try again in a moment.")
+            self.discord.send_message(f"⚠️ No race data loaded yet (races={len(races)}, analyst={'ok' if analyst else 'MISSING'}).")
             return
 
         now = datetime.now(timezone.utc)
