@@ -795,14 +795,30 @@ class DiscordCommandHandler:
         now = datetime.now(timezone.utc)
         tips = []   # list of dicts
 
-        for race in sorted(races, key=lambda r: r.start_time or now):
+        try:
+            def _sort_key(r):
+                t = r.start_time or now
+                # Ensure timezone-aware so mixed naive/aware datetimes don't crash the sort
+                if t.tzinfo is None:
+                    t = t.replace(tzinfo=timezone.utc)
+                return t
+            sorted_races = sorted(races, key=_sort_key)
+        except Exception as sort_err:
+            self.discord.send_message(f"⚠️ Scan sort error: {sort_err}")
+            return
+
+        for race in sorted_races:
             if not race.start_time:
                 continue
-            mins_away = (race.start_time - now).total_seconds() / 60
+            # Normalise start_time to UTC-aware for all comparisons
+            st = race.start_time
+            if st.tzinfo is None:
+                st = st.replace(tzinfo=timezone.utc)
+            mins_away = (st - now).total_seconds() / 60
             if mins_away < -5:          # skip races already run (>5 min ago)
                 continue
 
-            local_time = race.start_time.astimezone(AEDT)
+            local_time = st.astimezone(AEDT)
             time_str   = local_time.strftime('%H:%M')
 
             snipe_horse_name = None
@@ -825,7 +841,7 @@ class DiscordCommandHandler:
                 snipe_horse_name = runner.name
                 tips.append({
                     "time": time_str, "mins": mins_away,
-                    "ts": int(race.start_time.timestamp()),
+                    "ts": int(st.timestamp()),
                     "track": race.track_name, "race_num": race.race_number,
                     "horse": runner.name, "num": runner.saddlecloth,
                     "price": runner.price, "score": runner.pf_score or sr,
@@ -852,7 +868,7 @@ class DiscordCommandHandler:
                 runner, sr, mkt_rank, conf = bet_cands[0]
                 tips.append({
                     "time": time_str, "mins": mins_away,
-                    "ts": int(race.start_time.timestamp()),
+                    "ts": int(st.timestamp()),
                     "track": race.track_name, "race_num": race.race_number,
                     "horse": runner.name, "num": runner.saddlecloth,
                     "price": runner.price, "score": runner.pf_score or sr,
