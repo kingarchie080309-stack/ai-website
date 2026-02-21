@@ -2018,7 +2018,7 @@ class HorseRacingAnalyst:
     # Long-run win rates used for Kelly staking
     _KELLY_WR   = {"SNIPER": 0.508, "HIGH_VOL": 0.295}
     _KELLY_FRAC = 1 / 16
-    _KELLY_CAP  = {"SNIPER": 1.5, "HIGH_VOL": None}  # SNIPE capped 1.5u, BET uncapped
+    _KELLY_CAP  = {"SNIPER": 1.5, "HIGH_VOL": 1.0}  # SNIPE capped 1.5u, BET capped 1.0u
 
     def _calculate_units(self, runner, sr_or_win_pct=None, mode: str = "HIGH_VOL") -> float:
         """
