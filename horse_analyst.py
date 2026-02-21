@@ -1049,45 +1049,71 @@ class DiscordCommandHandler:
         time_str = st.astimezone(AEDT).strftime('%H:%M AEDT') if st else "TBC"
         mins_away = int((st - now).total_seconds() / 60) if st else 0
 
-        # Sort runners by market price (favourite first)
-        runners_sorted = sorted(race.runners, key=lambda r: r.price)
+        # Sort by PF rank (best first); runners without PF data go to the bottom
+        def _sort_key(r):
+            return (r.pf_rank if r.pf_rank is not None else 999, r.price)
+        runners_sorted = sorted(race.runners, key=_sort_key)
 
-        # Build runner lines
+        # Build one line per runner
         lines = []
         for runner in runners_sorted:
-            # Check if this runner qualifies for SNIPE or BET
+            # Tip badge
             badge = ""
             if analyst:
                 if analyst._is_tracked(runner, mode="SNIPER"):
                     u = analyst._calculate_units(runner, analyst._calculate_speed_rating(runner), mode="SNIPER")
                     if u > 0:
-                        badge = f" 🎯**{u:.2f}u**"
+                        badge = f"  🎯 **{u:.2f}u**"
                 elif analyst._is_tracked(runner, mode="HIGH_VOL"):
                     u = analyst._calculate_units(runner, analyst._calculate_speed_rating(runner), mode="HIGH_VOL")
                     if u > 0:
-                        badge = f" 💠**{u:.2f}u**"
+                        badge = f"  💠 **{u:.2f}u**"
 
-            pf_str = ""
+            # PF ratings row
             if runner.pf_score is not None:
-                pf_str = f" sc={runner.pf_score:.0f} rk={runner.pf_rank}"
-            if runner.pred_settle is not None:
-                pf_str += f" ps={runner.pred_settle}"
+                style_map = {"l": "Lead", "op": "On Pace", "op_mf": "On Pace/Mid",
+                             "mf": "Mid", "bm": "Back"}
+                style = style_map.get(runner.run_style, runner.run_style or "—")
+                rel   = "✅" if runner.is_reliable else "❌"
+                pf_line = (
+                    f"  `PF#{runner.pf_rank}  sc={runner.pf_score:.0f}  "
+                    f"ps={runner.pred_settle if runner.pred_settle is not None else '—'}  "
+                    f"win={runner.win_pct:.0f}%  {style}  rel={rel}`"
+                )
+            else:
+                pf_line = "  `No PF data`"
 
             lines.append(
-                f"`{runner.saddlecloth:>2}.` **{runner.name}** — ${runner.price:.2f}{badge}{pf_str}"
+                f"`{runner.saddlecloth:>2}.` **{runner.name}**  ${runner.price:.2f}{badge}\n{pf_line}"
             )
 
         card_text = "\n".join(lines) or "_No runners found_"
 
+        # Split into chunks if over 1024 chars
+        fields = []
+        chunk, chunk_len = [], 0
+        for line in lines:
+            if chunk_len + len(line) + 1 > 1000:
+                fields.append("\n".join(chunk))
+                chunk, chunk_len = [], 0
+            chunk.append(line)
+            chunk_len += len(line) + 1
+        if chunk:
+            fields.append("\n".join(chunk))
+
+        embed_fields = [
+            {"name": f"Runners — sorted by PF rank{' (cont.)' if i else ''}", "value": f, "inline": False}
+            for i, f in enumerate(fields)
+        ]
+
         embed = {
             "title": f"🏇 {race.track_name} — Race {race_num}",
             "description": (
-                f"⏰ {time_str}  |  📏 {race.distance}m  |  🌿 {race.surface}\n"
-                f"🕐 T−{mins_away}min  |  {len(runners_sorted)} runners"
+                f"⏰ {time_str}  ·  📏 {race.distance}m  ·  🌿 {race.surface}  ·  T−{mins_away}min"
             ),
             "color": 0x2ECC71,
-            "fields": [{"name": "Runners (fav → outsider)", "value": card_text[:1024], "inline": False}],
-            "footer": {"text": "🎯 = NEX SNIPE  •  💠 = NEX BET  •  sc=PF score  rk=PF rank  ps=settle"}
+            "fields": embed_fields[:25],
+            "footer": {"text": "PF# = rank  sc = score  ps = pred settle  win = career win%  rel = reliable"}
         }
         self.discord.send_embed(embed)
 
