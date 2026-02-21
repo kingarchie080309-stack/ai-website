@@ -1965,17 +1965,15 @@ class HorseRacingAnalyst:
     SYSTEM_MODE  = "SNIPER"
 
     # ── HIGH_VOL config ───────────────────────────────────────────────────────
-    # Tightened for ~20 BET/day target (combined ~25-30/day with SNIPE)
-    # Raised score floor 70→75, tightened rank 4→3, settle 4→3, win% 8→10%
     HV_MIN_PRICE   = 2.50
     HV_MAX_PRICE   = 10.00
-    HV_MAX_RANK    = 3
-    HV_MIN_SCORE   = 75
+    HV_MAX_RANK    = 4
+    HV_MIN_SCORE   = 70
     HV_MAX_TR      = 99
-    HV_MAX_SETTLE  = 3
+    HV_MAX_SETTLE  = 4
     HV_PACE_STYLES = None   # None = any run style allowed
     HV_RELIABLE    = True
-    HV_MIN_WIN_PCT = 10.0
+    HV_MIN_WIN_PCT = 8.0
     HV_MAX_CC      = 1.0
 
     # ── SNIPER config ─────────────────────────────────────────────────────────
