@@ -934,6 +934,15 @@ class DiscordCommandHandler:
             )
             return
 
+        # Count upcoming races that were actually scanned (not run >5 min ago)
+        upcoming_count = 0
+        for r in sorted_races:
+            if not r.start_time:
+                continue
+            st = r.start_time if r.start_time.tzinfo else r.start_time.replace(tzinfo=timezone.utc)
+            if (st - now).total_seconds() / 60 >= -5:
+                upcoming_count += 1
+
         # Sort all tips by race time (next to come first)
         snipe_tips = [t for t in tips if t["system"] == "NEX SNIPE"]
         bet_tips   = [t for t in tips if t["system"] == "NEX BET"]
@@ -958,7 +967,7 @@ class DiscordCommandHandler:
 
         # Discord cap: 25 fields per embed
         embed = {
-            "title": f"🔍 Today's Tips  —  {len(tips)} bets across {len(races)} races",
+            "title": f"🔍 Today's Tips  —  {len(tips)} bets across {upcoming_count} races",
             "description": datetime.now(AEDT).strftime("%d %b %Y, %H:%M AEDT"),
             "color": 0x7B68EE,
             "fields": fields[:25],
