@@ -798,7 +798,7 @@ class DiscordCommandHandler:
 
 **Systems:**
 🎯 **NEX SNIPE** - PF Rank ≤2, Score ≥80, op style, ps≤3 (~49% ROI, 4/day)
-💠 **NEX BET** - PF Rank ≤5, Score ≥70, op style, ps≤3 (~28% ROI, 7/day)
+💠 **NEX BET** - PF Rank ≤3, Score ≥75, ps≤3, win%≥10 (~20/day cap)
 - Stakes: Kelly × Confidence (capped at 4.0u)"""
 
         self.discord.send_message(help_text)
@@ -1821,17 +1821,17 @@ class HorseRacingAnalyst:
     SYSTEM_MODE  = "SNIPER"
 
     # ── HIGH_VOL config ───────────────────────────────────────────────────────
-    # Grid-optimised for ~10 bets/day: rk≤4, sc≥70, ps≤4, any style, cc≤1, win≥8%
-    # 350 bets/32days, 31.7% WR, +52% ROI
+    # Tightened for ~20 BET/day target (combined ~25-30/day with SNIPE)
+    # Raised score floor 70→75, tightened rank 4→3, settle 4→3, win% 8→10%
     HV_MIN_PRICE   = 2.50
     HV_MAX_PRICE   = 10.00
-    HV_MAX_RANK    = 4
-    HV_MIN_SCORE   = 70
+    HV_MAX_RANK    = 3
+    HV_MIN_SCORE   = 75
     HV_MAX_TR      = 99
-    HV_MAX_SETTLE  = 4
+    HV_MAX_SETTLE  = 3
     HV_PACE_STYLES = None   # None = any run style allowed
     HV_RELIABLE    = True
-    HV_MIN_WIN_PCT = 8.0
+    HV_MIN_WIN_PCT = 10.0
     HV_MAX_CC      = 1.0
 
     # ── SNIPER config ─────────────────────────────────────────────────────────
