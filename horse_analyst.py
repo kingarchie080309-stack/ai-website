@@ -812,6 +812,18 @@ class DiscordCommandHandler:
             self.discord.send_message(f"⚠️ No race data loaded yet (races={len(races)}, analyst={'ok' if analyst else 'MISSING'}).")
             return
 
+        # Clear today's pending bets so !scan always reflects current filters
+        today_str = datetime.now(AEDT).strftime("%Y-%m-%d")
+        before = len(self.bet_tracker.bets)
+        self.bet_tracker.bets = [
+            b for b in self.bet_tracker.bets
+            if b.get("result") is not None                          # keep settled bets
+            or not b.get("race_time", "").startswith(today_str)    # keep non-today pending
+        ]
+        removed = before - len(self.bet_tracker.bets)
+        if removed:
+            self.bet_tracker._save_bets()
+
         now = datetime.now(timezone.utc)
         tips = []   # list of dicts
 
