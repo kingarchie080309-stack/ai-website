@@ -934,30 +934,27 @@ class DiscordCommandHandler:
             )
             return
 
-        # Split into SNIPE and BET, sort each
-        snipe_tips = sorted([t for t in tips if t["system"] == "NEX SNIPE"], key=lambda t: t["mins"])
-        bet_tips   = sorted([t for t in tips if t["system"] == "NEX BET"],   key=lambda t: -t["conf"])
+        # Sort all tips by race time (next to come first)
+        snipe_tips = [t for t in tips if t["system"] == "NEX SNIPE"]
+        bet_tips   = [t for t in tips if t["system"] == "NEX BET"]
+        all_tips   = sorted(tips, key=lambda t: t["mins"])
 
         def tip_line(t):
-            return f"`{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} · _{t['conf']}%_ · <t:{t['ts']}:R>"
+            emoji = t["emoji"]
+            return f"{emoji} `{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} · _{t['conf']}%_ · <t:{t['ts']}:R>"
 
         # Build fields — split into pages of 10 to stay under Discord's 1024-char field limit
         CHUNK = 10
         fields = []
-
-        def make_fields(tip_list, label, emoji):
-            for i in range(0, max(1, len(tip_list)), CHUNK):
-                chunk = tip_list[i:i + CHUNK]
-                page  = i // CHUNK + 1
-                pages = max(1, -(-len(tip_list) // CHUNK))  # ceiling division
-                name  = f"{emoji} {label} — {len(tip_list)} tip{'s' if len(tip_list) != 1 else ''}"
-                if pages > 1:
-                    name += f"  ({page}/{pages})"
-                value = "\n".join(tip_line(t) for t in chunk) or "_None today_"
-                fields.append({"name": name, "value": value[:1024], "inline": False})
-
-        make_fields(snipe_tips, "NEX SNIPE", "🎯")
-        make_fields(bet_tips,   "NEX BET",   "💠")
+        for i in range(0, max(1, len(all_tips)), CHUNK):
+            chunk = all_tips[i:i + CHUNK]
+            page  = i // CHUNK + 1
+            pages = max(1, -(-len(all_tips) // CHUNK))
+            name  = f"🏇 Tips — {len(all_tips)} total  ({len(snipe_tips)} SNIPE · {len(bet_tips)} BET)"
+            if pages > 1:
+                name += f"  ({page}/{pages})"
+            value = "\n".join(tip_line(t) for t in chunk) or "_None today_"
+            fields.append({"name": name, "value": value[:1024], "inline": False})
 
         # Discord cap: 25 fields per embed
         embed = {
