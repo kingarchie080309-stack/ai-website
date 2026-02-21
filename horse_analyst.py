@@ -2031,6 +2031,7 @@ class HorseRacingAnalyst:
     _KELLY_WR   = {"SNIPER": 0.508, "HIGH_VOL": 0.295}
     _KELLY_FRAC = 1 / 16
     _KELLY_CAP  = {"SNIPER": 1.5, "HIGH_VOL": 1.0}  # SNIPE capped 1.5u, BET capped 1.0u
+    _KELLY_MIN  = 0.10  # minimum stake — skip near-zero edge bets
 
     def _calculate_units(self, runner, sr_or_win_pct=None, mode: str = "HIGH_VOL") -> float:
         """
@@ -2049,7 +2050,10 @@ class HorseRacingAnalyst:
         cap   = self._KELLY_CAP.get(mode)
         if cap:
             units = min(units, cap)
-        return round(units, 2)
+        units = round(units, 2)
+        if units < self._KELLY_MIN:
+            return 0.0  # too small to be worth betting
+        return units
 
     # ========================================
     # SELECTION METHODS
