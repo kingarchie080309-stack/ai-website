@@ -896,7 +896,7 @@ class DiscordCommandHandler:
                     "track": race.track_name, "race_num": race.race_number,
                     "horse": runner.name, "num": runner.saddlecloth,
                     "price": runner.price, "score": runner.pf_score or sr,
-                    "conf": int(conf * 100), "system": "NEX SNIPE",
+                    "units": units, "system": "NEX SNIPE",
                     "emoji": "🎯",
                 })
 
@@ -930,7 +930,7 @@ class DiscordCommandHandler:
                     "track": race.track_name, "race_num": race.race_number,
                     "horse": runner.name, "num": runner.saddlecloth,
                     "price": runner.price, "score": runner.pf_score or sr,
-                    "conf": int(conf * 100), "system": "NEX BET",
+                    "units": units, "system": "NEX BET",
                     "emoji": "💠",
                 })
 
@@ -974,7 +974,7 @@ class DiscordCommandHandler:
 
         def tip_line(t):
             emoji = t["emoji"]
-            return f"{emoji} `{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} · _{t['conf']}%_ · <t:{t['ts']}:R>"
+            return f"{emoji} `{t['time']}` **{t['track']} R{t['race_num']}** · {t['num']}. {t['horse']} · ${t['price']:.2f} · **{t['units']:.2f}u** · <t:{t['ts']}:R>"
 
         # Build fields — split into pages of 10 to stay under Discord's 1024-char field limit
         CHUNK = 10
