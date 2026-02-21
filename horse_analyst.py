@@ -105,7 +105,8 @@ class BetTracker:
 
     def record_bet(self, track: str, race_num: int, horse_name: str, horse_num: int,
                    price: float, units: float, rsi: int,
-                   race_time: datetime, market_rank: int = 999, bet_type: str = "NEX SNIPE") -> str:
+                   race_time: datetime, market_rank: int = 999, bet_type: str = "NEX SNIPE",
+                   pf_rank: int = None) -> str:
         """Record a new bet and return its ID"""
         bet_id = f"{track}_R{race_num}_{horse_name}_{race_time.strftime('%Y%m%d_%H%M')}"
 
@@ -120,6 +121,7 @@ class BetTracker:
             "rsi": rsi,
 
             "market_rank": market_rank,
+            "pf_rank": pf_rank,    # pfaiRank from Punting Form (1 = best in race)
             "bet_type": bet_type,  # NEX SNIPE or NEX BET
             "race_time": race_time.isoformat(),
             "recorded_at": datetime.now(timezone.utc).isoformat(),
@@ -903,7 +905,8 @@ class DiscordCommandHandler:
                     track=race.track_name, race_num=race.race_number,
                     horse_name=runner.name, horse_num=runner.saddlecloth,
                     price=runner.price, units=units, rsi=int(runner.pf_score or sr),
-                    race_time=st, market_rank=mkt_rank, bet_type="NEX SNIPE"
+                    race_time=st, market_rank=mkt_rank, bet_type="NEX SNIPE",
+                    pf_rank=runner.pf_rank
                 )
                 tips.append({
                     "time": time_str, "mins": mins_away,
@@ -937,7 +940,8 @@ class DiscordCommandHandler:
                     track=race.track_name, race_num=race.race_number,
                     horse_name=runner.name, horse_num=runner.saddlecloth,
                     price=runner.price, units=units, rsi=int(runner.pf_score or sr),
-                    race_time=st, market_rank=mkt_rank, bet_type="NEX BET"
+                    race_time=st, market_rank=mkt_rank, bet_type="NEX BET",
+                    pf_rank=runner.pf_rank
                 )
                 tips.append({
                     "time": time_str, "mins": mins_away,
@@ -2649,7 +2653,8 @@ def main():
                                 horse_name=runner.name, horse_num=runner.saddlecloth,
                                 price=runner.price, units=units, rsi=sr,
                                 race_time=race.start_time,
-                                market_rank=mkt_rank, bet_type="NEX SNIPE"
+                                market_rank=mkt_rank, bet_type="NEX SNIPE",
+                                pf_rank=runner.pf_rank
                             )
                             pf_lbl = f"{runner.pf_score or sr:.0f}"
                             tip_kwargs = dict(
@@ -2705,7 +2710,8 @@ def main():
                                 horse_name=runner.name, horse_num=runner.saddlecloth,
                                 price=runner.price, units=units, rsi=sr,
                                 race_time=race.start_time,
-                                market_rank=mkt_rank, bet_type="NEX BET"
+                                market_rank=mkt_rank, bet_type="NEX BET",
+                                pf_rank=runner.pf_rank
                             )
                             pf_lbl = f"{runner.pf_score or sr:.0f}"
                             tip_kwargs = dict(
