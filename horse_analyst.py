@@ -644,6 +644,21 @@ class DiscordCommandHandler:
                             print(f"Command error ({command_type}): {err_msg}")
                             self.discord.send_message(f"⚠️ Command error ({command_type}): {cmd_err}")
 
+                    else:
+                        # Check for dynamic race card command: !<track><racenum>  e.g. !rosehill7
+                        import re as _re
+                        card_match = _re.match(r'^!([a-z][a-z\s]*)(\d+)$', content.strip())
+                        if card_match:
+                            track_query = card_match.group(1).strip()
+                            race_num    = int(card_match.group(2))
+                            print(f"📩 Race card command: track='{track_query}' race={race_num}")
+                            try:
+                                self._send_race_card(track_query, race_num)
+                            except Exception as cmd_err:
+                                import traceback
+                                print(f"Race card error: {traceback.format_exc()}")
+                                self.discord.send_message(f"⚠️ Race card error: {cmd_err}")
+
                 # Keep processed list manageable
                 if len(self.processed_messages) > 1000:
                     self.processed_messages = set(list(self.processed_messages)[-500:])
@@ -1000,6 +1015,81 @@ class DiscordCommandHandler:
         ok = self.discord.send_embed(embed)
         if not ok:
             self.discord.send_message(f"⚠️ Embed failed — {len(snipe_tips)} SNIPE, {len(bet_tips)} BET tips found but couldn't display.")
+
+    def _send_race_card(self, track_query: str, race_num: int):
+        """Show full race card for a given track + race number. e.g. !rosehill7"""
+        races   = self.scan_context.get("races", [])
+        analyst = self.scan_context.get("analyst")
+        if not races:
+            self.discord.send_message("⚠️ No race data loaded yet.")
+            return
+
+        # Fuzzy match track name (user types 'rosehill', actual name is 'Rosehill Gardens')
+        query = track_query.lower().replace(" ", "")
+        race = None
+        for r in races:
+            track_norm = r.track_name.lower().replace(" ", "")
+            if (query in track_norm or track_norm.startswith(query)) and r.race_number == race_num:
+                race = r
+                break
+
+        if not race:
+            # List available tracks to help the user
+            available = sorted({r.track_name for r in races})
+            self.discord.send_message(
+                f"❌ No race found for `!{track_query}{race_num}`.\n"
+                f"Available tracks: {', '.join(available)}"
+            )
+            return
+
+        now = datetime.now(timezone.utc)
+        st  = race.start_time
+        if st and st.tzinfo is None:
+            st = st.replace(tzinfo=timezone.utc)
+        time_str = st.astimezone(AEDT).strftime('%H:%M AEDT') if st else "TBC"
+        mins_away = int((st - now).total_seconds() / 60) if st else 0
+
+        # Sort runners by market price (favourite first)
+        runners_sorted = sorted(race.runners, key=lambda r: r.price)
+
+        # Build runner lines
+        lines = []
+        for runner in runners_sorted:
+            # Check if this runner qualifies for SNIPE or BET
+            badge = ""
+            if analyst:
+                if analyst._is_tracked(runner, mode="SNIPER"):
+                    u = analyst._calculate_units(runner, analyst._calculate_speed_rating(runner), mode="SNIPER")
+                    if u > 0:
+                        badge = f" 🎯**{u:.2f}u**"
+                elif analyst._is_tracked(runner, mode="HIGH_VOL"):
+                    u = analyst._calculate_units(runner, analyst._calculate_speed_rating(runner), mode="HIGH_VOL")
+                    if u > 0:
+                        badge = f" 💠**{u:.2f}u**"
+
+            pf_str = ""
+            if runner.pf_score is not None:
+                pf_str = f" sc={runner.pf_score:.0f} rk={runner.pf_rank}"
+            if runner.pred_settle is not None:
+                pf_str += f" ps={runner.pred_settle}"
+
+            lines.append(
+                f"`{runner.saddlecloth:>2}.` **{runner.name}** — ${runner.price:.2f}{badge}{pf_str}"
+            )
+
+        card_text = "\n".join(lines) or "_No runners found_"
+
+        embed = {
+            "title": f"🏇 {race.track_name} — Race {race_num}",
+            "description": (
+                f"⏰ {time_str}  |  📏 {race.distance}m  |  🌿 {race.surface}\n"
+                f"🕐 T−{mins_away}min  |  {len(runners_sorted)} runners"
+            ),
+            "color": 0x2ECC71,
+            "fields": [{"name": "Runners (fav → outsider)", "value": card_text[:1024], "inline": False}],
+            "footer": {"text": "🎯 = NEX SNIPE  •  💠 = NEX BET  •  sc=PF score  rk=PF rank  ps=settle"}
+        }
+        self.discord.send_embed(embed)
 
     def _send_wipe(self):
         """Clear all bets and reload from built-in backtest seed"""
