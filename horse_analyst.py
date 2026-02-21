@@ -347,7 +347,7 @@ class DiscordNotifier:
     def send_tip(self, race_time: str, track: str, race_num: int, distance: int,
                  surface: str, horse_num: int, horse_name: str, price: float,
                  units: float, rsi: int, market_rank: int = 999,
-                 bet_type: str = "NEX SNIPE"):
+                 bet_type: str = "NEX SNIPE", run_style: str = ""):
         """Send a formatted tip to Discord with retry logic"""
         if not self.bot_token or not self.channel_id:
             return False
@@ -375,6 +375,18 @@ class DiscordNotifier:
 
         # Add market rank for all bet types
         fields.append({"name": "🏆 Market Rank", "value": f"Rank {market_rank}", "inline": True})
+
+        # Add run style sentence if available
+        _style_map = {
+            "l":     "🚀 Expects to lead from the front.",
+            "op":    "🏃 Should sit on pace near the leaders.",
+            "op_mf": "🏃 Likely to settle on pace or midfield.",
+            "mf":    "🎯 Expected to travel through the middle of the pack.",
+            "bm":    "💨 Will settle back and look to run on late.",
+        }
+        style_sentence = _style_map.get(run_style.lower().strip()) if run_style else None
+        if style_sentence:
+            fields.append({"name": "🗺️ Race Style", "value": style_sentence, "inline": False})
 
         footer_text = f"Horse Tipper | {emoji} {bet_type}"
 
@@ -2526,7 +2538,8 @@ def main():
                                 surface=race.surface, horse_num=runner.saddlecloth,
                                 horse_name=runner.name, price=runner.price,
                                 units=units, rsi=pf_lbl,
-                                market_rank=mkt_rank, bet_type="NEX SNIPE"
+                                market_rank=mkt_rank, bet_type="NEX SNIPE",
+                                run_style=runner.run_style
                             )
                             if discord:
                                 discord.send_tip(**tip_kwargs)
@@ -2581,7 +2594,8 @@ def main():
                                 surface=race.surface, horse_num=runner.saddlecloth,
                                 horse_name=runner.name, price=runner.price,
                                 units=units, rsi=pf_lbl,
-                                market_rank=mkt_rank, bet_type="NEX BET"
+                                market_rank=mkt_rank, bet_type="NEX BET",
+                                run_style=runner.run_style
                             )
                             if discord:
                                 discord.send_tip(**tip_kwargs)
