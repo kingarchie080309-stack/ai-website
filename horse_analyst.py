@@ -956,7 +956,9 @@ class DiscordCommandHandler:
         if not tips:
             # ── detailed filter breakdown so we know exactly why nothing qualifies ──
             all_runners = [ru for r in races for ru in r.runners]
-            upcoming_races = [r for r in races if r.start_time and (r.start_time - now).total_seconds() > -300]
+            upcoming_races = [r for r in races if r.start_time and (
+                (r.start_time if r.start_time.tzinfo else r.start_time.replace(tzinfo=timezone.utc)) - now
+            ).total_seconds() > -300]
             pf_runners   = [ru for ru in all_runners if ru.pf_rank is not None]
             reliable     = [ru for ru in pf_runners if ru.is_reliable]
             hv_price     = [ru for ru in pf_runners if analyst.HV_MIN_PRICE <= ru.price <= analyst.HV_MAX_PRICE]
