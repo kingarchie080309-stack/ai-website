@@ -832,8 +832,16 @@ class DiscordCommandHandler:
 
         self.discord.send_message(help_text)
 
+    # Days we tip on (backtest shows these have positive ROI)
+    TIP_DAYS = {2, 4, 5, 6}  # Wednesday=2, Friday=4, Saturday=5, Sunday=6
+
     def _send_scan(self):
         """Scan all today's upcoming races and post every qualifying tip now."""
+        today_dow = datetime.now(AEDT).weekday()
+        if today_dow not in self.TIP_DAYS:
+            day_name = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][today_dow]
+            self.discord.send_message(f"📵 No tips today ({day_name}) — bot only tips Wed/Fri/Sat/Sun.")
+            return
         self.discord.send_message("🔍 Scanning races...")
         races   = self.scan_context.get("races", [])
         analyst = self.scan_context.get("analyst")
@@ -2604,6 +2612,12 @@ def main():
 
                     # Check time until start
                     time_until_start = (race.start_time - now).total_seconds() / 60
+
+                    # Only tip on Wed/Fri/Sat/Sun
+                    race_dow = race.start_time.astimezone(AEDT).weekday()
+                    if race_dow not in {2, 4, 5, 6}:
+                        output_races.add(race_key)  # mark as seen so we don't re-check
+                        continue
 
                     # Output at ~3 minutes before race (2–4 min window for reliability)
                     if 2 <= time_until_start <= 4:
