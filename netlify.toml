@@ -29,3 +29,5 @@ for = "/*"
 Access-Control-Allow-Origin = "*"
 Access-Control-Allow-Methods = "GET, POST, OPTIONS"
 Cache-Control = "public, max-age=30"
+
+# Force rebuild
