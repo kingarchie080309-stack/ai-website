@@ -1,35 +1,32 @@
-# System files
-.DS_Store
-.CFUserTextEncoding
-.Trash/
 
-# IDE and editors
-.vscode/
-.idea/
-.antigravity/
-*.swp
-*.swo
-
-# Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
+!backtest_seed.json
+!requirements.txt
+.antigravity/
+.CFUserTextEncoding
+.DS_Store
+.env
+.env.local
+.idea/
 .Python
-venv/
+.Trash/
+.vscode/
+*.backup
+*.json
+*.log
+*.py[cod]
+*.so
+*.swo
+*.swp
+*.txt
+*$py.class
+# Data files
+# Environment variables
+# IDE and editors
+# Logs
+# Python
+# System files
 env/
 ENV/
-
-# Environment variables
-.env
-
-# Data files
-*.json
-!backtest_seed.json
-*.backup
-*.txt
-!requirements.txt
-
-# Logs
-*.log
 node_modules
+venv/

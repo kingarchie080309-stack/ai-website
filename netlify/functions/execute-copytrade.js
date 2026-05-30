@@ -1,11 +1,19 @@
 const https = require('https');
 const crypto = require('crypto');
 
-const TARGET_WALLET = '0xb27bc932bf8110d8f78e55da7d5f0497a18b5b82'.toLowerCase();
+const TARGET_WALLET = (process.env.TARGET_WALLET || '0xb27bc932bf8110d8f78e55da7d5f0497a18b5b82').toLowerCase();
 const POLYMARKET_API = 'https://clob.polymarket.com';
+const COPY_RATIO = parseFloat(process.env.COPY_RATIO || '0.5');
+
+// Load credentials from environment
+const API_KEY = process.env.POLYMARKET_API_KEY;
+const API_SECRET = process.env.POLYMARKET_API_SECRET;
+const API_PASSPHRASE = process.env.POLYMARKET_API_PASSPHRASE;
+const PRIVATE_KEY = process.env.POLYMARKET_PRIVATE_KEY;
 
 let executionHistory = [];
 let pendingExecutions = [];
+let userAddress = null;
 
 function fetchURL(url, headers = {}, method = 'GET', body = null) {
   return new Promise((resolve, reject) => {
@@ -56,6 +64,84 @@ async function getWalletTrades() {
   }
 }
 
+function createOrderSignature(order) {
+  // Create HMAC-SHA256 signature using API secret
+  const orderString = JSON.stringify(order);
+  const signature = crypto
+    .createHmac('sha256', Buffer.from(API_SECRET, 'utf8'))
+    .update(orderString)
+    .digest('base64');
+  return signature;
+}
+
+async function submitOrderToPolymarket(trade) {
+  if (!API_KEY || !API_SECRET || !API_PASSPHRASE) {
+    return { success: false, error: 'Missing API credentials' };
+  }
+
+  try {
+    // Scale trade size by copy ratio
+    const scaledSize = (parseFloat(trade.size) || 1) * COPY_RATIO;
+
+    const order = {
+      token_id: trade.token_id,
+      side: trade.side,
+      price: parseFloat(trade.price),
+      size: scaledSize,
+      client_order_id: `copytrade_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      order_type: 'GTC' // Good-till-cancelled
+    };
+
+    const signature = createOrderSignature(order);
+    const timestamp = Math.floor(Date.now() / 1000);
+
+    const urlObj = new URL(`${POLYMARKET_API}/orders`);
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'POLY-API-KEY': API_KEY,
+        'POLY-API-PASSPHRASE': API_PASSPHRASE,
+        'POLY-NONCE': timestamp.toString(),
+        'POLY-SIGNATURE': signature,
+        'User-Agent': 'copytrade-bot/1.0'
+      }
+    };
+
+    return new Promise((resolve) => {
+      const req = https.request(options, (res) => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          try {
+            const response = JSON.parse(data);
+            resolve({
+              success: res.statusCode === 201,
+              order_id: response.id,
+              status: res.statusCode,
+              data: response
+            });
+          } catch (e) {
+            resolve({
+              success: res.statusCode === 201,
+              status: res.statusCode,
+              error: data
+            });
+          }
+        });
+      });
+
+      req.on('error', () => resolve({ success: false, error: 'Request failed' }));
+      req.write(JSON.stringify(order));
+      req.end();
+    });
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
 async function executeTradeIfNeeded(trade) {
   if (!trade || !trade.token_id || !trade.side) {
     return { success: false, error: 'Invalid trade data' };
@@ -69,10 +155,8 @@ async function executeTradeIfNeeded(trade) {
     return { success: false, error: 'Trade already executed recently' };
   }
 
-  // In production, this would:
-  // 1. Sign the order with your private key
-  // 2. Submit to Polymarket CLOB
-  // 3. Track execution status
+  // Submit order to Polymarket
+  const result = await submitOrderToPolymarket(trade);
 
   const execution = {
     key: tradeKey,
@@ -80,11 +164,16 @@ async function executeTradeIfNeeded(trade) {
     token_id: trade.token_id,
     side: trade.side,
     price: trade.price,
-    size: trade.size || 1,
-    status: 'pending'
+    size: (parseFloat(trade.size) || 1) * COPY_RATIO,
+    status: result.success ? 'submitted' : 'failed',
+    order_id: result.order_id,
+    error: result.error
   };
 
-  pendingExecutions.push(execution);
+  if (result.success) {
+    pendingExecutions.push(execution);
+  }
+
   executionHistory.push(execution);
 
   // Keep history to last 100 trades
@@ -93,9 +182,11 @@ async function executeTradeIfNeeded(trade) {
   }
 
   return {
-    success: true,
+    success: result.success,
     execution,
-    message: `Copytrade order queued: ${trade.side} ${trade.size} @ ${trade.price}`
+    message: result.success
+      ? `✓ Copytrade executed: ${trade.side} ${execution.size.toFixed(2)} @ ${trade.price}`
+      : `✗ Failed to execute: ${result.error}`
   };
 }
 
