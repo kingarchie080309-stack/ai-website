@@ -9,7 +9,7 @@ node_bundler = "esbuild"
 # Root redirects
 [[redirects]]
 from = "/"
-to = "/dashboard-index.html"
+to = "/arb-dashboard.html"
 status = 200
 
 [[redirects]]
