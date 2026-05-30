@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trading HUD</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Monaco', 'Courier New', monospace;
             background: #0a0a0a;
@@ -71,11 +66,10 @@
             padding-bottom: 8px;
         }
 
-        /* Account Panel */
-        .account-panel {
-            grid-column: 1;
-            grid-row: 2 / 4;
-        }
+        .account-panel { grid-column: 1; grid-row: 2 / 4; }
+        .positions-panel { grid-column: 2; grid-row: 2; }
+        .markets-panel { grid-column: 3; grid-row: 2; }
+        .orders-panel { grid-column: 2 / 4; grid-row: 3; overflow-y: auto; }
 
         .stat-row {
             display: flex;
@@ -85,22 +79,11 @@
             align-items: center;
         }
 
-        .stat-label {
-            color: #00aa33;
-        }
-
+        .stat-label { color: #00aa33; }
         .stat-value {
             font-weight: bold;
             color: #00ff41;
             font-family: 'Courier New', monospace;
-        }
-
-        .stat-value.positive {
-            color: #00ff41;
-        }
-
-        .stat-value.negative {
-            color: #ff4444;
         }
 
         .balance {
@@ -118,13 +101,7 @@
             margin-top: 8px;
         }
 
-        /* Positions Panel */
-        .positions-panel {
-            grid-column: 2;
-            grid-row: 2;
-        }
-
-        .position-item {
+        .position-item, .market-item {
             background: rgba(0, 255, 65, 0.05);
             border: 1px solid #00aa33;
             padding: 8px;
@@ -132,14 +109,14 @@
             font-size: 10px;
         }
 
-        .position-header {
+        .position-header, .market-name {
             display: flex;
             justify-content: space-between;
             margin-bottom: 4px;
             font-weight: bold;
         }
 
-        .position-detail {
+        .position-detail, .market-price {
             display: flex;
             justify-content: space-between;
             margin-bottom: 2px;
@@ -155,38 +132,6 @@
             font-size: 9px;
         }
 
-        /* Markets Panel */
-        .markets-panel {
-            grid-column: 3;
-            grid-row: 2;
-        }
-
-        .market-item {
-            background: rgba(0, 255, 65, 0.05);
-            border: 1px solid #00aa33;
-            padding: 8px;
-            margin-bottom: 8px;
-            font-size: 10px;
-        }
-
-        .market-name {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        .market-price {
-            display: flex;
-            justify-content: space-between;
-            color: #00aa33;
-        }
-
-        /* Orders Panel */
-        .orders-panel {
-            grid-column: 2 / 4;
-            grid-row: 3;
-            overflow-y: auto;
-        }
-
         .order-row {
             display: grid;
             grid-template-columns: 0.8fr 0.5fr 0.8fr 1fr 0.6fr;
@@ -195,10 +140,6 @@
             border-bottom: 1px solid rgba(0, 255, 65, 0.2);
             font-size: 10px;
             align-items: center;
-        }
-
-        .order-row:hover {
-            background: rgba(0, 255, 65, 0.08);
         }
 
         .order-header {
@@ -212,86 +153,15 @@
             text-transform: uppercase;
         }
 
-        .order-time {
-            color: #00aa33;
-        }
+        .status-filled { background: #00ff41; color: #0a0a0a; padding: 2px 4px; border-radius: 2px; font-weight: bold; font-size: 9px; }
+        .status-open { background: #ffaa00; color: #0a0a0a; padding: 2px 4px; border-radius: 2px; font-weight: bold; font-size: 9px; }
 
-        .order-status {
-            padding: 2px 4px;
-            border-radius: 2px;
-            font-weight: bold;
-            font-size: 9px;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 255, 65, 0.05); }
+        ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 3px; }
 
-        .status-open {
-            background: #ffaa00;
-            color: #0a0a0a;
-        }
-
-        .status-filled {
-            background: #00ff41;
-            color: #0a0a0a;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 255, 65, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #00ff41;
-            border-radius: 3px;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #00ff41;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .loading {
-            color: #00aa33;
-            font-size: 11px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1400px) {
-            .hud {
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: auto 1fr 1fr 1fr;
-            }
-
-            .account-panel {
-                grid-column: 1;
-                grid-row: 2;
-            }
-
-            .positions-panel {
-                grid-column: 2;
-                grid-row: 2;
-            }
-
-            .markets-panel {
-                grid-column: 1 / 3;
-                grid-row: 3;
-            }
-
-            .orders-panel {
-                grid-column: 1 / 3;
-                grid-row: 4;
-            }
-        }
+        .status-indicator { width: 8px; height: 8px; border-radius: 50%; background: #00ff41; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     </style>
 </head>
 <body>
@@ -304,185 +174,78 @@
             </div>
         </div>
 
-        <!-- Account Panel -->
         <div class="panel account-panel">
             <div class="panel-title">Account</div>
-
-            <div class="stat-row">
-                <span class="stat-label">BALANCE</span>
-                <span class="stat-value" id="balance">$0.00</span>
-            </div>
-
-            <div class="stat-row">
-                <span class="stat-label">EQUITY</span>
-                <span class="stat-value" id="equity">$0.00</span>
-            </div>
-
-            <div class="stat-row">
-                <span class="stat-label">EXPOSURE</span>
-                <span class="stat-value" id="exposure">$0.00</span>
-            </div>
-
-            <div class="stat-row">
-                <span class="stat-label">POSITIONS</span>
-                <span class="stat-value" id="positionCount">0</span>
-            </div>
-
-            <div class="stat-row">
-                <span class="stat-label">ORDERS</span>
-                <span class="stat-value" id="orderCount">0</span>
-            </div>
-
+            <div class="stat-row"><span class="stat-label">BALANCE</span><span class="stat-value">$10,000.00</span></div>
+            <div class="stat-row"><span class="stat-label">EQUITY</span><span class="stat-value">$10,500.00</span></div>
+            <div class="stat-row"><span class="stat-label">EXPOSURE</span><span class="stat-value">$3,000.00</span></div>
+            <div class="stat-row"><span class="stat-label">POSITIONS</span><span class="stat-value">2</span></div>
+            <div class="stat-row"><span class="stat-label">ORDERS</span><span class="stat-value">3</span></div>
             <div class="balance">
                 <div class="stat-label" style="font-size: 11px;">TOTAL P&L</div>
-                <div class="pnl" id="totalPnL" style="color: #00ff41;">$0.00</div>
-            </div>
-
-            <div class="stat-row" style="margin-top: 16px; justify-content: space-around;">
-                <button onclick="refreshData()" style="background: #00ff41; color: #0a0a0a; border: none; padding: 6px 12px; cursor: pointer; font-weight: bold; font-size: 11px;">REFRESH</button>
+                <div class="pnl" style="color: #00ff41;">+$500.00</div>
             </div>
         </div>
 
-        <!-- Positions Panel -->
         <div class="panel positions-panel">
             <div class="panel-title">Open Positions</div>
-            <div id="positionsContainer" class="loading">No open positions</div>
-        </div>
-
-        <!-- Markets Panel -->
-        <div class="panel markets-panel">
-            <div class="panel-title">Top Bitcoin Markets</div>
-            <div id="marketsContainer" class="loading">Loading markets...</div>
-        </div>
-
-        <!-- Orders Panel -->
-        <div class="panel orders-panel">
-            <div class="panel-title">Recent Orders</div>
-            <div class="order-header">
-                <div>TIME</div>
-                <div>SIDE</div>
-                <div>PRICE</div>
-                <div>MARKET</div>
-                <div>STATUS</div>
+            <div class="position-item">
+                <div class="position-header"><span>BTC > 75k</span><span class="position-side">YES</span></div>
+                <div class="position-detail"><span>QTY: 10</span><span style="color: #00ff41;">+$200</span></div>
+                <div class="position-detail"><span>0.60 → 0.62</span></div>
             </div>
-            <div id="ordersContainer" class="loading">No orders yet</div>
+            <div class="position-item">
+                <div class="position-header"><span>ETH > 5k</span><span class="position-side">NO</span></div>
+                <div class="position-detail"><span>QTY: 15</span><span style="color: #00ff41;">+$150</span></div>
+                <div class="position-detail"><span>0.56 → 0.55</span></div>
+            </div>
+        </div>
+
+        <div class="panel markets-panel">
+            <div class="panel-title">Top Markets</div>
+            <div class="market-item">
+                <div class="market-name">BTC > $75k</div>
+                <div class="market-price"><span>YES: 62¢</span><span>NO: 38¢</span></div>
+            </div>
+            <div class="market-item">
+                <div class="market-name">ETH > $5k</div>
+                <div class="market-price"><span>YES: 45¢</span><span>NO: 55¢</span></div>
+            </div>
+            <div class="market-item">
+                <div class="market-name">Trump 2026</div>
+                <div class="market-price"><span>YES: 72¢</span><span>NO: 28¢</span></div>
+            </div>
+        </div>
+
+        <div class="panel orders-panel">
+            <div class="order-header">
+                <div>TIME</div><div>SIDE</div><div>PRICE</div><div>MARKET</div><div>STATUS</div>
+            </div>
+            <div class="order-row">
+                <div style="color: #00aa33;">14:23:45</div>
+                <div style="color: #00ff41;">BUY</div>
+                <div>0.62</div>
+                <div style="color: #00aa33;">BTC > 75k</div>
+                <div class="status-filled">FILLED</div>
+            </div>
+            <div class="order-row">
+                <div style="color: #00aa33;">14:15:32</div>
+                <div style="color: #ff4444;">SELL</div>
+                <div>0.55</div>
+                <div style="color: #00aa33;">ETH > 5k</div>
+                <div class="status-filled">FILLED</div>
+            </div>
+            <div class="order-row">
+                <div style="color: #00aa33;">14:08:12</div>
+                <div style="color: #00ff41;">BUY</div>
+                <div>0.58</div>
+                <div style="color: #00aa33;">XRP > $1</div>
+                <div class="status-open">OPEN</div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Mock data - replace with real API calls
-        let mockData = {
-            balance: 10000,
-            positions: [],
-            orders: [],
-            markets: []
-        };
-
-        async function refreshData() {
-            try {
-                // Fetch real Polymarket data from Netlify functions
-                const response = await fetch('/.netlify/functions/polymarket');
-                const data = await response.json();
-
-                updateDashboard(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                updateDashboard(getMockData());
-            }
-        }
-
-        function getMockData() {
-            return {
-                markets: [
-                    { question: 'BTC > $75k by EOY?', yes_price: 0.62, no_price: 0.38, volume_24h: 5000000 },
-                    { question: 'ETH > $5k by EOY?', yes_price: 0.45, no_price: 0.55, volume_24h: 3000000 },
-                ],
-                opportunities: [],
-                total_markets: 0
-            };
-        }
-
-        function updateDashboard(data) {
-            const now = new Date();
-            document.getElementById('timestamp').textContent = now.toLocaleTimeString();
-
-            // Update account (mock for now)
-            const balance = 10000;
-            const equity = 10500;
-            const exposure = 3000;
-            const pnl = equity - balance;
-
-            document.getElementById('balance').textContent = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('equity').textContent = `$${equity.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('exposure').textContent = `$${exposure.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-
-            const pnlElement = document.getElementById('totalPnL');
-            pnlElement.textContent = `${pnl >= 0 ? '+' : ''}$${pnl.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            pnlElement.style.color = pnl >= 0 ? '#00ff41' : '#ff4444';
-
-            // Update positions (mock)
-            const positions = [
-                { market: 'BTC > 75k', side: 'YES', quantity: 10, entry: 0.60, current: 0.62, pnl: 20 },
-                { market: 'ETH > 5k', side: 'NO', quantity: 15, entry: 0.56, current: 0.55, pnl: 15 }
-            ];
-
-            document.getElementById('positionCount').textContent = positions.length;
-            const positionsHtml = positions.map(pos => `
-                <div class="position-item">
-                    <div class="position-header">
-                        <span>${pos.market}</span>
-                        <span class="position-side">${pos.side}</span>
-                    </div>
-                    <div class="position-detail">
-                        <span>QTY: ${pos.quantity}</span>
-                        <span style="color: ${pos.pnl >= 0 ? '#00ff41' : '#ff4444'};">+$${pos.pnl}</span>
-                    </div>
-                    <div class="position-detail">
-                        <span>${pos.entry} → ${pos.current}</span>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('positionsContainer').innerHTML = positionsHtml || '<div class="loading">No positions</div>';
-
-            // Update markets
-            if (data.markets && data.markets.length > 0) {
-                const marketsHtml = data.markets.slice(0, 5).map(m => `
-                    <div class="market-item">
-                        <div class="market-name">${m.question.substring(0, 40)}...</div>
-                        <div class="market-price">
-                            <span>YES: ${(m.yes_price * 100).toFixed(0)}¢</span>
-                            <span>NO: ${(m.no_price * 100).toFixed(0)}¢</span>
-                        </div>
-                    </div>
-                `).join('');
-                document.getElementById('marketsContainer').innerHTML = marketsHtml;
-            }
-
-            // Update orders (mock)
-            const orders = [
-                { time: '14:23:45', side: 'BUY', price: '0.62', market: 'BTC > 75k', status: 'FILLED' },
-                { time: '14:15:32', side: 'SELL', price: '0.55', market: 'ETH > 5k', status: 'FILLED' },
-                { time: '14:08:12', side: 'BUY', price: '0.58', market: 'XRP > $1', status: 'OPEN' },
-            ];
-
-            document.getElementById('orderCount').textContent = orders.length;
-            const ordersHtml = orders.map(o => `
-                <div class="order-row">
-                    <div class="order-time">${o.time}</div>
-                    <div style="color: ${o.side === 'BUY' ? '#00ff41' : '#ff4444'}">${o.side}</div>
-                    <div>${o.price}</div>
-                    <div style="color: #00aa33;">${o.market}</div>
-                    <div class="order-status ${o.status === 'FILLED' ? 'status-filled' : 'status-open'}">${o.status}</div>
-                </div>
-            `).join('');
-            document.getElementById('ordersContainer').innerHTML = ordersHtml;
-        }
-
-        // Auto-refresh every 5 seconds
-        refreshData();
-        setInterval(refreshData, 5000);
-
-        // Update timestamp every second
         setInterval(() => {
             const now = new Date();
             document.getElementById('timestamp').textContent = now.toLocaleTimeString();
