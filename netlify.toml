@@ -1,24 +1,31 @@
 [build]
-command = "echo 'No build needed'"
 publish = "."
 functions = "netlify/functions"
+command = "true"
 
-# Serve HTML files from root
+[functions]
+node_bundler = "esbuild"
+
+# Root redirects
+[[redirects]]
+from = "/"
+to = "/dashboard-index.html"
+status = 200
+
 [[redirects]]
 from = "/polymarket"
 to = "/polymarket-dashboard.html"
 status = 200
-
-[functions]
-node_bundler = "esbuild"
 
 [[redirects]]
 from = "/api/*"
 to = "/.netlify/functions/:splat"
 status = 200
 
+# CORS headers
 [[headers]]
 for = "/*"
 [headers.values]
 Access-Control-Allow-Origin = "*"
-Access-Control-Allow-Methods = "GET, OPTIONS"
+Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+Cache-Control = "public, max-age=30"
