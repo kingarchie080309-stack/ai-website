@@ -380,8 +380,8 @@
 
         async function refreshData() {
             try {
-                // Fetch real Polymarket data from Railway backend
-                const response = await fetch('https://worker-production-7ce9.up.railway.app/.netlify/functions/polymarket');
+                // Fetch real Polymarket data from Netlify functions
+                const response = await fetch('/.netlify/functions/polymarket');
                 const data = await response.json();
 
                 updateDashboard(data);
