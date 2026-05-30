@@ -3,6 +3,12 @@ command = "echo 'No build needed'"
 publish = "."
 functions = "netlify/functions"
 
+# Serve HTML files from root
+[[redirects]]
+from = "/polymarket"
+to = "/polymarket-dashboard.html"
+status = 200
+
 [functions]
 node_bundler = "esbuild"
 
