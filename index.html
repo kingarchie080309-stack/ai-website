@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Bitcoin Arbitrage Scanner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0e27;
+            color: #e0e6ff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #fff;
+            margin: 0;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.loading {
+            background: #f59e0b;
+            animation: pulse-slow 1s infinite;
+        }
+
+        .status-dot.error {
+            background: #ef4444;
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .market-data {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .market-card {
+            background: #1a1f3a;
+            border: 1px solid #2d3561;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .market-card h3 {
+            font-size: 13px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .market-prices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .price-item {
+            background: rgba(79, 70, 229, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .price-label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .price-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .market-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+            border-top: 1px solid #2d3561;
+            padding-top: 12px;
+        }
+
+        .detail {
+            font-size: 12px;
+        }
+
+        .detail-label {
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .opportunities {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .opportunity {
+            background: #1a1f3a;
+            border: 2px solid #2d3561;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .opportunity.middle {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .opportunity.arb {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .badge.middle {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .badge.arb {
+            background: #10b981;
+            color: white;
+        }
+
+        .opportunity h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .opp-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .metric {
+            background: rgba(79, 70, 229, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .metric-value.positive {
+            color: #10b981;
+        }
+
+        .metric-value.negative {
+            color: #ef4444;
+        }
+
+        .bets-table {
+            background: rgba(79, 70, 229, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .bets-table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .bet-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+        }
+
+        .bet-row:last-child {
+            border-bottom: none;
+        }
+
+        .bet-platform {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        .bet-outcome {
+            color: #fff;
+        }
+
+        .bet-price {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .range-info {
+            background: rgba(79, 70, 229, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .no-results {
+            background: #1a1f3a;
+            border: 1px solid #2d3561;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            color: #888;
+        }
+
+        .error {
+            background: #1a1f3a;
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 16px;
+            color: #fca5a5;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #2d3561;
+            border-top-color: #4f46e5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .refresh-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: #4338ca;
+        }
+
+        .refresh-btn:disabled {
+            background: #2d3561;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .market-data {
+                grid-template-columns: 1fr;
+            }
+
+            .opp-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .bets-table-header,
+            .bet-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Bitcoin Arbitrage Scanner</h1>
+            <div class="status">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Loading...</span>
+                <button class="refresh-btn" onclick="refreshMarkets()" id="refreshBtn">Refresh</button>
+            </div>
+        </div>
+
+        <div class="market-data" id="marketData"></div>
+        <div id="resultsContainer"></div>
+    </div>
+
+    <script>
+        const API_URL = '/.netlify/functions/markets';
+        let isLoading = false;
+
+        async function refreshMarkets() {
+            if (isLoading) return;
+            isLoading = true;
+            document.getElementById('refreshBtn').disabled = true;
+
+            try {
+                updateStatus('loading');
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                renderMarkets(data);
+                updateStatus('connected');
+            } catch (error) {
+                console.error('Error refreshing markets:', error);
+                updateStatus('error', 'Failed to fetch markets');
+                document.getElementById('resultsContainer').innerHTML =
+                    '<div class="error">Error fetching market data. Please try again.</div>';
+            } finally {
+                isLoading = false;
+                document.getElementById('refreshBtn').disabled = false;
+            }
+        }
+
+        function updateStatus(state, message = '') {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+
+            dot.className = `status-dot ${state}`;
+
+            if (state === 'connected') {
+                text.textContent = `Live (updated ${new Date().toLocaleTimeString()})`;
+            } else if (state === 'error') {
+                text.textContent = message || 'Error fetching data';
+            } else if (state === 'loading') {
+                text.textContent = 'Updating...';
+            }
+        }
+
+        function renderMarkets(data) {
+            const container = document.getElementById('marketData');
+
+            if (!data.kalshi || !data.polymarket) {
+                container.innerHTML = '<div class="error" style="grid-column: 1/-1;">Unable to fetch market data from APIs</div>';
+                return;
+            }
+
+            const kalshi = data.kalshi;
+            const poly = data.polymarket;
+
+            container.innerHTML = `
+                <div class="market-card">
+                    <h3>Kalshi - BTC 15 Min</h3>
+                    <div class="market-prices">
+                        <div class="price-item">
+                            <div class="price-label">Up (Yes)</div>
+                            <div class="price-value">${(kalshi.yes * 100).toFixed(0)}¢</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="price-label">Down (No)</div>
+                            <div class="price-value">${(kalshi.no * 100).toFixed(0)}¢</div>
+                        </div>
+                    </div>
+                    <div class="market-details">
+                        <div class="detail">
+                            <div class="detail-label">Target</div>
+                            <div class="detail-value">$${kalshi.target?.toFixed(2) || 'N/A'}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="detail-label">Volume</div>
+                            <div class="detail-value">$${(kalshi.volume / 1000).toFixed(0)}k</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <h3>Polymarket - BTC Up or Down 15m</h3>
+                    <div class="market-prices">
+                        <div class="price-item">
+                            <div class="price-label">Up (Yes)</div>
+                            <div class="price-value">${(poly.yes * 100).toFixed(0)}¢</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="price-label">Down (No)</div>
+                            <div class="price-value">${(poly.no * 100).toFixed(0)}¢</div>
+                        </div>
+                    </div>
+                    <div class="market-details">
+                        <div class="detail">
+                            <div class="detail-label">Target</div>
+                            <div class="detail-value">$${poly.target?.toFixed(2) || 'N/A'}</div>
+                        </div>
+                        <div class="detail">
+                            <div class="detail-label">Volume</div>
+                            <div class="detail-value">$${(poly.volume / 1000).toFixed(0)}k</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            renderOpportunities(data.opportunities);
+        }
+
+        function renderOpportunities(opportunities) {
+            const container = document.getElementById('resultsContainer');
+
+            if (!opportunities || opportunities.length === 0) {
+                container.innerHTML = '<div class="no-results">No profitable opportunities detected. Checking again soon...</div>';
+                return;
+            }
+
+            container.innerHTML = opportunities.map(opp => {
+                if (opp.type === 'arb') {
+                    return `
+                        <div class="opportunity arb">
+                            <span class="badge arb">💎 Arbitrage</span>
+                            <h3>${opp.title}</h3>
+                            <div class="opp-metrics">
+                                <div class="metric">
+                                    <div class="metric-label">Cost</div>
+                                    <div class="metric-value">${(opp.cost * 100).toFixed(0)}¢</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Profit (Guaranteed)</div>
+                                    <div class="metric-value positive">+${(opp.profit * 100).toFixed(0)}¢</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">ROI</div>
+                                    <div class="metric-value positive">${opp.roi}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="opportunity middle">
+                            <span class="badge middle">📊 Middle Bet</span>
+                            <h3>${opp.title}</h3>
+                            <div class="opp-metrics">
+                                <div class="metric">
+                                    <div class="metric-label">Cost</div>
+                                    <div class="metric-value">${(opp.cost * 100).toFixed(0)}¢</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Win Range</div>
+                                    <div class="metric-value positive">+${(opp.middleProfit * 100).toFixed(0)}¢</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-label">Outside Range</div>
+                                    <div class="metric-value negative">${(opp.outsideProfit * 100).toFixed(0)}¢</div>
+                                </div>
+                            </div>
+                            <div class="range-info">
+                                <strong>Safe Range:</strong> $${opp.range[0].toFixed(2)} - $${opp.range[1].toFixed(2)}<br>
+                                <strong>Spread:</strong> $${opp.targetDiff.toFixed(2)}
+                            </div>
+                            <div class="bets-table">
+                                <div class="bets-table-header">
+                                    <div>Platform</div>
+                                    <div>Outcome</div>
+                                    <div>Price</div>
+                                </div>
+                                ${opp.bets.map(bet => `
+                                    <div class="bet-row">
+                                        <div class="bet-platform">${bet.platform}</div>
+                                        <div class="bet-outcome">${bet.outcome.toUpperCase()}</div>
+                                        <div class="bet-price">${(bet.price * 100).toFixed(0)}¢</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            }).join('');
+        }
+
+        // Load on page load
+        window.addEventListener('load', () => {
+            refreshMarkets();
+        });
+
+        // Auto-refresh every 30 seconds when on Netlify
+        setInterval(() => {
+            if (!isLoading && document.visibilityState === 'visible') {
+                refreshMarkets();
+            }
+        }, 30000);
+
+        // Reconnect if connection drops
+        window.addEventListener('online', () => {
+            refreshMarkets();
+        });
+    </script>
+</body>
+</html>
