@@ -5,37 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trading HUD</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Monaco', 'Courier New', monospace;
-            background: #0a0a0a;
-            color: #00ff41;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            color: #e4e6eb;
             overflow: hidden;
-        }
-
-        .hud {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            grid-template-rows: auto 1fr 1fr;
             height: 100vh;
-            gap: 8px;
-            padding: 12px;
-            background: #0a0a0a;
         }
 
-        .panel {
-            border: 2px solid #00ff41;
-            background: rgba(0, 255, 65, 0.02);
-            padding: 16px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+        .container {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr 1.2fr 1.2fr 0.8fr;
+            grid-template-rows: 60px 1fr 1fr;
+            gap: 12px;
+            padding: 12px;
+            height: 100vh;
+            width: 100%;
         }
 
         .header {
@@ -43,450 +30,835 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
-            border: 2px solid #00ff41;
-            background: rgba(0, 255, 65, 0.02);
-            margin-bottom: 4px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0 24px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
         }
 
-        .title {
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .timestamp {
-            font-size: 11px;
-            color: #00cc33;
-        }
-
-        .panel-title {
-            font-size: 12px;
-            font-weight: bold;
-            color: #00ff41;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #00ff41;
-            padding-bottom: 8px;
-        }
-
-        /* Account Panel */
-        .account-panel {
-            grid-column: 1;
-            grid-row: 2 / 4;
-        }
-
-        .stat-row {
+        .header-left {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 12px;
+            gap: 32px;
             align-items: center;
         }
 
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 40px;
+            font-size: 12px;
+        }
+
+        .stat-badge {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
         .stat-label {
-            color: #00aa33;
+            color: #8c8c8c;
+            text-transform: uppercase;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .stat-value {
-            font-weight: bold;
-            color: #00ff41;
-            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #fff;
         }
 
-        .stat-value.positive {
-            color: #00ff41;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .stat-value.negative {
-            color: #ff4444;
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: blink 2s infinite;
         }
 
-        .balance {
-            font-size: 18px;
-            font-weight: bold;
-            color: #00ff41;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #00ff41;
+        @keyframes blink {
+            0%, 49%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        .pnl {
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 8px;
+        .time {
+            font-size: 12px;
+            color: #8c8c8c;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
         }
 
-        /* Positions Panel */
-        .positions-panel {
-            grid-column: 2;
-            grid-row: 2;
+        .panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
         }
 
-        .position-item {
-            background: rgba(0, 255, 65, 0.05);
-            border: 1px solid #00aa33;
-            padding: 8px;
+        .panel:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .panel-header {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8c8c8c;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .account-panel { grid-column: 1; grid-row: 2 / 4; }
+        .positions-panel { grid-column: 2; grid-row: 2; }
+        .copytrade-panel { grid-column: 2; grid-row: 3; }
+        .markets-panel { grid-column: 3; grid-row: 2; }
+        .orders-panel { grid-column: 3; grid-row: 3; }
+        .analytics-panel { grid-column: 4; grid-row: 2; }
+        .alerts-panel { grid-column: 4; grid-row: 3; }
+        .strategy-panel { grid-column: 5; grid-row: 2 / 4; }
+
+        .account-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: 13px;
+        }
+
+        .account-item:last-child {
+            border-bottom: none;
+        }
+
+        .account-label {
+            color: #8c8c8c;
+            font-size: 12px;
+        }
+
+        .account-value {
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .pnl-positive { color: #10b981; }
+        .pnl-negative { color: #ef4444; }
+
+        .large-stat {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .large-stat-label {
+            color: #8c8c8c;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
             margin-bottom: 8px;
-            font-size: 10px;
+        }
+
+        .large-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .position-row {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 12px;
         }
 
         .position-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 4px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .position-name { color: #fff; }
+        .position-side {
+            padding: 2px 8px;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .position-side.short {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
 
         .position-detail {
             display: flex;
             justify-content: space-between;
+            color: #8c8c8c;
+            font-size: 11px;
             margin-bottom: 2px;
-            color: #00aa33;
         }
 
-        .position-side {
-            padding: 2px 6px;
-            background: #00ff41;
-            color: #0a0a0a;
-            font-weight: bold;
-            border-radius: 2px;
-            font-size: 9px;
-        }
-
-        /* Markets Panel */
-        .markets-panel {
-            grid-column: 3;
-            grid-row: 2;
-        }
-
-        .market-item {
-            background: rgba(0, 255, 65, 0.05);
-            border: 1px solid #00aa33;
-            padding: 8px;
-            margin-bottom: 8px;
-            font-size: 10px;
-        }
-
-        .market-name {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        .market-price {
-            display: flex;
-            justify-content: space-between;
-            color: #00aa33;
-        }
-
-        /* Orders Panel */
-        .orders-panel {
-            grid-column: 2 / 4;
-            grid-row: 3;
-            overflow-y: auto;
+        .position-pnl {
+            color: #10b981;
+            font-weight: 600;
         }
 
         .order-row {
             display: grid;
-            grid-template-columns: 0.8fr 0.5fr 0.8fr 1fr 0.6fr;
+            grid-template-columns: 0.7fr 0.6fr 0.6fr 1.2fr 0.8fr;
             gap: 8px;
-            padding: 6px;
-            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
-            font-size: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: 11px;
             align-items: center;
-        }
-
-        .order-row:hover {
-            background: rgba(0, 255, 65, 0.08);
         }
 
         .order-header {
             display: grid;
-            grid-template-columns: 0.8fr 0.5fr 0.8fr 1fr 0.6fr;
+            grid-template-columns: 0.7fr 0.6fr 0.6fr 1.2fr 0.8fr;
             gap: 8px;
-            padding: 6px;
-            font-weight: bold;
-            border-bottom: 1px solid #00ff41;
-            font-size: 9px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-weight: 600;
+            color: #8c8c8c;
+            font-size: 10px;
             text-transform: uppercase;
         }
 
-        .order-time {
-            color: #00aa33;
+        .order-time { color: #8c8c8c; font-family: 'SF Mono', monospace; }
+        .order-buy { color: #10b981; }
+        .order-sell { color: #ef4444; }
+        .order-filled { background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 2px 6px; border-radius: 3px; font-weight: 600; font-size: 10px; }
+        .order-pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 2px 6px; border-radius: 3px; font-weight: 600; font-size: 10px; }
+
+        .market-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
 
-        .order-status {
-            padding: 2px 4px;
-            border-radius: 2px;
-            font-weight: bold;
-            font-size: 9px;
+        .market-name {
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 8px;
+            color: #fff;
         }
 
-        .status-open {
-            background: #ffaa00;
-            color: #0a0a0a;
+        .market-prices {
+            display: flex;
+            gap: 12px;
         }
 
-        .status-filled {
-            background: #00ff41;
-            color: #0a0a0a;
+        .price-item {
+            flex: 1;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .price-label {
+            color: #8c8c8c;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 255, 65, 0.05);
+        .price-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #00ff41;
-            border-radius: 3px;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #00ff41;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .loading {
-            color: #00aa33;
+        .alert-item {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 3px solid #10b981;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 8px;
             font-size: 11px;
         }
 
-        /* Responsive */
-        @media (max-width: 1400px) {
-            .hud {
-                grid-template-columns: 1fr 1fr;
-                grid-template-rows: auto 1fr 1fr 1fr;
-            }
+        .alert-time {
+            color: #8c8c8c;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
 
-            .account-panel {
-                grid-column: 1;
-                grid-row: 2;
-            }
+        .alert-text {
+            color: #fff;
+        }
 
-            .positions-panel {
-                grid-column: 2;
-                grid-row: 2;
-            }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
 
-            .markets-panel {
-                grid-column: 1 / 3;
-                grid-row: 3;
-            }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-            .orders-panel {
-                grid-column: 1 / 3;
-                grid-row: 4;
-            }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="hud">
+    <div class="container">
+        <!-- Header -->
         <div class="header">
-            <div class="title">⚡ TRADING HUD</div>
-            <div style="display: flex; gap: 16px; align-items: center;">
-                <div class="status-indicator"></div>
-                <div class="timestamp" id="timestamp">00:00:00</div>
+            <div class="header-left">
+                <div class="logo">TRADING HUD</div>
+                <div class="header-stats">
+                    <div class="stat-badge">
+                        <div class="stat-label">Portfolio Value</div>
+                        <div class="stat-value">$127,450</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-label">Total Return</div>
+                        <div class="stat-value" style="color: #10b981;">+12.4%</div>
+                    </div>
+                    <div class="stat-badge">
+                        <div class="stat-label">Copytrade Positions</div>
+                        <div class="stat-value" id="copytrade-count">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status-dot" id="copytrade-status"></div>
+                <div class="time" id="clock">00:00:00</div>
             </div>
         </div>
 
         <!-- Account Panel -->
         <div class="panel account-panel">
-            <div class="panel-title">Account</div>
+            <div class="panel-header">Account Overview</div>
+            <div class="panel-content">
+                <div class="account-item">
+                    <span class="account-label">Cash</span>
+                    <span class="account-value">$47,450</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Positions</span>
+                    <span class="account-value">$80,000</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Buying Power</span>
+                    <span class="account-value">$150,000</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Margin Used</span>
+                    <span class="account-value">0%</span>
+                </div>
 
-            <div class="stat-row">
-                <span class="stat-label">BALANCE</span>
-                <span class="stat-value" id="balance">$0.00</span>
-            </div>
+                <div class="large-stat">
+                    <div class="large-stat-label">Daily P&L</div>
+                    <div class="large-stat-value pnl-positive">+$2,340</div>
+                </div>
 
-            <div class="stat-row">
-                <span class="stat-label">EQUITY</span>
-                <span class="stat-value" id="equity">$0.00</span>
-            </div>
-
-            <div class="stat-row">
-                <span class="stat-label">EXPOSURE</span>
-                <span class="stat-value" id="exposure">$0.00</span>
-            </div>
-
-            <div class="stat-row">
-                <span class="stat-label">POSITIONS</span>
-                <span class="stat-value" id="positionCount">0</span>
-            </div>
-
-            <div class="stat-row">
-                <span class="stat-label">ORDERS</span>
-                <span class="stat-value" id="orderCount">0</span>
-            </div>
-
-            <div class="balance">
-                <div class="stat-label" style="font-size: 11px;">TOTAL P&L</div>
-                <div class="pnl" id="totalPnL" style="color: #00ff41;">$0.00</div>
-            </div>
-
-            <div class="stat-row" style="margin-top: 16px; justify-content: space-around;">
-                <button onclick="refreshData()" style="background: #00ff41; color: #0a0a0a; border: none; padding: 6px 12px; cursor: pointer; font-weight: bold; font-size: 11px;">REFRESH</button>
+                <div class="account-item" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <span class="account-label">Monthly Return</span>
+                    <span class="account-value pnl-positive">+8.2%</span>
+                </div>
             </div>
         </div>
 
         <!-- Positions Panel -->
         <div class="panel positions-panel">
-            <div class="panel-title">Open Positions</div>
-            <div id="positionsContainer" class="loading">No open positions</div>
+            <div class="panel-header">Open Positions</div>
+            <div class="panel-content">
+                <div class="position-row">
+                    <div class="position-header">
+                        <span class="position-name">BTC > $75k</span>
+                        <span class="position-side">LONG</span>
+                    </div>
+                    <div class="position-detail">
+                        <span>Size: 2.5 BTC</span>
+                        <span class="position-pnl">+$3,250</span>
+                    </div>
+                    <div class="position-detail">
+                        <span>Entry: 72,400</span>
+                        <span>Current: 75,300</span>
+                    </div>
+                </div>
+
+                <div class="position-row">
+                    <div class="position-header">
+                        <span class="position-name">ETH > $5k</span>
+                        <span class="position-side">SHORT</span>
+                    </div>
+                    <div class="position-detail">
+                        <span>Size: 10 ETH</span>
+                        <span class="position-pnl">+$1,200</span>
+                    </div>
+                    <div class="position-detail">
+                        <span>Entry: 5,100</span>
+                        <span>Current: 4,980</span>
+                    </div>
+                </div>
+
+                <div class="position-row">
+                    <div class="position-header">
+                        <span class="position-name">XRP > $1.50</span>
+                        <span class="position-side">LONG</span>
+                    </div>
+                    <div class="position-detail">
+                        <span>Size: 5,000 XRP</span>
+                        <span class="position-pnl">+$850</span>
+                    </div>
+                    <div class="position-detail">
+                        <span>Entry: 1.48</span>
+                        <span>Current: 1.55</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Markets Panel -->
-        <div class="panel markets-panel">
-            <div class="panel-title">Top Bitcoin Markets</div>
-            <div id="marketsContainer" class="loading">Loading markets...</div>
+        <!-- Copytrade Panel -->
+        <div class="panel copytrade-panel">
+            <div class="panel-header">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <span>Copytrade Wallet</span>
+                    <button id="copytrade-toggle" style="padding: 4px 12px; background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 600;">ENABLE</button>
+                </div>
+            </div>
+            <div class="panel-content" id="copytrade-content">
+                <div class="account-item">
+                    <span class="account-label">Wallet Address</span>
+                    <span class="account-value" id="wallet-addr" style="font-size: 10px; font-family: monospace;">--</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Sync Ratio</span>
+                    <span class="account-value">50%</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Status</span>
+                    <span class="account-value" id="copytrade-sync-status">Disabled</span>
+                </div>
+            </div>
         </div>
 
         <!-- Orders Panel -->
         <div class="panel orders-panel">
-            <div class="panel-title">Recent Orders</div>
-            <div class="order-header">
-                <div>TIME</div>
-                <div>SIDE</div>
-                <div>PRICE</div>
-                <div>MARKET</div>
-                <div>STATUS</div>
+            <div class="panel-header">Recent Trades</div>
+            <div class="panel-content">
+                <div class="order-header">
+                    <div>TIME</div>
+                    <div>SIDE</div>
+                    <div>PRICE</div>
+                    <div>MARKET</div>
+                    <div>STATUS</div>
+                </div>
+                <div class="order-row">
+                    <div class="order-time">14:32:15</div>
+                    <div class="order-buy">BUY</div>
+                    <div>75.3k</div>
+                    <div>BTC > $75k</div>
+                    <div class="order-filled">FILLED</div>
+                </div>
+                <div class="order-row">
+                    <div class="order-time">14:28:42</div>
+                    <div class="order-sell">SELL</div>
+                    <div>4.98k</div>
+                    <div>ETH > $5k</div>
+                    <div class="order-filled">FILLED</div>
+                </div>
+                <div class="order-row">
+                    <div class="order-time">14:15:08</div>
+                    <div class="order-buy">BUY</div>
+                    <div>1.55</div>
+                    <div>XRP > $1.50</div>
+                    <div class="order-filled">FILLED</div>
+                </div>
+                <div class="order-row">
+                    <div class="order-time">13:45:30</div>
+                    <div class="order-buy">BUY</div>
+                    <div>0.62</div>
+                    <div>SOL > $200</div>
+                    <div class="order-pending">PENDING</div>
+                </div>
             </div>
-            <div id="ordersContainer" class="loading">No orders yet</div>
+        </div>
+
+        <!-- Markets Panel -->
+        <div class="panel markets-panel">
+            <div class="panel-header">Top Markets</div>
+            <div class="panel-content">
+                <div class="market-card">
+                    <div class="market-name">Bitcoin > $75k</div>
+                    <div class="market-prices">
+                        <div class="price-item">
+                            <div class="price-label">YES</div>
+                            <div class="price-value">75.3¢</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="price-label">NO</div>
+                            <div class="price-value">24.7¢</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-name">Ethereum > $5k</div>
+                    <div class="market-prices">
+                        <div class="price-item">
+                            <div class="price-label">YES</div>
+                            <div class="price-value">45.2¢</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="price-label">NO</div>
+                            <div class="price-value">54.8¢</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-name">XRP > $1.50</div>
+                    <div class="market-prices">
+                        <div class="price-item">
+                            <div class="price-label">YES</div>
+                            <div class="price-value">62.1¢</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="price-label">NO</div>
+                            <div class="price-value">37.9¢</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="market-card">
+                    <div class="market-name">Solana > $200</div>
+                    <div class="market-prices">
+                        <div class="price-item">
+                            <div class="price-label">YES</div>
+                            <div class="price-value">58.4¢</div>
+                        </div>
+                        <div class="price-item">
+                            <div class="price-label">NO</div>
+                            <div class="price-value">41.6¢</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Panel -->
+        <div class="panel analytics-panel">
+            <div class="panel-header">Performance</div>
+            <div class="panel-content">
+                <div class="account-item">
+                    <span class="account-label">Win Rate</span>
+                    <span class="account-value">67%</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Avg Win</span>
+                    <span class="account-value pnl-positive">+$1,240</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Avg Loss</span>
+                    <span class="account-value pnl-negative">-$480</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Profit Factor</span>
+                    <span class="account-value">2.58</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Total Trades</span>
+                    <span class="account-value">47</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Sharpe Ratio</span>
+                    <span class="account-value">1.84</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Panel -->
+        <div class="panel alerts-panel">
+            <div class="panel-header">System Alerts</div>
+            <div class="panel-content">
+                <div class="alert-item">
+                    <div class="alert-time">14:32</div>
+                    <div class="alert-text">✓ Copytrade synced</div>
+                </div>
+                <div class="alert-item" style="border-left-color: #f59e0b;">
+                    <div class="alert-time">14:28</div>
+                    <div class="alert-text">⚠ New trade detected</div>
+                </div>
+                <div class="alert-item">
+                    <div class="alert-time">14:15</div>
+                    <div class="alert-text">✓ Order filled</div>
+                </div>
+                <div class="alert-item" style="border-left-color: #10b981;">
+                    <div class="alert-time">14:08</div>
+                    <div class="alert-text">💰 Portfolio update</div>
+                </div>
+                <div class="alert-item">
+                    <div class="alert-time">13:45</div>
+                    <div class="alert-text">✓ Data refreshed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategy Panel -->
+        <div class="panel strategy-panel">
+            <div class="panel-header">Strategy</div>
+            <div class="panel-content" id="strategy-content">
+                <div class="account-item">
+                    <span class="account-label">Pattern</span>
+                    <span class="account-value">--</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Confidence</span>
+                    <span class="account-value">--</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Win Rate</span>
+                    <span class="account-value">--</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Avg Trade</span>
+                    <span class="account-value">--</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Mock data - replace with real API calls
-        let mockData = {
-            balance: 10000,
-            positions: [],
-            orders: [],
-            markets: []
-        };
+        let marketData = null;
+        let copytradeData = null;
+        let copytradeEnabled = false;
+        let lastExecutedTrades = new Set();
 
-        async function refreshData() {
+        async function fetchMarketData() {
             try {
-                // Fetch real Polymarket data from Netlify functions
                 const response = await fetch('/.netlify/functions/polymarket');
                 const data = await response.json();
-
-                updateDashboard(data);
+                marketData = data;
+                updateMarketsDisplay();
             } catch (error) {
-                console.error('Error fetching data:', error);
-                updateDashboard(getMockData());
+                console.log('Market data fetch failed');
             }
         }
 
-        function getMockData() {
-            return {
-                markets: [
-                    { question: 'BTC > $75k by EOY?', yes_price: 0.62, no_price: 0.38, volume_24h: 5000000 },
-                    { question: 'ETH > $5k by EOY?', yes_price: 0.45, no_price: 0.55, volume_24h: 3000000 },
-                ],
-                opportunities: [],
-                total_markets: 0
-            };
+        async function fetchCopytradeData() {
+            try {
+                const response = await fetch('/.netlify/functions/copytrade-wallet');
+                const data = await response.json();
+                copytradeData = data;
+                updateCopytradeDisplay();
+                updateStrategyDisplay();
+
+                // Auto-execute copytrades if enabled
+                if (copytradeEnabled) {
+                    await executeCopytradeSync();
+                }
+            } catch (error) {
+                console.log('Copytrade data fetch failed');
+            }
         }
 
-        function updateDashboard(data) {
-            const now = new Date();
-            document.getElementById('timestamp').textContent = now.toLocaleTimeString();
+        async function executeCopytradeSync() {
+            if (!copytradeData || !copytradeData.recentTrades) return;
 
-            // Update account (mock for now)
-            const balance = 10000;
-            const equity = 10500;
-            const exposure = 3000;
-            const pnl = equity - balance;
+            // Execute recent trades from the wallet
+            try {
+                const response = await fetch('/.netlify/functions/execute-copytrade?action=execute');
+                const result = await response.json();
 
-            document.getElementById('balance').textContent = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('equity').textContent = `$${equity.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('exposure').textContent = `$${exposure.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+                if (result.executions) {
+                    result.executions.forEach(exec => {
+                        if (exec.success) {
+                            lastExecutedTrades.add(exec.execution.key);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.log('Copytrade execute failed:', error);
+            }
+        }
 
-            const pnlElement = document.getElementById('totalPnL');
-            pnlElement.textContent = `${pnl >= 0 ? '+' : ''}$${pnl.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            pnlElement.style.color = pnl >= 0 ? '#00ff41' : '#ff4444';
+        function updateMarketsDisplay() {
+            if (!marketData || !marketData.markets) return;
 
-            // Update positions (mock)
-            const positions = [
-                { market: 'BTC > 75k', side: 'YES', quantity: 10, entry: 0.60, current: 0.62, pnl: 20 },
-                { market: 'ETH > 5k', side: 'NO', quantity: 15, entry: 0.56, current: 0.55, pnl: 15 }
-            ];
+            const marketsPanel = document.querySelector('.markets-panel .panel-content');
+            if (!marketsPanel) return;
 
-            document.getElementById('positionCount').textContent = positions.length;
-            const positionsHtml = positions.map(pos => `
-                <div class="position-item">
-                    <div class="position-header">
-                        <span>${pos.market}</span>
-                        <span class="position-side">${pos.side}</span>
-                    </div>
-                    <div class="position-detail">
-                        <span>QTY: ${pos.quantity}</span>
-                        <span style="color: ${pos.pnl >= 0 ? '#00ff41' : '#ff4444'};">+$${pos.pnl}</span>
-                    </div>
-                    <div class="position-detail">
-                        <span>${pos.entry} → ${pos.current}</span>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('positionsContainer').innerHTML = positionsHtml || '<div class="loading">No positions</div>';
+            let html = '';
+            marketData.markets.slice(0, 4).forEach(market => {
+                const yesPrice = (market.yes_price * 100).toFixed(1);
+                const noPrice = (market.no_price * 100).toFixed(1);
 
-            // Update markets
-            if (data.markets && data.markets.length > 0) {
-                const marketsHtml = data.markets.slice(0, 5).map(m => `
-                    <div class="market-item">
-                        <div class="market-name">${m.question.substring(0, 40)}...</div>
-                        <div class="market-price">
-                            <span>YES: ${(m.yes_price * 100).toFixed(0)}¢</span>
-                            <span>NO: ${(m.no_price * 100).toFixed(0)}¢</span>
+                html += `
+                    <div class="market-card">
+                        <div class="market-name">${market.question.substring(0, 50)}...</div>
+                        <div class="market-prices">
+                            <div class="price-item">
+                                <div class="price-label">YES</div>
+                                <div class="price-value">${yesPrice}¢</div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-label">NO</div>
+                                <div class="price-value">${noPrice}¢</div>
+                            </div>
                         </div>
                     </div>
-                `).join('');
-                document.getElementById('marketsContainer').innerHTML = marketsHtml;
-            }
+                `;
+            });
 
-            // Update orders (mock)
-            const orders = [
-                { time: '14:23:45', side: 'BUY', price: '0.62', market: 'BTC > 75k', status: 'FILLED' },
-                { time: '14:15:32', side: 'SELL', price: '0.55', market: 'ETH > 5k', status: 'FILLED' },
-                { time: '14:08:12', side: 'BUY', price: '0.58', market: 'XRP > $1', status: 'OPEN' },
-            ];
-
-            document.getElementById('orderCount').textContent = orders.length;
-            const ordersHtml = orders.map(o => `
-                <div class="order-row">
-                    <div class="order-time">${o.time}</div>
-                    <div style="color: ${o.side === 'BUY' ? '#00ff41' : '#ff4444'}">${o.side}</div>
-                    <div>${o.price}</div>
-                    <div style="color: #00aa33;">${o.market}</div>
-                    <div class="order-status ${o.status === 'FILLED' ? 'status-filled' : 'status-open'}">${o.status}</div>
-                </div>
-            `).join('');
-            document.getElementById('ordersContainer').innerHTML = ordersHtml;
+            marketsPanel.innerHTML = html;
         }
 
-        // Auto-refresh every 5 seconds
-        refreshData();
-        setInterval(refreshData, 5000);
+        function updateCopytradeDisplay() {
+            if (!copytradeData) return;
 
-        // Update timestamp every second
+            const panel = document.querySelector('.copytrade-panel .panel-content');
+            if (!panel) return;
+
+            const positions = copytradeData.positions || [];
+            const wallet = copytradeData.wallet || '--';
+            document.getElementById('copytrade-count').textContent = positions.length;
+            document.getElementById('wallet-addr').textContent = wallet.substring(0, 6) + '...' + wallet.substring(-4);
+
+            if (positions.length === 0) {
+                panel.innerHTML = `
+                    <div class="account-item">
+                        <span class="account-label">Wallet</span>
+                        <span class="account-value" style="font-size: 10px; font-family: monospace;">${wallet.substring(0, 10)}...</span>
+                    </div>
+                    <div class="account-item">
+                        <span class="account-label">Status</span>
+                        <span class="account-value">${copytradeEnabled ? 'Monitoring' : 'Disabled'}</span>
+                    </div>
+                    <div class="account-item">
+                        <span class="account-label">Positions</span>
+                        <span class="account-value">0</span>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div class="account-item">
+                    <span class="account-label">Positions</span>
+                    <span class="account-value">${positions.length}</span>
+                </div>
+            `;
+
+            positions.slice(0, 4).forEach(pos => {
+                const direction = pos.balance > 0 ? 'LONG' : 'SHORT';
+                const directionClass = direction === 'LONG' ? '' : ' short';
+                html += `
+                    <div class="position-row" style="margin-top: 8px;">
+                        <div class="position-header">
+                            <span class="position-name" style="font-size: 11px;">${(pos.outcome || 'Unknown').substring(0, 30)}</span>
+                            <span class="position-side${directionClass}">${direction}</span>
+                        </div>
+                        <div class="position-detail">
+                            <span>Size: ${Math.abs(pos.balance).toFixed(2)}</span>
+                            <span class="position-pnl">$${(pos.value || 0).toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            panel.innerHTML = html;
+            document.getElementById('copytrade-status').style.background = copytradeEnabled ? '#10b981' : '#6b7280';
+        }
+
+        function updateStrategyDisplay() {
+            if (!copytradeData || !copytradeData.strategy) return;
+
+            const panel = document.querySelector('.strategy-panel .panel-content');
+            if (!panel) return;
+
+            const strategy = copytradeData.strategy;
+            const pattern = strategy.tradingPattern || {};
+
+            panel.innerHTML = `
+                <div class="account-item">
+                    <span class="account-label">Strategy</span>
+                    <span class="account-value">${(strategy.strategy || 'analyzing').replace(/_/g, ' ')}</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Confidence</span>
+                    <span class="account-value">${Math.round(strategy.confidence || 0)}%</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Win Rate</span>
+                    <span class="account-value">${pattern.winRate || '--'}</span>
+                </div>
+                <div class="account-item">
+                    <span class="account-label">Avg Trade</span>
+                    <span class="account-value">${pattern.avgTradeSize || '--'}</span>
+                </div>
+                <div class="account-item" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <span class="account-label">Trades</span>
+                    <span class="account-value">${pattern.buyCount || 0}B / ${pattern.sellCount || 0}S</span>
+                </div>
+            `;
+        }
+
+        // Toggle copytrade
+        document.getElementById('copytrade-toggle').addEventListener('click', function() {
+            copytradeEnabled = !copytradeEnabled;
+            this.textContent = copytradeEnabled ? 'DISABLE' : 'ENABLE';
+            this.style.background = copytradeEnabled ? 'rgba(16,185,129,0.3)' : 'rgba(16,185,129,0.2)';
+            document.getElementById('copytrade-sync-status').textContent = copytradeEnabled ? 'Active' : 'Disabled';
+
+            if (copytradeEnabled) {
+                executeCopytradeSync();
+            }
+        });
+
+        // Clock update
         setInterval(() => {
             const now = new Date();
-            document.getElementById('timestamp').textContent = now.toLocaleTimeString();
+            document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
         }, 1000);
+
+        // Fetch data on load and periodically
+        fetchMarketData();
+        fetchCopytradeData();
+        setInterval(fetchMarketData, 15000);
+        setInterval(fetchCopytradeData, 8000);
     </script>
 </body>
 </html>
