@@ -1,1 +1,1 @@
-worker: python horse_analyst.py
+web: node test-server.js
