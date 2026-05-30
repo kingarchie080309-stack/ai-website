@@ -6,11 +6,7 @@ command = "true"
 [functions]
 node_bundler = "esbuild"
 
-# Root redirects
-[[redirects]]
-from = "/"
-to = "/arb-dashboard.html"
-status = 200
+# Root redirects (removed - index.html is default)
 
 [[redirects]]
 from = "/polymarket"
